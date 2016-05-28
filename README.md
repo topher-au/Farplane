@@ -1,17 +1,23 @@
-### Getting started with Farplane
+# Farplane
+A memory editing suite for Final Fantasy X/X-2 HD Remaster
 
-![Farplane Window](http://i.imgur.com/NJj2oxj.png)
+## Getting started
 
+Open the application and select the game to attach to. If the game process is not showing up in the
+list, right-click the list and select *Show all processes*
 
-When you first load the application, you will be prompted to select which game you wish to
-load. At this time, Final Fantasy X support has not been implemented.
+## Help translating ability and creature names
+The only complete list I could find of creature and ability IDs is in German. I have already entered
+some of the English names, but there are a lot and I need help. If you can help, download the following
+two files, open them in Notepad and change the names to the English version when you find out what it
+is.
 
-Once you have made your selection, you will need to choose a process/game to attach to. Farplane
-will attempt to show only appropriate processes, but if yours doesn't appear, right click the
-process list and select *Show all processes*.
+https://raw.githubusercontent.com/topher-au/Farplane/master/FFX2/Values/Commands.cs
+https://raw.githubusercontent.com/topher-au/Farplane/master/FFX2/Values/Creatures.cs
 
-### Screenshots
-![Farplane Window](http://i.imgur.com/NJj2oxj.png)
-![Farplane Window](http://i.imgur.com/NJj2oxj.png)
-![Farplane Window](http://i.imgur.com/NJj2oxj.png)
-![Farplane Window](http://i.imgur.com/NJj2oxj.png)
+![Farplane Screenshot](http://i.imgur.com/NJj2oxj.png)
+![Farplane Screenshot](http://i.imgur.com/0RY4Fj5.png)
+![Farplane Screenshot](http://i.imgur.com/dySMiUi.png)
+![Farplane Screenshot](http://i.imgur.com/EmRer1K.png)
+![Farplane Screenshot](http://i.imgur.com/E92tr4n.png)
+![Farplane Screenshot](http://i.imgur.com/i0KgfWw.png)
