@@ -27,7 +27,6 @@ If you like the app and can help translate the creature or command name lists, i
 You can download the list files here:
 
 https://raw.githubusercontent.com/topher-au/Farplane/master/FFX2/Values/Commands.cs
-
 https://raw.githubusercontent.com/topher-au/Farplane/master/FFX2/Values/Creatures.cs
 
 Open the file in a text editor such as Notepad, and change any of the names in the list discover while using the app.
