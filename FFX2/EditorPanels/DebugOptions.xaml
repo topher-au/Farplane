@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Farplane.FFX2.EditorPanels.DebugOptions"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Farplane.FFX2.EditorPanels"
+             mc:Ignorable="d" d:DesignWidth="400">
+    <GroupBox Header="Debug Options" Margin="0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <CheckBox Name="CheckAllyInvincible" Tag="AllyInvincible" Content="Allies are invincible" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckEnemyInvincible" Tag="EnemyInvincible" Content="Enemies are invincible" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckControlEnemies" Tag="ControlEnemies" Content="Control enemy monsters" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckControlMonsters" Tag="ControlMonsters" Content="Control allied monsters" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckZeroMP" Tag="MPZero" Content="Abilites cost 0 MP" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckInfoOutput" Tag="InfoOutput" Content="Information output" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckAlwaysCritical" Tag="AlwaysCritical" Content="Always critical" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckCritical" Tag="Critical" Content="Critical" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckProbability" Tag="Probability100" Content="100% probability" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <CheckBox Name="CheckDamageRandom" Tag="DamageRandom" Content="All abilities deal random damage" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckDamage1" Tag="Damage1" Content="All abilities deal 1 damage" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckDamage9999" Tag="Damage9999" Content="All abilities deal 9999 damage" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckDamage99999" Tag="Damage99999" Content="All abilities deal 99999 damage" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckRareDrop" Tag="RareDrop100" Content="100% rare drop chance" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckEXP100x" Tag="EXP100x" Content="100x experience" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckGil100x" Tag="Gil100x" Content="100x gil" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckAlwaysOversoul" Tag="AlwaysOversoul" Content="Always oversoul" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox Name="CheckAttackFirst" Tag="FirstAttack" Content="Party always attacks first" Margin="2" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+            </StackPanel>
+        </Grid>
+    </GroupBox>
+</UserControl>

@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Farplane.FFX2.EditorPanels.PartyEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Farplane.FFX2.EditorPanels"
+             mc:Ignorable="d" d:DesignWidth="400">
+    <GroupBox Name="GroupPartyEditor" Margin="0" Header="Party Editor">
+        <TabControl>
+            <TabItem Header="Stats" Name="TabStats">
+                <StackPanel>
+                    <ContentControl Name="StatsContent" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Dresspheres" Name="TabDresspheres">
+                <StackPanel>
+                    <local:DressphereAbilities x:Name="DressAbilities"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </GroupBox>
+</UserControl>

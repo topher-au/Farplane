@@ -1,0 +1,30 @@
+﻿<Controls:MetroWindow x:Class="Farplane.FFX2.CommandSelectDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Farplane.FFX2"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="Search" Width="300" Height="376" WindowStartupLocation="CenterScreen" BorderThickness="0" GlowBrush="Black" ResizeMode="NoResize">
+    <StackPanel>
+        <GroupBox Header="Search by name or ID">
+            <StackPanel>
+                <TextBox Name="TextCommandSearch" KeyDown="TextCommandSearch_OnKeyDown" AcceptsTab="False"/>
+                <ListView Name="ListCommandSearch" Height="200" MouseDoubleClick="ListCommandSearch_OnMouseDoubleClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Label VerticalAlignment="Center" Content="{Binding}" Margin="2,0,-2,0" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </GroupBox>
+        <Button Content="Use Selection" Margin="5" Name="ButtonSelectedCommand" Click="ButtonSelectedCommand_OnClick"/>
+        <DockPanel>
+            <Button Content="Cancel" Margin="5" Name="ButtonCancelSelection" Click="ButtonCancelSelection_OnClick" Width="100"/>
+            <Button Content="Clear This Slot" Margin="5" Name="ButtonUseNoAbility" Click="ButtonUseNoAbility_OnClick"/>
+            
+        </DockPanel>
+    </StackPanel>
+</Controls:MetroWindow>

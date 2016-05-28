@@ -1,0 +1,23 @@
+﻿<Controls:MetroWindow x:Class="Farplane.FFX2.AbilitySlider"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:Farplane.FFX2"
+        mc:Ignorable="d"
+                      
+        Title="Change ability AP" Height="80" Width="360" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" BorderThickness="0" GlowBrush="Black">
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="50" />
+        </Grid.ColumnDefinitions>
+            <Slider Name="SliderAP" Margin="3" Grid.Column="0" ValueChanged="SliderAP_OnValueChanged" Interval="1"/>
+            <Label Name="LabelAP" Grid.Column="1"/>
+        <Button Name="ButtonMaster" Margin="3" Content="Master" Grid.Column="2" Click="ButtonMaster_OnClick"/>
+        <Button Name="ButtonSave" Margin="3" Content="Save" Grid.Column="3" Click="ButtonSave_OnClick"/>
+    </Grid>
+</Controls:MetroWindow>

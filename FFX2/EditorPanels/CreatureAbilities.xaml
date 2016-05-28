@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Farplane.FFX2.EditorPanels.CreatureAbilities"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Farplane.FFX2.EditorPanels"
+             mc:Ignorable="d" 
+             Height="250" d:DesignWidth="400" d:DataContext="{d:DesignInstance local:CreatureAbilities}">
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                Left click an ability to search, right click to enter a command ID
+            </Label>
+
+        <GroupBox Grid.Column="0" Grid.Row="1" Header="Commands">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Button Name="Command0" Click="CommandButton_Click" MouseRightButtonDown="CommandButton_RightMouseDown" Margin="2" Height="38"/>
+                    <Button Name="Command1" Click="CommandButton_Click" MouseRightButtonDown="CommandButton_RightMouseDown" Margin="2" Height="38"/>
+                    <Button Name="Command2" Click="CommandButton_Click" MouseRightButtonDown="CommandButton_RightMouseDown" Margin="2" Height="38"/>
+                    <Button Name="Command3" Click="CommandButton_Click" MouseRightButtonDown="CommandButton_RightMouseDown" Margin="2" Height="38"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Button Name="Command4" Click="CommandButton_Click" MouseRightButtonDown="CommandButton_RightMouseDown" Margin="2" Height="38"/>
+                    <Button Name="Command5" Click="CommandButton_Click" MouseRightButtonDown="CommandButton_RightMouseDown" Margin="2" Height="38"/>
+                    <Button Name="Command6" Click="CommandButton_Click" MouseRightButtonDown="CommandButton_RightMouseDown" Margin="2" Height="38"/>
+                    <Button Name="Command7" Click="CommandButton_Click" MouseRightButtonDown="CommandButton_RightMouseDown" Margin="2" Height="38"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>
