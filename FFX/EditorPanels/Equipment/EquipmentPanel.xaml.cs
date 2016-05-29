@@ -98,7 +98,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
                             Width = 24,
                             Height = 24
                         };
-                        itemText = WeaponName.WeaponNames[(int) itemChara][nameIndex];
+                        itemText = EquipName.EquipNames[(int) itemChara][nameIndex];
                     }
                     else
                     {
@@ -159,10 +159,10 @@ namespace Farplane.FFX.EditorPanels.Equipment
             var itemNameString = "????";
             if (itemChara < 7)
             {
-                itemNameString = WeaponName.WeaponNames[(int)itemChara][itemName];
+                itemNameString = EquipName.EquipNames[(int)itemChara][itemName];
             }
 
-            var appearance = WeaponAppearances.FromID(itemAppearance);
+            var appearance = EquipAppearance.FromID(itemAppearance);
             var appearanceString = string.Empty;
             if (appearance != null)
                 appearanceString = appearance.Name;
@@ -281,15 +281,15 @@ namespace Farplane.FFX.EditorPanels.Equipment
             if (currentChara > 6) currentChara = 0;
 
             var searchList = new List<string>();
-            for(int n=0; n<WeaponName.WeaponNames[currentChara].Length; n++)
-                searchList.Add($"{n.ToString("X2")} {WeaponName.WeaponNames[currentChara][n]}");
+            for(int n=0; n<EquipName.EquipNames[currentChara].Length; n++)
+                searchList.Add($"{n.ToString("X2")} {EquipName.EquipNames[currentChara][n]}");
 
             var currentName = (int)_equipmentBytes[_selectedItem * EquipmentLength + (int)EquipmentOffset.Name];
             var nameString = string.Empty;
 
             if (currentChara < 7)
             {
-                nameString = WeaponName.WeaponNames[currentChara][currentName];
+                nameString = EquipName.EquipNames[currentChara][currentName];
             }
 
             var searchDialog = new SearchDialog(searchList, nameString, false);
@@ -332,8 +332,8 @@ namespace Farplane.FFX.EditorPanels.Equipment
             if (currentChara > 6) currentChara = 0;
 
             var searchList = new List<string>();
-            for (int n = 0; n < WeaponAppearances.Appearances.Length; n++)
-                searchList.Add($"{WeaponAppearances.Appearances[n].ID.ToString("X2")} {WeaponAppearances.Appearances[n].Name}");
+            for (int n = 0; n < EquipAppearance.EquipEquipAppearancesItem.Length; n++)
+                searchList.Add($"{EquipAppearance.EquipEquipAppearancesItem[n].ID.ToString("X2")} {EquipAppearance.EquipEquipAppearancesItem[n].Name}");
 
             var currentAppearance = BitConverter.ToUInt16(_equipmentBytes, _selectedItem * EquipmentLength + (int)EquipmentOffset.Appearance);
 
@@ -342,7 +342,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
 
             if (!searchComplete.Value) return;
             var searchIndex = searchDialog.ResultIndex;
-            var searchItem = WeaponAppearances.Appearances[searchIndex];
+            var searchItem = EquipAppearance.EquipEquipAppearancesItem[searchIndex];
 
             MemoryReader.WriteBytes(Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem * EquipmentLength + (int)EquipmentOffset.Appearance, BitConverter.GetBytes((ushort)searchItem.ID));
             Refresh();

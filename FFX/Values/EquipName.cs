@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Farplane.FFX.Values
 {
-    public static class WeaponName
+    public static class EquipName
     {
-        public static string[][] WeaponNames =
+        public static string[][] EquipNames =
         {
             new string[]
             {

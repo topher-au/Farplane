@@ -237,8 +237,8 @@
     <Compile Include="FFX\Values\AutoAbility.cs" />
     <Compile Include="FFX\Values\DamageFormula.cs" />
     <Compile Include="FFX\Values\Enums.cs" />
-    <Compile Include="FFX\Values\WeaponAppearance.cs" />
-    <Compile Include="FFX\Values\WeaponName.cs" />
+    <Compile Include="FFX\Values\EquipAppearances.cs" />
+    <Compile Include="FFX\Values\EquipName.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
