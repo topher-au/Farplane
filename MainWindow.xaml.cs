@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Farplane.Common;
 using Farplane.FFX;
 using Farplane.FFX2;
 using MahApps.Metro.Controls;
