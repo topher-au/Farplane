@@ -12,17 +12,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Farplane.FFX.Values;
 
-namespace Farplane.FFX.EditorPanels.Equipment
+namespace Farplane.FFX.EditorPanels.Party
 {
     /// <summary>
-    /// Interaction logic for NotImplementedPanel.xaml
+    /// Interaction logic for PartyEditor.xaml
     /// </summary>
-    public partial class NotImplementedPanel : UserControl
+    public partial class PartyEditor : UserControl
     {
-        public NotImplementedPanel()
+        private int _character = 0;
+        public PartyEditor()
         {
             InitializeComponent();
+        }
+
+        public void Load(Characters character)
+        {
+            _character = (int) character;
+
+            var statBase = Offsets.GetOffset(OffsetType.PartyStatsBase) + (int) (character)*0x94;
+
+            PartyStats.Refresh(statBase);
         }
     }
 }

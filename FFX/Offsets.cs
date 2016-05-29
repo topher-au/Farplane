@@ -10,7 +10,8 @@ namespace Farplane.FFX
     {
         private static Dictionary<OffsetType, int> _offsetList = new Dictionary<OffsetType, int>()
         {
-            { OffsetType.EquipmentBase, 0xD30F2C }
+            { OffsetType.EquipmentBase, 0xD30F2C },
+            { OffsetType.PartyStatsBase, 0xD32078 },
         };
 
         public static int GetOffset(OffsetType offsetType)
@@ -22,7 +23,8 @@ namespace Farplane.FFX
 
     public enum OffsetType
     {
-        EquipmentBase
+        EquipmentBase,
+        PartyStatsBase
     }
 
     public enum EquipmentOffset
@@ -37,6 +39,28 @@ namespace Farplane.FFX
         Ability1 = 0x10,
         Ability2 = 0x12,
         Ability3 = 0x14
+    }
+
+    public enum PartyStatOffset
+    {
+        HPCurrent = 0x00,
+        MPCurrent = 0x04,
+        HPMax = 0x08,
+        MPMax = 0x0C,
+        InParty = 0x10,
+        Strength = 0x13,
+        Defense = 0x14,
+        Magic = 0x15,
+        MagicDefense = 0x16,
+        Agility = 0x17,
+        Luck = 0x18,
+        Evasion = 0x19,
+        Accuracy = 0x1a,
+        OverdriveMode = 0x1c,
+        OverdriveLevel = 0x1d,
+        OverdriveMax = 0x1e,
+        SphereLevelCurrent = 0x1f,
+        SphereLevelTotal = 0x20,
     }
 
     

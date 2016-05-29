@@ -13,7 +13,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Farplane.FFX.EditorPanels;
 using Farplane.FFX.EditorPanels.Equipment;
+using Farplane.FFX.EditorPanels.Party;
 using MahApps.Metro.Controls;
 using TreeView = System.Windows.Controls.TreeView;
 
@@ -24,6 +26,7 @@ namespace Farplane.FFX
     /// </summary>
     public partial class FFXEditor : MetroWindow
     {
+        private PartyPanel _partyPanel = new PartyPanel();
         private EquipmentPanel _equipmentPanel = new EquipmentPanel();
         private NotImplementedPanel _notImplementedPanel = new NotImplementedPanel();
             
@@ -42,7 +45,6 @@ namespace Farplane.FFX
                 {
                     Dispatcher.Invoke((MethodInvoker)delegate
                     {
-                        DialogResult = true;
                         Close();
                     });
 
@@ -60,6 +62,9 @@ namespace Farplane.FFX
 
             switch (treeViewItem.Name)
             {
+                case "PartyEditor":
+                    EditorContent.Content = _partyPanel;
+                    break;
                 case "EquipmentEditor":
                     _equipmentPanel.Refresh();
                     EditorContent.Content = _equipmentPanel;

@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
         <TreeView Name="EditorTree" Grid.Column="0" SelectedItemChanged="EditorTree_OnSelectedItemChanged">
             <TreeViewItem Header="General" />
-            <TreeViewItem Header="Party" />
+            <TreeViewItem Name="PartyEditor" Header="Party" />
             <TreeViewItem Header="Aeons" />
             <TreeViewItem Header="Sphere Grid" />
             <TreeViewItem Header="Items" />

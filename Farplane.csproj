@@ -144,7 +144,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\Equipment\NotImplementedPanel.xaml">
+    <Page Include="FFX\EditorPanels\NotImplementedPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\Party\PartyEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\Party\PartyPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\Party\PartyStats.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -227,8 +239,17 @@
     <Compile Include="FFX\EditorPanels\Equipment\EquipmentPanel.xaml.cs">
       <DependentUpon>EquipmentPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\Equipment\NotImplementedPanel.xaml.cs">
+    <Compile Include="FFX\EditorPanels\NotImplementedPanel.xaml.cs">
       <DependentUpon>NotImplementedPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\Party\PartyEditor.xaml.cs">
+      <DependentUpon>PartyEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\Party\PartyPanel.xaml.cs">
+      <DependentUpon>PartyPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\Party\PartyStats.xaml.cs">
+      <DependentUpon>PartyStats.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\FFXEditor.xaml.cs">
       <DependentUpon>FFXEditor.xaml</DependentUpon>

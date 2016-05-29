@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Equipment"
              mc:Ignorable="d" 
-             d:DesignHeight="472" d:DesignWidth="509">
+             d:DesignHeight="460" d:DesignWidth="500">
     <GroupBox Header="Equipment">
         <Grid>
             <Grid.ColumnDefinitions>

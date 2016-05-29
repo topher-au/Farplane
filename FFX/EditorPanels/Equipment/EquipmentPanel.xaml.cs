@@ -298,7 +298,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
             if (!searchComplete.Value) return;
             var searchIndex = searchDialog.ResultIndex;
 
-            MemoryReader.WriteBytes(Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem * EquipmentLength, new byte[] {(byte)searchIndex});
+            MemoryReader.WriteByte(Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem * EquipmentLength, (byte)searchIndex);
 
             Refresh();
         }
@@ -332,8 +332,8 @@ namespace Farplane.FFX.EditorPanels.Equipment
             if (currentChara > 6) currentChara = 0;
 
             var searchList = new List<string>();
-            for (int n = 0; n < EquipAppearance.EquipEquipAppearancesItem.Length; n++)
-                searchList.Add($"{EquipAppearance.EquipEquipAppearancesItem[n].ID.ToString("X2")} {EquipAppearance.EquipEquipAppearancesItem[n].Name}");
+            for (int n = 0; n < EquipAppearance.EquipAppearances.Length; n++)
+                searchList.Add($"{EquipAppearance.EquipAppearances[n].ID.ToString("X2")} {EquipAppearance.EquipAppearances[n].Name}");
 
             var currentAppearance = BitConverter.ToUInt16(_equipmentBytes, _selectedItem * EquipmentLength + (int)EquipmentOffset.Appearance);
 
@@ -342,7 +342,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
 
             if (!searchComplete.Value) return;
             var searchIndex = searchDialog.ResultIndex;
-            var searchItem = EquipAppearance.EquipEquipAppearancesItem[searchIndex];
+            var searchItem = EquipAppearance.EquipAppearances[searchIndex];
 
             MemoryReader.WriteBytes(Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem * EquipmentLength + (int)EquipmentOffset.Appearance, BitConverter.GetBytes((ushort)searchItem.ID));
             Refresh();

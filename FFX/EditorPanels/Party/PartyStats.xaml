@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="Farplane.FFX.EditorPanels.Party.PartyStats"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Party"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="360">
+    <GroupBox Header="Stats">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <DockPanel Margin="2">
+                    <TextBlock Text="Current HP" Margin="5"/>
+                    <TextBox Name="TextCurrentHP" Text="99999" Width="60" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Max HP" Margin="5"/>
+                    <TextBox Name="TextMaxHP" Text="99999" Width="60" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Current MP" Margin="5"/>
+                    <TextBox Name="TextCurrentMP" Text="9999" Width="50" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown" />
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Max MP" Margin="5"/>
+                    <TextBox Name="TextMaxMP" Text="9999" Width="50" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown" />
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="CurrentSphere Level" Margin="5"/>
+                    <TextBox Name="TextSphereLevelCurrent" Text="100" Width="40" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown" />
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Total Sphere Level" Margin="5"/>
+                    <TextBox Name="TextSphereLevelTotal" Text="100" Width="40" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown" />
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Overdrive" Margin="5"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="MAX" Margin="0,0,5,0" Click="ButtonMaxOverdrive_Click" />
+                        <TextBox Name="TextOverdrive" Text="100" Width="40" KeyDown="TextBox_OnKeyDown"/>
+                    </StackPanel>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Overdrive Limit" Margin="5"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBox Name="TextOverdriveMax" Text="100" Width="40" KeyDown="TextBox_OnKeyDown"/>
+                    </StackPanel>
+                </DockPanel>
+                <DockPanel Margin="2" Visibility="Collapsed">
+                    <TextBlock Text="Poison Damage %" Margin="5"/>
+                    <TextBox Name="TextPoisonDamage" Text="25" Width="40" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <DockPanel Margin="2">
+                    <TextBlock Text="Base Strength" Margin="5"/>
+                    <TextBox Name="TextBaseStrength" Text="255" Width="40" HorizontalAlignment="Right"  KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Base Defense" Margin="5"/>
+                    <TextBox Name="TextBaseDefense" Text="255" Width="40" HorizontalAlignment="Right"  KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Base Magic" Margin="5"/>
+                    <TextBox Name="TextBaseMagic" Text="255" Width="40" HorizontalAlignment="Right"  KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Base Magic Defense" Margin="5"/>
+                    <TextBox Name="TextBaseMagicDef" Text="255" Width="40" HorizontalAlignment="Right"  KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Base Agility" Margin="5"/>
+                    <TextBox Name="TextBaseAgility" Text="255" Width="40" HorizontalAlignment="Right"  KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Base Luck" Margin="5"/>
+                    <TextBox Name="TextBaseLuck" Text="255" Width="40" HorizontalAlignment="Right"  KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Base Evasion" Margin="5"/>
+                    <TextBox Name="TextBaseEvasion" Text="255" Width="40" HorizontalAlignment="Right"  KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <TextBlock Text="Base Accuracy" Margin="5"/>
+                    <TextBox Name="TextBaseAccuracy" Text="255" Width="40" HorizontalAlignment="Right"  KeyDown="TextBox_OnKeyDown"/>
+                </DockPanel>
+            </StackPanel>
+        </Grid>
+    </GroupBox>
+</UserControl>
