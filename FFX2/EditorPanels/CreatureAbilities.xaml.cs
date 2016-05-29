@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Farplane.Common;
 using Farplane.FFX2.Values;
 
 namespace Farplane.FFX2.EditorPanels
@@ -83,15 +84,14 @@ namespace Farplane.FFX2.EditorPanels
             foreach(var item in searchList)
                 textList.Add($"{item.ID.ToString("X4")} {item.Name}");
 
-            var commandDialog = new CommandSelectDialog(textList);
+            
             var currentCmd = ReadAbility(commandIndex);
-            if (currentCmd != 0x0 && currentCmd != 0xFF)
-                commandDialog.SearchForCommand(currentCmd.ToString("X2"));
+            var commandDialog = new SearchDialog(textList, currentCmd.ToString("X2"));
 
             commandDialog.ShowDialog();
             if (commandDialog.DialogResult.HasValue && commandDialog.DialogResult.Value == false) return;
 
-            var searchIndex = commandDialog.SearchResult;
+            var searchIndex = commandDialog.ResultIndex;
 
             if (searchIndex == -1)
             {

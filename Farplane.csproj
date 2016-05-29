@@ -76,10 +76,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX2\CommandSelectDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="FFX2\EditorPanels\BlueBulletPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -172,9 +168,6 @@
       <DependentUpon>AbilitySlider.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX2\Cheats.cs" />
-    <Compile Include="FFX2\CommandSelectDialog.xaml.cs">
-      <DependentUpon>CommandSelectDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FFX2\EditorPanels\BlueBulletPanel.xaml.cs">
       <DependentUpon>BlueBulletPanel.xaml</DependentUpon>
     </Compile>
@@ -250,7 +243,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ProcessSelectWindow.xaml">
+    <Page Include="Common\ProcessSelectWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -258,7 +251,7 @@
   <ItemGroup>
     <Compile Include="MemoryReader\MemoryReader.cs" />
     <Compile Include="MemoryReader\WinAPI.cs" />
-    <Compile Include="ProcessSelectWindow.xaml.cs">
+    <Compile Include="Common\ProcessSelectWindow.xaml.cs">
       <DependentUpon>ProcessSelectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">

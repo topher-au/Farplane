@@ -19,7 +19,7 @@ using System.Windows.Shapes;
 using Farplane.FFX2;
 using MahApps.Metro.Controls;
 
-namespace Farplane
+namespace Farplane.Common
 {
     /// <summary>
     /// Interaction logic for ProcessSelectWindow.xaml

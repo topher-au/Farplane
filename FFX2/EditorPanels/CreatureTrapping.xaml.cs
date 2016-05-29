@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Farplane.Common;
 using Farplane.FFX2.Values;
 
 namespace Farplane.FFX2.EditorPanels
@@ -192,12 +193,12 @@ namespace Farplane.FFX2.EditorPanels
             foreach (var creature in Values.Creatures.CreatureList)
                 creatureSearchList.Add($"{creature.ID.ToString("X4")} {creature.Name}");
             
-            var creatureSearch = new CommandSelectDialog(creatureSearchList);
+            var creatureSearch = new SearchDialog(creatureSearchList);
             creatureSearch.ShowDialog();
 
             if (creatureSearch.DialogResult == false) return;
 
-            var selectedCreature = Creatures.CreatureList[creatureSearch.SearchResult];
+            var selectedCreature = Creatures.CreatureList[creatureSearch.ResultIndex];
 
             SetTrap(trapId, selectedCreature.ID);
         }
