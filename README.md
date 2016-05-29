@@ -39,3 +39,4 @@ Send the partially translated files to lordramza@gmail.com, or contact me via pr
 ![Farplane Screenshot](http://i.imgur.com/EmRer1K.png)
 ![Farplane Screenshot](http://i.imgur.com/E92tr4n.png)
 ![Farplane Screenshot](http://i.imgur.com/i0KgfWw.png)
+![Farplane Screenshot](http://i.imgur.com/uBwHFMR.png)
