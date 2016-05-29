@@ -1,3 +1,5 @@
+![FFX/X-2 HD Remaster Logo](https://raw.githubusercontent.com/topher-au/Farplane/master/Resources/FFX_X-2_HD_Remaster_Logo.png)
+
 ## Farplane
 Farplane is a memory editing tool for Final Fantasy X/X-2 HD Remaster. As the project is still in development (and likely will
 be for quite some time) you may encounter bugs or crashes. Although Farplane doesn't edit any files, always keep a backup of your saved data, and it is recommended that you use a different save slot where possible.
@@ -33,10 +35,15 @@ https://raw.githubusercontent.com/topher-au/Farplane/master/FFX2/Values/Creature
 Open the file in a text editor such as Notepad, and change any of the names in the list discover while using the app.
 Send the partially translated files to lordramza@gmail.com, or contact me via private message. *Any submitters will get an in-app credit!*
 
-![Farplane Screenshot](http://i.imgur.com/NJj2oxj.png)
+## Screenshots
+
+### Final Fantasy X
+![Farplane Screenshot](http://i.imgur.com/uBwHFMR.png)
+
+### Final Fantasy X-2
 ![Farplane Screenshot](http://i.imgur.com/0RY4Fj5.png)
 ![Farplane Screenshot](http://i.imgur.com/dySMiUi.png)
 ![Farplane Screenshot](http://i.imgur.com/EmRer1K.png)
 ![Farplane Screenshot](http://i.imgur.com/E92tr4n.png)
 ![Farplane Screenshot](http://i.imgur.com/i0KgfWw.png)
-![Farplane Screenshot](http://i.imgur.com/uBwHFMR.png)
+
