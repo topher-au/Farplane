@@ -17,14 +17,14 @@
             </GroupBox>
                 
             <GroupBox Header="Item Name" Grid.Column="1" Name="GroupEquipmentEditor">
-                <StackPanel>
+                <StackPanel Margin="5">
                     <DockPanel Margin="2">
                         <TextBlock Text="Name" Margin="5"/>
-                        <Button Name="ButtonEquipmentName" HorizontalAlignment="Right" Width="160" Click="ButtonEquipmentName_OnClick"/>
+                        <Button Name="ButtonEquipmentName" HorizontalAlignment="Right" Width="150" Click="ButtonEquipmentName_OnClick"/>
                     </DockPanel>
                     <DockPanel Margin="2">
                         <TextBlock Text="Appearance" Margin="5"/>
-                        <Button Name="ButtonEquipmentAppearance" HorizontalAlignment="Right" Width="160" Click="ButtonEquipmentAppearance_OnClick"/>
+                        <Button Name="ButtonEquipmentAppearance" HorizontalAlignment="Right" Width="150" Click="ButtonEquipmentAppearance_OnClick"/>
                     </DockPanel>
                     <DockPanel Margin="2">
                         <TextBlock Text="Character" Margin="5"/>
@@ -47,13 +47,14 @@
                             <ComboBoxItem>4</ComboBoxItem>
                         </ComboBox>
                     </DockPanel>
-                    <TextBlock Text="Abilities" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
-                    <StackPanel Margin="10" VerticalAlignment="Center" Name="AbilityPanel">
-                        <Button Name="Ability0" Width="200" Margin="2" Click="AbilityButton_Click"/>
-                        <Button Name="Ability1" Width="200" Margin="2" Click="AbilityButton_Click"/>
-                        <Button Name="Ability2" Width="200" Margin="2" Click="AbilityButton_Click"/>
-                        <Button Name="Ability3" Width="200" Margin="2" Click="AbilityButton_Click"/>
-                    </StackPanel>
+                    <GroupBox Header="Abilities" Margin="2,7,2,2">
+                        <StackPanel Name="AbilityPanel" Margin="2">
+                            <Button Name="Ability0" Margin="2" Click="AbilityButton_Click"/>
+                            <Button Name="Ability1" Margin="2" Click="AbilityButton_Click"/>
+                            <Button Name="Ability2" Margin="2" Click="AbilityButton_Click"/>
+                            <Button Name="Ability3" Margin="2" Click="AbilityButton_Click"/>
+                        </StackPanel>
+                    </GroupBox>
                 </StackPanel>
                 
             </GroupBox>
