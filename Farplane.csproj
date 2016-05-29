@@ -68,6 +68,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Common\SearchDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="FFX2\AbilitySlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -140,6 +144,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\Equipment\EquipmentPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\Equipment\NotImplementedPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\FFXEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -147,6 +163,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\SearchDialog.xaml.cs">
+      <DependentUpon>SearchDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\StringConverter.cs" />
     <Compile Include="FFX2\AbilitySlider.xaml.cs">
@@ -212,7 +231,21 @@
     </Compile>
     <Compile Include="FFX2\Offsets.cs" />
     <Compile Include="FFX2\Values\Accessories.cs" />
+    <Compile Include="FFX\EditorPanels\Equipment\EquipmentPanel.xaml.cs">
+      <DependentUpon>EquipmentPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\Equipment\NotImplementedPanel.xaml.cs">
+      <DependentUpon>NotImplementedPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\FFXEditor.xaml.cs">
+      <DependentUpon>FFXEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFX\Offsets.cs" />
+    <Compile Include="FFX\Values\AutoAbility.cs" />
+    <Compile Include="FFX\Values\DamageFormula.cs" />
+    <Compile Include="FFX\Values\Enums.cs" />
+    <Compile Include="FFX\Values\WeaponAppearance.cs" />
+    <Compile Include="FFX\Values\WeaponName.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -261,6 +294,22 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Farplane_Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FFX\Resources\MenuIcons\equip_0_0.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_0_1.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_1_0.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_1_1.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_2_0.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_2_1.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_3_0.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_3_1.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_4_0.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_4_1.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_5_0.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_5_1.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_6_0.png" />
+    <Resource Include="FFX\Resources\MenuIcons\equip_6_1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

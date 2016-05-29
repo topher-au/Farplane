@@ -7,7 +7,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:p="clr-namespace:Farplane.Properties"
         mc:Ignorable="d"
-        Title="Farplane v{0} - Final Fantasy X/X-2 HD Remaster Editor" Height="340" Width="480" WindowStartupLocation="CenterScreen" EnableDWMDropShadow="True" IsMaxRestoreButtonEnabled="False" ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" ResizeMode="NoResize">
+        Title="Farplane v{0} - Final Fantasy X/X-2 HD Remaster Editor" Height="340" Width="480" TitleCaps ="False"  WindowStartupLocation="CenterScreen" EnableDWMDropShadow="True" IsMaxRestoreButtonEnabled="False" ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="240"/>

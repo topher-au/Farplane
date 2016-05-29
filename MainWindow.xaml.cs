@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Farplane.FFX;
 using Farplane.FFX2;
 using MahApps.Metro.Controls;
 
@@ -27,7 +29,8 @@ namespace Farplane
         public MainWindow()
         {
             InitializeComponent();
-            Title = string.Format(Title, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            Title = string.Format(Title, $"{version.Major}.{version.Minor}.{version.Revision}");
         }
 
         private void FFX2_Click(object sender, RoutedEventArgs e)
@@ -46,7 +49,16 @@ namespace Farplane
 
         private void FFX_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Final Fantasy X is not currently implemented.");
+            var processSelect = new ProcessSelectWindow("FFX");
+            processSelect.ShowDialog();
+
+            if (processSelect.DialogResult == true)
+            {
+                Hide();
+                var FFXEditor = new FFXEditor();
+                FFXEditor.ShowDialog();
+                Show();
+            }
         }
     }
 }

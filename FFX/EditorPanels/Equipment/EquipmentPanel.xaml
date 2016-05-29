@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Farplane.FFX.EditorPanels.Equipment.EquipmentPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Equipment"
+             mc:Ignorable="d" 
+             d:DesignHeight="472" d:DesignWidth="509">
+    <GroupBox Header="Equipment">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="180" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Inventory" Grid.Column="0">
+                <ListView Name="ListEquipment"  Grid.Column="0" SelectionChanged="SelectedEquipment_Changed"/>
+            </GroupBox>
+                
+            <GroupBox Header="Item Name" Grid.Column="1" Name="GroupEquipmentEditor">
+                <StackPanel>
+                    <DockPanel Margin="2">
+                        <TextBlock Text="Name" Margin="5"/>
+                        <Button Name="ButtonEquipmentName" HorizontalAlignment="Right" Width="160" Click="ButtonEquipmentName_OnClick"/>
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <TextBlock Text="Appearance" Margin="5"/>
+                        <Button Name="ButtonEquipmentAppearance" HorizontalAlignment="Right" Width="160" Click="ButtonEquipmentAppearance_OnClick"/>
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <TextBlock Text="Character" Margin="5"/>
+                        <ComboBox Name="ComboEquipmentCharacter" HorizontalAlignment="Right" Width="100" SelectionChanged="ComboEquipmentCharacter_OnSelectionChanged"/>
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <TextBlock Text="Equipment Type" Margin="5"/>
+                        <ComboBox Name="ComboEquipmentType" HorizontalAlignment="Right" Width="100" SelectionChanged="ComboEquipmentType_OnSelectionChanged">
+                            <ComboBoxItem>Weapon</ComboBoxItem>
+                            <ComboBoxItem>Armor</ComboBoxItem>
+                        </ComboBox>
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <TextBlock Text="Ability Slots" Margin="5"/>
+                        <ComboBox Name="ComboEquipmentSlots" HorizontalAlignment="Right" Width="60" SelectionChanged="ComboEquipmentSlots_OnSelectionChanged">
+                            <ComboBoxItem>0</ComboBoxItem>
+                            <ComboBoxItem>1</ComboBoxItem>
+                            <ComboBoxItem>2</ComboBoxItem>
+                            <ComboBoxItem>3</ComboBoxItem>
+                            <ComboBoxItem>4</ComboBoxItem>
+                        </ComboBox>
+                    </DockPanel>
+                    <TextBlock Text="Abilities" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+                    <StackPanel Margin="10" VerticalAlignment="Center" Name="AbilityPanel">
+                        <Button Name="Ability0" Width="200" Margin="2" Click="AbilityButton_Click"/>
+                        <Button Name="Ability1" Width="200" Margin="2" Click="AbilityButton_Click"/>
+                        <Button Name="Ability2" Width="200" Margin="2" Click="AbilityButton_Click"/>
+                        <Button Name="Ability3" Width="200" Margin="2" Click="AbilityButton_Click"/>
+                    </StackPanel>
+                </StackPanel>
+                
+            </GroupBox>
+        </Grid>
+    </GroupBox>
+</UserControl>
