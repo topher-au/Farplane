@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Farplane.FFX"
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Farplane Editor - Final Fantasy X" Height="540" Width="640" BorderThickness="0" GlowBrush="Black" WindowStartupLocation="CenterScreen">
+        Title="Farplane Editor - Final Fantasy X" Height="540" Width="640" BorderThickness="0" GlowBrush="Black" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160"/>
