@@ -98,5 +98,17 @@ namespace Farplane
 
             return success;
         }
+
+        public static bool WriteByte(int address, byte bytes)
+        {
+            if (!_isAttached) return false;
+
+            var bytesWritten = 0;
+
+            var success = WinAPI.WriteProcessMemory(_memoryHandle, _memoryProcess.MainModule.BaseAddress + address, new byte[] {bytes}, 
+                1, bytesWritten);
+
+            return success;
+        }
     }
 }
