@@ -7,19 +7,31 @@ be for quite some time) you may encounter bugs or crashes. Although Farplane doe
 ### Current Features
 
 **Final Fantasy X**
+- Party editor
+ - Stat customization
+ - Ability customization
 - Equipment customization
+ - Name, appearance, type, abilities
+- Debug options
+ - Control monsters, true invincibility, max damage, perma-Sensor and more
 
 **Final Fantasy X-2**
-- General editor (gil, etc.)
-- Party EXP and stat modification
-- Character dressphere completion modification
-- Creature stat modification and ability modification
-- Creature creator trapping editor
+- General editor
+ - Modify current Gil
+- Party editor
+ - Experience and stat customization
+ - Dressphere completion modification
+- Creature editor
+ - Experience and stat modification
+ - Ability modification
+- Creature trapping editor
+ - Modify trapped creatures when trapping
 - Item editor and item cheat
 - Accessory editor and accessory cheat
-- Dressphere editor (change count)
-- Garment Grid editor (learn/unlearn)
-- Toggle debug options such as controlling monsters, invincible party, etc.
+- Dressphere count editor
+- Garment Grid editor
+- Debug options
+- Control enemies, control allied creatures, invincible party, max damage and more
 
 ### Ability/creature names are in German! Help!
 
