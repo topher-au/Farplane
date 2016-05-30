@@ -10,7 +10,9 @@
         <TabItem Header="Stats">
             <local:PartyStats x:Name="PartyStats"/>
         </TabItem>
-        <TabItem Header="Abilities" />
-        <TabItem Header="Overdrive" />
+        <TabItem Header="Abilities">
+            <local:PartyAbilities x:Name="PartyAbilities" />
+        </TabItem>
+            <TabItem Header="Overdrive" />
     </TabControl>
 </UserControl>

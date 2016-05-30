@@ -61,6 +61,8 @@ namespace Farplane.FFX2.EditorPanels
             Refresh();
         }
 
+
+
         public void Refresh()
         {
             _refreshing = true;

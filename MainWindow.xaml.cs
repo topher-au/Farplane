@@ -31,7 +31,7 @@ namespace Farplane
         {
             InitializeComponent();
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            Title = string.Format(Title, $"{version.Major}.{version.Minor}.{version.Revision}");
+            Title = string.Format(Title, $"{version.Major}.{version.Minor}.{version.Build}");
         }
 
         private void FFX2_Click(object sender, RoutedEventArgs e)

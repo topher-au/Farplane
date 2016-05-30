@@ -12,34 +12,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Farplane.FFX.Values;
+using MahApps.Metro.Controls;
 
-namespace Farplane.FFX.EditorPanels.Party
+namespace Farplane.FFX.EditorPanels.SphereGrid
 {
     /// <summary>
-    /// Interaction logic for PartyEditor.xaml
+    /// Interaction logic for SphereGridPanel.xaml
     /// </summary>
-    public partial class PartyEditor : UserControl
+    public partial class SphereGridPanel : UserControl
     {
-        private int _character = -1;
-        public PartyEditor()
+        public SphereGridPanel()
         {
             InitializeComponent();
+            foreach(var tabItem in TabSphereGrid.Items)
+                ControlsHelper.SetHeaderFontSize((TabItem)tabItem, 14);
         }
 
         public void Refresh()
         {
-            if (_character == -1) return;
-
-            PartyStats.Refresh(_character);
-            PartyAbilities.Refresh(_character);
-        }
-
-        public void Load(Characters character)
-        {
-            _character = (int) character;
-
-            Refresh();
+            
         }
     }
 }

@@ -30,6 +30,23 @@ namespace Farplane.FFX.EditorPanels.Party
             InitializeComponent();
             foreach(var tab  in TabPartySelect.Items)
                 ControlsHelper.SetHeaderFontSize((TabItem)tab, 14);
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            _refreshing = true;
+
+            if (_selectedIndex == -1)
+            {
+                TabPartySelect.SelectedIndex = 0;
+                _selectedIndex = 0;
+            }
+            
+            PartyEditor.Load((Characters)_selectedIndex);
+            PartyEditor.Refresh();
+
+            _refreshing = false;
         }
 
         private void TabPartySelect_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -38,6 +55,7 @@ namespace Farplane.FFX.EditorPanels.Party
 
             _selectedIndex = TabPartySelect.SelectedIndex;
             PartyEditor.Load((Characters)_selectedIndex);
+            PartyEditor.Refresh();
         }
     }
 }

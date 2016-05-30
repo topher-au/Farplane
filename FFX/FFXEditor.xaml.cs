@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,8 +15,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Farplane.FFX.EditorPanels;
+using Farplane.FFX.EditorPanels.Debug;
 using Farplane.FFX.EditorPanels.Equipment;
+using Farplane.FFX.EditorPanels.Items;
 using Farplane.FFX.EditorPanels.Party;
+using Farplane.FFX.EditorPanels.SphereGrid;
 using MahApps.Metro.Controls;
 using TreeView = System.Windows.Controls.TreeView;
 
@@ -27,7 +31,11 @@ namespace Farplane.FFX
     public partial class FFXEditor : MetroWindow
     {
         private PartyPanel _partyPanel = new PartyPanel();
+        private ItemsPanel _itemsPanel = new ItemsPanel();
+        private SphereGridPanel _sphereGridPanel = new SphereGridPanel();
         private EquipmentPanel _equipmentPanel = new EquipmentPanel();
+        private DebugPanel _debugPanel = new DebugPanel();
+
         private NotImplementedPanel _notImplementedPanel = new NotImplementedPanel();
             
         public FFXEditor()
@@ -63,11 +71,26 @@ namespace Farplane.FFX
             switch (treeViewItem.Name)
             {
                 case "PartyEditor":
+                    _partyPanel.Refresh();
                     EditorContent.Content = _partyPanel;
+                    break;
+                case "ItemEditor":
+                    if (!Debugger.IsAttached) goto default;
+                    _itemsPanel.Refresh();
+                    EditorContent.Content = _itemsPanel;
+                    break;
+                case "SphereGridEditor":
+                    if (!Debugger.IsAttached) goto default;
+                    _sphereGridPanel.Refresh();
+                    EditorContent.Content = _sphereGridPanel;
                     break;
                 case "EquipmentEditor":
                     _equipmentPanel.Refresh();
                     EditorContent.Content = _equipmentPanel;
+                    break;
+                case "DebugEditor":
+                    _debugPanel.Refresh();
+                    EditorContent.Content = _debugPanel;
                     break;
                 default: // Panel not implemented
                     EditorContent.Content = _notImplementedPanel;
@@ -78,7 +101,16 @@ namespace Farplane.FFX
         public void RefreshAllPanels()
         {
             // Refresh panels here
+            _partyPanel.Refresh();
+            _itemsPanel.Refresh();
+            _sphereGridPanel.Refresh();
+            _debugPanel.Refresh();
             _equipmentPanel.Refresh();
+        }
+
+        private void RefreshAll_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshAllPanels();
         }
     }
 }

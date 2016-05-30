@@ -7,6 +7,11 @@
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="Farplane Editor - Final Fantasy X" Height="540" Width="640" BorderThickness="0" GlowBrush="Black" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <metro:MetroWindow.RightWindowCommands>
+        <metro:WindowCommands>
+            <Button Content="Refresh" Click="RefreshAll_Click"/>
+        </metro:WindowCommands>
+    </metro:MetroWindow.RightWindowCommands>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160"/>
@@ -16,12 +21,15 @@
             <TreeViewItem Header="General" />
             <TreeViewItem Name="PartyEditor" Header="Party" />
             <TreeViewItem Header="Aeons" />
-            <TreeViewItem Header="Sphere Grid" />
-            <TreeViewItem Header="Items" />
+            <TreeViewItem Name="SphereGridEditor" Header="Sphere Grid" />
+            <TreeViewItem Name="ItemEditor" Header="Items" />
             <TreeViewItem Name="EquipmentEditor" Header="Equipment" />
             <TreeViewItem Header="Blitzball" />
-            <TreeViewItem Header="Debug Options" />
+            <TreeViewItem Name="DebugEditor" Header="Debug Options" />
         </TreeView>
         <ContentControl Name="EditorContent"  Grid.Column="1" Padding="0" Margin="0"/>
     </Grid>
 </metro:MetroWindow>
+
+
+

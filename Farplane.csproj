@@ -68,6 +68,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Common\ButtonGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\SearchDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -140,11 +144,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\Debug\DebugPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FFX\EditorPanels\Equipment\EquipmentPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\Items\ItemsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FFX\EditorPanels\NotImplementedPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\Party\PartyAbilities.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,6 +176,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\SphereGrid\SphereGridPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FFX\FFXEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -171,6 +191,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\BitHelper.cs" />
+    <Compile Include="Common\ButtonGrid.xaml.cs">
+      <DependentUpon>ButtonGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\SearchDialog.xaml.cs">
       <DependentUpon>SearchDialog.xaml</DependentUpon>
@@ -236,11 +260,20 @@
     </Compile>
     <Compile Include="FFX2\Offsets.cs" />
     <Compile Include="FFX2\Values\Accessories.cs" />
+    <Compile Include="FFX\EditorPanels\Debug\DebugPanel.xaml.cs">
+      <DependentUpon>DebugPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFX\EditorPanels\Equipment\EquipmentPanel.xaml.cs">
       <DependentUpon>EquipmentPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FFX\EditorPanels\Items\ItemsPanel.xaml.cs">
+      <DependentUpon>ItemsPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFX\EditorPanels\NotImplementedPanel.xaml.cs">
       <DependentUpon>NotImplementedPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\Party\PartyAbilities.xaml.cs">
+      <DependentUpon>PartyAbilities.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\EditorPanels\Party\PartyEditor.xaml.cs">
       <DependentUpon>PartyEditor.xaml</DependentUpon>
@@ -251,15 +284,22 @@
     <Compile Include="FFX\EditorPanels\Party\PartyStats.xaml.cs">
       <DependentUpon>PartyStats.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FFX\EditorPanels\SphereGrid\SphereGridPanel.xaml.cs">
+      <DependentUpon>SphereGridPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFX\FFXEditor.xaml.cs">
       <DependentUpon>FFXEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\Offsets.cs" />
+    <Compile Include="FFX\Values\Ability.cs" />
     <Compile Include="FFX\Values\AutoAbility.cs" />
     <Compile Include="FFX\Values\DamageFormula.cs" />
     <Compile Include="FFX\Values\Enums.cs" />
     <Compile Include="FFX\Values\EquipAppearances.cs" />
     <Compile Include="FFX\Values\EquipName.cs" />
+    <Compile Include="FFX\Values\Item.cs" />
+    <Compile Include="FFX\Values\KeyItem.cs" />
+    <Compile Include="FFX\Values\SphereGridNode.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

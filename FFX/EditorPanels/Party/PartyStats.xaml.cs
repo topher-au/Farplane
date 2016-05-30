@@ -22,17 +22,19 @@ namespace Farplane.FFX.EditorPanels.Party
     {
         private const int StatsLength = 0x94;
         private int _statsBase;
+        private int _characterIndex;
 
         public PartyStats()
         {
             InitializeComponent();
         }
 
-        public void Refresh(int statsBase)
+        public void Refresh(int characterIndex)
         {
-            _statsBase = statsBase;
+            _characterIndex = characterIndex;
+            _statsBase = Offsets.GetOffset(OffsetType.PartyStatsBase) + StatsLength * _characterIndex;
 
-            var statBytes = MemoryReader.ReadBytes(statsBase, StatsLength);
+            var statBytes = MemoryReader.ReadBytes(_statsBase, StatsLength);
 
             TextCurrentHP.Text = BitConverter.ToUInt32(statBytes, (int) PartyStatOffset.HPCurrent).ToString();
             TextMaxHP.Text = BitConverter.ToUInt32(statBytes, (int)PartyStatOffset.HPMax).ToString();

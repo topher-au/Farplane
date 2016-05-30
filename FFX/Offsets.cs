@@ -12,6 +12,9 @@ namespace Farplane.FFX
         {
             { OffsetType.EquipmentBase, 0xD30F2C },
             { OffsetType.PartyStatsBase, 0xD32078 },
+            { OffsetType.ItemTypes, 0xD3095C },
+            { OffsetType.ItemCounts, 0xD30B5C },
+            { OffsetType.DebugFlags, 0xD2A8F8 }
         };
 
         public static int GetOffset(OffsetType offsetType)
@@ -24,7 +27,10 @@ namespace Farplane.FFX
     public enum OffsetType
     {
         EquipmentBase,
-        PartyStatsBase
+        PartyStatsBase,
+        ItemTypes,
+        ItemCounts,
+        DebugFlags
     }
 
     public enum EquipmentOffset
@@ -61,7 +67,22 @@ namespace Farplane.FFX
         OverdriveMax = 0x1e,
         SphereLevelCurrent = 0x1f,
         SphereLevelTotal = 0x20,
+        SkillFlags = 0x22,
     }
 
+    public enum DebugFlagOffset
+    {
+        EnemyInvincible = 0x00,
+        PartyInvincible = 0x01,
+        EnemyControl = 0x02,
+        AlwaysCritical = 0x15,
+        AlwaysDeal1 = 0x16,
+        AlwaysDeal10000 = 0x17,
+        AlwaysDeal99999 = 0x18,
+        AlwaysRareDrop = 0x19,
+        BattleAPx100 = 0x1A,
+        BattleGilx100 = 0x1B,
+        SensorEnabled = 0x1D
+    }
     
 }
