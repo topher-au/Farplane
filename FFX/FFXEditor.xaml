@@ -26,6 +26,7 @@
             <TreeViewItem Name="EquipmentEditor" Header="Equipment" />
             <TreeViewItem Header="Blitzball" />
             <TreeViewItem Name="DebugEditor" Header="Debug Options" />
+            <TreeViewItem Name="Boosters" Header="Boosters" />
         </TreeView>
         <ContentControl Name="EditorContent"  Grid.Column="1" Padding="0" Margin="0"/>
     </Grid>

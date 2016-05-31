@@ -19,6 +19,7 @@ using Farplane.FFX.EditorPanels.Debug;
 using Farplane.FFX.EditorPanels.Equipment;
 using Farplane.FFX.EditorPanels.Items;
 using Farplane.FFX.EditorPanels.Party;
+using Farplane.FFX.EditorPanels.Boosters;
 using Farplane.FFX.EditorPanels.SphereGrid;
 using MahApps.Metro.Controls;
 using TreeView = System.Windows.Controls.TreeView;
@@ -35,6 +36,7 @@ namespace Farplane.FFX
         private SphereGridPanel _sphereGridPanel = new SphereGridPanel();
         private EquipmentPanel _equipmentPanel = new EquipmentPanel();
         private DebugPanel _debugPanel = new DebugPanel();
+        private BoostersPanel _boostersPanel = new BoostersPanel();
 
         private NotImplementedPanel _notImplementedPanel = new NotImplementedPanel();
             
@@ -53,6 +55,7 @@ namespace Farplane.FFX
                 {
                     Dispatcher.Invoke((MethodInvoker)delegate
                     {
+                        DialogResult = true;
                         Close();
                     });
 
@@ -92,6 +95,10 @@ namespace Farplane.FFX
                     _debugPanel.Refresh();
                     EditorContent.Content = _debugPanel;
                     break;
+                case "Boosters":
+                    _boostersPanel.Refresh();
+                    EditorContent.Content = _boostersPanel;
+                    break;
                 default: // Panel not implemented
                     EditorContent.Content = _notImplementedPanel;
                     break;
@@ -104,8 +111,9 @@ namespace Farplane.FFX
             _partyPanel.Refresh();
             _itemsPanel.Refresh();
             _sphereGridPanel.Refresh();
-            _debugPanel.Refresh();
             _equipmentPanel.Refresh();
+            _debugPanel.Refresh();
+            _boostersPanel.Refresh();
         }
 
         private void RefreshAll_Click(object sender, RoutedEventArgs e)

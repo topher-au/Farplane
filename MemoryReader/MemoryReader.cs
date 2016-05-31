@@ -18,6 +18,8 @@ namespace Farplane
 
         public static void Attach(Process process)
         {
+            Detach();
+
             // Check if valid process
             if (process == null || process.HasExited) return;
 
@@ -33,8 +35,19 @@ namespace Farplane
 
         public static bool CheckProcess()
         {
-            if (_memoryProcess == null || _memoryProcess.HasExited) return false;
+            if (_memoryProcess == null || _memoryProcess.HasExited)
+            {
+                Detach();
+                return false;
+            }
             return true;
+        }
+
+        public static void Detach()
+        {
+            _memoryProcess?.Dispose();
+            _memoryProcess = null;
+            _memoryHandle = IntPtr.Zero;
         }
 
         public static int ReadInt32(int address)

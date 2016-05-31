@@ -176,6 +176,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\Boosters\BoostersPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FFX\EditorPanels\SphereGrid\SphereGridPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -283,6 +287,9 @@
     </Compile>
     <Compile Include="FFX\EditorPanels\Party\PartyStats.xaml.cs">
       <DependentUpon>PartyStats.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\Boosters\BoostersPanel.xaml.cs">
+      <DependentUpon>BoostersPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\EditorPanels\SphereGrid\SphereGridPanel.xaml.cs">
       <DependentUpon>SphereGridPanel.xaml</DependentUpon>

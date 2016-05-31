@@ -10,11 +10,13 @@ namespace Farplane.FFX
     {
         private static Dictionary<OffsetType, int> _offsetList = new Dictionary<OffsetType, int>()
         {
-            { OffsetType.EquipmentBase, 0xD30F2C },
-            { OffsetType.PartyStatsBase, 0xD32078 },
-            { OffsetType.ItemTypes, 0xD3095C },
-            { OffsetType.ItemCounts, 0xD30B5C },
-            { OffsetType.DebugFlags, 0xD2A8F8 }
+            {OffsetType.EquipmentBase, 0xD30F2C},
+            {OffsetType.PartyStatsBase, 0xD32078},
+            {OffsetType.ItemTypes, 0xD3095C},
+            {OffsetType.ItemCounts, 0xD30B5C},
+            {OffsetType.DebugFlags, 0xD2A8F8},
+            {OffsetType.PartyInBattleFlags, 0x1F10EA0},
+            {OffsetType.PartyGainedApFlags, 0x1F10EC4}
         };
 
         public static int GetOffset(OffsetType offsetType)
@@ -30,7 +32,9 @@ namespace Farplane.FFX
         PartyStatsBase,
         ItemTypes,
         ItemCounts,
-        DebugFlags
+        DebugFlags,
+        PartyInBattleFlags,
+        PartyGainedApFlags
     }
 
     public enum EquipmentOffset

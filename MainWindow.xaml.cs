@@ -43,8 +43,8 @@ namespace Farplane
             {
                 Hide();
                 var FFX2Editor = new FFX2Editor();
-                FFX2Editor.ShowDialog();
-                Show();
+                var gameQuit = FFX2Editor.ShowDialog();
+                    Show();
             }
         }
 
@@ -57,8 +57,8 @@ namespace Farplane
             {
                 Hide();
                 var FFXEditor = new FFXEditor();
-                FFXEditor.ShowDialog();
-                Show();
+                var gameQuit=FFXEditor.ShowDialog();
+                    Show();
             }
         }
     }
