@@ -55,8 +55,7 @@ namespace Farplane.FFX
                 {
                     Dispatcher.Invoke((MethodInvoker)delegate
                     {
-                        DialogResult = true;
-                        Close();
+                        Environment.Exit(0);
                     });
 
                     return;

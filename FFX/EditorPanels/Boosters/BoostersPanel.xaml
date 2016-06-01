@@ -19,10 +19,18 @@
             <GroupBox Header="Temporary Boosters">
                 <StackPanel>
                     <TextBlock TextWrapping="Wrap" TextAlignment="Center" Margin="5" FontWeight="SemiBold">Farplane must be running for these boosters to remain active</TextBlock>
-                    <DockPanel Margin="5" >
-                        <TextBlock Text="All characters gain AP after battle" VerticalAlignment="Center"/>
-                        <Button Name="ButtonSharedAP" Content="DISABLED" Width="140" HorizontalAlignment="Right" Click="SharedAP_Click"/>
-                    </DockPanel>
+                    <GroupBox Header="AP Sharing" >
+                    
+                        <StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="Selected characters will always receive AP after battle" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                                <Button Name="ButtonSharedAP" Content="DISABLED" Click="SharedAP_Click" Margin="5" />
+                            </StackPanel>
+                            <WrapPanel Name="ShareBoxes" Margin="5" />
+                        </StackPanel>
+                    
+                </GroupBox>
                 </StackPanel>
             </GroupBox>
         </StackPanel>
