@@ -55,7 +55,8 @@ namespace Farplane.Common
                 var newButton = new Button()
                 {
                     Name = "Button"+b,
-                    Content = "BUTTON"
+                    Content = "BUTTON",
+                    Margin = new Thickness(1)
                 };
                 Grid.SetRow(newButton, row);
                 Grid.SetColumn(newButton, column);
@@ -77,10 +78,11 @@ namespace Farplane.Common
 
         public void SetContent(int buttonIndex, object content)
         {
-            var button = (Button)GridBase.Children[buttonIndex];
+            var button = (Button) GridBase.Children[buttonIndex];
             if (button == null) return;
 
             button.Content = content;
+            button.UpdateLayout();
         }
     }
 }
