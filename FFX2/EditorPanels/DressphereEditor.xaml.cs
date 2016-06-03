@@ -20,6 +20,8 @@ namespace Farplane.FFX2.EditorPanels
     /// </summary>
     public partial class DressphereEditor : UserControl
     {
+        private readonly int _offsetDresspheres = (int) OffsetType.DressphereCountBase;
+
         public DressphereEditor()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace Farplane.FFX2.EditorPanels
 
         public void Refresh()
         {
-            var dressBytes = MemoryReader.ReadBytes(Offsets.Dresspheres.DressphereBase, 30);
+            var dressBytes = MemoryReader.ReadBytes(_offsetDresspheres, 30);
             for(int d=1; d<=29; d++)
             {
                 var dressBox = (TextBox)FindName("Dressphere" + d);
@@ -49,7 +51,7 @@ namespace Farplane.FFX2.EditorPanels
                     var parsed = int.TryParse(dressBox.Text, out quantity);
                     if (parsed && quantity <= 127 && quantity >= 0)
                     {
-                        MemoryReader.WriteBytes(Offsets.Dresspheres.DressphereBase + dressIndex,
+                        MemoryReader.WriteBytes(_offsetDresspheres + dressIndex,
                             new byte[] {(byte) quantity});
                         Refresh();
                     }

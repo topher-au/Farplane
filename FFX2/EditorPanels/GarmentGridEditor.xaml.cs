@@ -21,6 +21,7 @@ namespace Farplane.FFX2.EditorPanels
     /// </summary>
     public partial class GarmentGridEditor : UserControl
     {
+        private readonly int _offsetGarmentGrids = (int) OffsetType.KnownGarmentGrids;
         private bool _refreshing;
         public GarmentGridEditor()
         {
@@ -51,13 +52,13 @@ namespace Farplane.FFX2.EditorPanels
             var byteIndex = gridIndex/8;
             var bitIndex = gridIndex%8;
 
-            var garmentGridBytes = MemoryReader.ReadBytes(Offsets.General.GarmentGridBase, 8);
+            var garmentGridBytes = MemoryReader.ReadBytes(_offsetGarmentGrids, 8);
             var gByte = garmentGridBytes[byteIndex];
 
             var mask = (1 << bitIndex);
             var newByte = gByte ^ (byte) mask;
 
-            MemoryReader.WriteBytes(Offsets.General.GarmentGridBase + byteIndex, new byte[] {(byte)newByte});
+            MemoryReader.WriteBytes(_offsetGarmentGrids + byteIndex, new byte[] {(byte)newByte});
             Refresh();
         }
 
@@ -66,7 +67,7 @@ namespace Farplane.FFX2.EditorPanels
         public void Refresh()
         {
             _refreshing = true;
-            var garmentGridBytes = MemoryReader.ReadBytes(Offsets.General.GarmentGridBase, 8);
+            var garmentGridBytes = MemoryReader.ReadBytes(_offsetGarmentGrids, 8);
             var gridsRem = GarmentGrids.GarmentGridList.Length % 8;
             for (int i = 0; i < GarmentGrids.GarmentGridList.Length; i++)
             {

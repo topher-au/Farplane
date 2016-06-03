@@ -15,7 +15,7 @@
                         <DockPanel Margin="5">
                             <DockPanel>
                                 <Label Content="Name" />
-                                <TextBox Name="CreatureName" Margin="10,0,0,0" Width="120" MaxLength="18" KeyDown="CreatureName_OnKeyDown"/>
+                                <TextBox Name="CreatureName" Margin="10,0,0,0" Width="100" MaxLength="18" KeyDown="CreatureName_OnKeyDown"/>
                             </DockPanel>
                             <DockPanel HorizontalAlignment="Right">
                                 <Label Content="Size" />
@@ -24,6 +24,7 @@
                                     <ComboBoxItem Content="Medium" />
                                     <ComboBoxItem Content="Large" />
                                 </ComboBox>
+                                <Button Content="Export" HorizontalAlignment="Right" Margin="5,0,0,0" Click="ButtonExport_Click" Visibility="Collapsed"/>
                             </DockPanel>
                         </DockPanel>
                     </GroupBox>

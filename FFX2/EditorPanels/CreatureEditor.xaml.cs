@@ -28,10 +28,13 @@ namespace Farplane.FFX2.EditorPanels
         private StatsPanel _statsPanel;
         private bool _refreshing = false;
 
+        private int _offsetCreatureBase = (int) OffsetType.CreatureBase;
+        private int _offsetCreatureName = (int)OffsetType.CreatureNames;
+
         public CreatureEditor(int creatureIndex)
         {
             _creatureIndex = creatureIndex;
-            _statsOffset = Offsets.Creatures.CreatureBase + (creatureIndex*0x80);
+            _statsOffset = _offsetCreatureBase + (creatureIndex*0x80);
             InitializeComponent();
 
             _creatureAbilities = new CreatureAbilities(creatureIndex);
@@ -48,7 +51,7 @@ namespace Farplane.FFX2.EditorPanels
         public void Refresh()
         {
             _refreshing = true;
-            var nameBytes = MemoryReader.ReadBytes(Offsets.Creatures.CreatureNames + (_creatureIndex * 40), 18);
+            var nameBytes = MemoryReader.ReadBytes(_offsetCreatureName + (_creatureIndex * 40), 18);
             var name = StringConverter.ToString(nameBytes);
             CreatureName.Text = name;
             CreatureSize.SelectedIndex = MemoryReader.ReadByte(_statsOffset + (int)Offsets.StatOffsets.Size) -1;
@@ -64,7 +67,7 @@ namespace Farplane.FFX2.EditorPanels
             var nameBytes = StringConverter.ToFFXBytes(CreatureName.Text);
             var writeBytes = new byte[18];
             nameBytes.CopyTo(writeBytes, 0);
-            MemoryReader.WriteBytes(Offsets.Creatures.CreatureNames + _creatureIndex * 40, writeBytes);
+            MemoryReader.WriteBytes(_offsetCreatureName + _creatureIndex * 40, writeBytes);
             CreaturePanel.Update();
         }
 
@@ -73,6 +76,16 @@ namespace Farplane.FFX2.EditorPanels
             if (_refreshing) return;
             MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.Size,
                 new byte[] {(byte) (CreatureSize.SelectedIndex+1)});
+        }
+
+        private void ButtonExport_Click(object sender, RoutedEventArgs e)
+        {
+            var xString = "Welcome to the land of INXS, am I gonna fit in?";
+            var stringBytes = Encoding.ASCII.GetBytes(xString);
+
+            var dataString = DataTextSerializer.Serialize(stringBytes);
+            var data = DataTextSerializer.Deserialize(dataString);
+            var originalString = Encoding.ASCII.GetString(data);
         }
     }
 }

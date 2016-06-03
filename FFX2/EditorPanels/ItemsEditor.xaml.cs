@@ -22,6 +22,8 @@ namespace Farplane.FFX2.EditorPanels
     /// </summary>
     public partial class ItemsEditor : UserControl
     {
+        private readonly int _offsetItemType = (int) OffsetType.ItemType;
+        private readonly int _offsetItemCount = (int)OffsetType.ItemCount;
         private byte[] itemTypes;
         private byte[] itemCounts;
         private Button editingButton = null;
@@ -53,8 +55,8 @@ namespace Farplane.FFX2.EditorPanels
 
         public void Refresh()
         {
-            itemTypes = MemoryReader.ReadBytes(Offsets.Items.ItemBase, 0x88);
-            itemCounts = MemoryReader.ReadBytes(Offsets.Items.QuantityBase, 0x44);
+            itemTypes = MemoryReader.ReadBytes(_offsetItemType, 0x88);
+            itemCounts = MemoryReader.ReadBytes(_offsetItemCount, 0x44);
 
             for (int i = 0; i < 68; i++)
             {

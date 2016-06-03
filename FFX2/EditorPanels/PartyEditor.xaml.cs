@@ -22,16 +22,21 @@ namespace Farplane.FFX2.EditorPanels
     {
         private int mStatsOffset = 0;
         private StatsPanel _statsPanel;
-        public PartyEditor(int statsOffset, int dressOffset = 0, string title = "")
+        public PartyEditor(int partyIndex, string title = "")
         {
             InitializeComponent();
-            mStatsOffset = statsOffset;
-
-            if (dressOffset != 0)
-                DressAbilities.baseOffset = dressOffset;
-
-            TabDresspheres.Visibility = dressOffset != 0 ? Visibility.Visible : Visibility.Collapsed;
-            _statsPanel = new StatsPanel(statsOffset);
+            mStatsOffset = (int)OffsetType.PartyStatBase + (0x80 * partyIndex);
+            if (partyIndex < 3)
+            {
+                DressAbilities.baseOffset = (int) OffsetType.AbilityBase + 0x6A0*partyIndex;
+                TabDresspheres.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TabDresspheres.Visibility = Visibility.Collapsed;
+            }
+            
+            _statsPanel = new StatsPanel(mStatsOffset);
 
             StatsContent.Content = _statsPanel;
             GroupPartyEditor.Header = title;

@@ -26,8 +26,8 @@ namespace Farplane.FFX2
 
         public static void WriteItem(int slot, int item, byte count)
         {
-            var typeOffset = Offsets.Items.ItemBase + (slot * 2);
-            var countOffset = Offsets.Items.QuantityBase + slot;
+            var typeOffset = (int)OffsetType.ItemType + (slot * 2);
+            var countOffset = (int)OffsetType.ItemCount + slot;
             if (item == -1) // No item selected
             {
                 MemoryReader.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)0xFF));
@@ -35,15 +35,15 @@ namespace Farplane.FFX2
             }
             else
             {
-                MemoryReader.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)(item + 0x9000)));
+                MemoryReader.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)(item + 0x2000)));
                 MemoryReader.WriteBytes(countOffset, new byte[] { (byte)count });
             }
         }
 
         public static void WriteAccessory(int slot, int item, byte count)
         {
-            var typeOffset = Offsets.Accessories.AccessoriesBase + (slot * 2);
-            var countOffset = Offsets.Accessories.QuantityBase + slot;
+            var typeOffset = (int)OffsetType.AccessoryType + (slot * 2);
+            var countOffset = (int)OffsetType.AccessoryCount + slot;
             if (item == -1) // No item selected
             {
                 MemoryReader.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)0xFF));
@@ -59,7 +59,7 @@ namespace Farplane.FFX2
         public static void GiveAllGrids()
         {
             var allGridBytes = new byte[8].Select(gb => gb = (byte) 0xFF).ToArray();
-            MemoryReader.WriteBytes(Offsets.General.GarmentGridBase, allGridBytes);
+            MemoryReader.WriteBytes((int)OffsetType.KnownGarmentGrids, allGridBytes);
         }
     }
 }

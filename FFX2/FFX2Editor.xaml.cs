@@ -24,9 +24,9 @@ namespace Farplane.FFX2
     public partial class FFX2Editor : MetroWindow
     {
         private General mGeneral = new General();
-        private PartyEditor mPartyEditorYuna = new PartyEditor(Offsets.StatBases.Yuna, Offsets.AbilityBases.Yuna, "Yuna");
-        private PartyEditor mPartyEditorRikku = new PartyEditor(Offsets.StatBases.Rikku, Offsets.AbilityBases.Rikku, "Rikku");
-        private PartyEditor mPartyEditorPaine = new PartyEditor(Offsets.StatBases.Paine, Offsets.AbilityBases.Paine, "Paine");
+        private PartyEditor mPartyEditorYuna = new PartyEditor((int)Offsets.Party.Yuna, "Yuna");
+        private PartyEditor mPartyEditorRikku = new PartyEditor((int)Offsets.Party.Rikku, "Rikku");
+        private PartyEditor mPartyEditorPaine = new PartyEditor((int)Offsets.Party.Paine, "Paine");
         private CreaturePanel mCreaturePanel = new CreaturePanel();
         private CreatureTrapping mCreatureTrapping = new CreatureTrapping();
         private ItemsEditor mItemsEditor = new ItemsEditor();

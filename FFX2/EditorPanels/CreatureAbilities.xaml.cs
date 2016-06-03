@@ -23,6 +23,8 @@ namespace Farplane.FFX2.EditorPanels
     /// </summary>
     public partial class CreatureAbilities : UserControl
     {
+        private int _abilityOffset = (int) OffsetType.CreatureAbilities;
+
         private int _creatureIndex = 0;
 
         private Button _boxButton;
@@ -38,7 +40,7 @@ namespace Farplane.FFX2.EditorPanels
 
         public void Refresh()
         {
-            var creatureBytes = MemoryReader.ReadBytes(Offsets.Creatures.CreatureAbilities + (_creatureIndex * 0xE38), 0x16);
+            var creatureBytes = MemoryReader.ReadBytes(_abilityOffset + (_creatureIndex * 0xE38), 0x16);
 
             // Refresh commands
             for (int commandSlot = 0; commandSlot < 8; commandSlot++)
@@ -108,14 +110,14 @@ namespace Farplane.FFX2.EditorPanels
         private void WriteAbility(int index, int abilityId)
         {
             MemoryReader.WriteBytes(
-                Offsets.Creatures.CreatureAbilities + (_creatureIndex * 0xE38) + (index * 2),
+                _abilityOffset + (_creatureIndex * 0xE38) + (index * 2),
                 BitConverter.GetBytes((ushort)abilityId));
             Refresh();
         }
 
         private ushort ReadAbility(int index)
         {
-            var creatureBytes = MemoryReader.ReadBytes(Offsets.Creatures.CreatureAbilities + (_creatureIndex * 0xE38), 0x16);
+            var creatureBytes = MemoryReader.ReadBytes(_abilityOffset + (_creatureIndex * 0xE38), 0x16);
             var abilityId = BitConverter.ToUInt16(creatureBytes, index*2);
             return abilityId;
         }
@@ -193,7 +195,7 @@ namespace Farplane.FFX2.EditorPanels
 
             var buttonIndex = int.Parse(senderButton.Name.Substring(7));
             var abilityId =
-                MemoryReader.ReadInt16(Offsets.Creatures.CreatureAbilities + (0xE38*_creatureIndex) + (2*buttonIndex));
+                MemoryReader.ReadInt16(_abilityOffset + (0xE38*_creatureIndex) + (2*buttonIndex));
             ShowButtonBox(senderButton, abilityId.ToString("X2"));
         }
 

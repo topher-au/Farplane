@@ -26,6 +26,8 @@ namespace Farplane.FFX2.EditorPanels
         private byte[] _trapBytes = new byte[60];
         private byte[] _podBytes = new byte[9];
         private bool _comboShowing = false;
+        private readonly int _offsetCreatureTrap = (int) OffsetType.CreatureTrapBase;
+        private readonly int _offsetCreaturePods = (int)OffsetType.CreaturePodBase;
         public CreatureTrapping()
         {
             InitializeComponent();
@@ -34,7 +36,7 @@ namespace Farplane.FFX2.EditorPanels
 
         public void Refresh()
         {
-            _trapBytes = MemoryReader.ReadBytes(Offsets.Creatures.CreatureTrapBase, 60);
+            _trapBytes = MemoryReader.ReadBytes(_offsetCreatureTrap, 60);
 
             for (int i = 0; i < 15; i++)
             {
@@ -58,7 +60,7 @@ namespace Farplane.FFX2.EditorPanels
                 }
             }
 
-            _podBytes = MemoryReader.ReadBytes(Offsets.Creatures.CreaturePodBase, 9);
+            _podBytes = MemoryReader.ReadBytes(_offsetCreaturePods, 9);
             var trapCount = _podBytes[0];
             for (int t = 0; t < 8; t++)
             {
@@ -116,7 +118,7 @@ namespace Farplane.FFX2.EditorPanels
                 if(i+1 < 9) outBytes[i] = _podBytes[i+1];
             count--;
             outBytes[0] = count;
-            MemoryReader.WriteBytes(Offsets.Creatures.CreaturePodBase, outBytes);
+            MemoryReader.WriteBytes(_offsetCreaturePods, outBytes);
         }
 
         private void TrapButton_RightMouse(object sender, MouseButtonEventArgs e)
@@ -133,7 +135,7 @@ namespace Farplane.FFX2.EditorPanels
 
         private void SetTrap(int trapIndex, int creatureId)
         {
-            MemoryReader.WriteBytes(Offsets.Creatures.CreatureTrapBase + (trapIndex*4),
+            MemoryReader.WriteBytes(_offsetCreatureTrap + (trapIndex*4),
                 BitConverter.GetBytes((ushort) creatureId));
             Refresh();
         }
@@ -258,7 +260,7 @@ namespace Farplane.FFX2.EditorPanels
                             }
                             _podBytes[_podBytes[0] + 1] = (byte)trapID;
                             _podBytes[0]++;
-                            MemoryReader.WriteBytes(Offsets.Creatures.CreaturePodBase, _podBytes);
+                            MemoryReader.WriteBytes(_offsetCreaturePods, _podBytes);
                         }
                         Refresh();
                         var nextButtonIndex = TrapPanel.Children.IndexOf(button) + 1;

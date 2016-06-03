@@ -23,6 +23,7 @@ namespace Farplane.FFX2.EditorPanels
     public partial class CreaturePanel : UserControl
     {
         private CreatureEditor[] _editors = new CreatureEditor[8];
+        private readonly int _offsetCreatureName = (int) OffsetType.CreatureNames;
 
         public delegate void UpdateCreaturesEvent();
         public static event UpdateCreaturesEvent UpdateCreatures;
@@ -68,7 +69,7 @@ namespace Farplane.FFX2.EditorPanels
 
                 creatureTab.Visibility = Visibility.Visible;
 
-                var nameBytes = MemoryReader.ReadBytes(Offsets.Creatures.CreatureNames + (i*40), 18);
+                var nameBytes = MemoryReader.ReadBytes(_offsetCreatureName + (i*40), 18);
                 var name = StringConverter.ToString(nameBytes);
                 creatureTab.Header = name;
                 _editors[i].Refresh();

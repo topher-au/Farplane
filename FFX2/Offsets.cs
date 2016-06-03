@@ -6,48 +6,29 @@ using System.Threading.Tasks;
 
 namespace Farplane.FFX2
 {
+    public enum OffsetType
+    {
+        CreatureBase = 0xA01E40, // Block Length = 0x80, Block Count = 8
+        CreatureNames = 0xA06254,
+        CreatureAbilities = 0xA06A80,
+        CreatureTrapBase = 0x9F99FC,
+        CreaturePodBase = 0x9FA60C,
+        PartyStatBase = 0xA016C0, // Block Length = 0x80, Block Count = 3
+        AccessoryType = 0XA01190,
+        AccessoryCount = 0xA01290,
+        AbilityBase = 0xA022A0, // Block Length = 0x6A0, Block Count = 3
+        CurrentGil = 0xA00CE8,
+        KnownGarmentGrids = 0xA00D14,
+        DressphereCountBase = 0xA00D1C,
+        ItemType = 0xA00E50,
+        ItemCount = 0xA01050
+    }
+
     public static class Offsets
     {
-
-        public static class Creatures
+        public static int GetOffset()
         {
-            public static readonly int CreatureBase = 0xA01E40;
-            public static readonly int CreatureNames = 0xA06254;
-            public static readonly int CreatureAbilities = 0xA06A80;
-            public static readonly int CreatureTrapBase = 0x9F99FC;
-            public static readonly int CreaturePodBase = 0x9FA60C;
-        }
-        public static class StatBases
-        {
-            public static readonly int Yuna = 0x0A016C0;
-            public static readonly int Rikku = 0x0A01740;
-            public static readonly int Paine = 0x0A017C0;
-            
-        }
-
-        public static class Accessories
-        {
-                public static readonly int AccessoriesBase = 0xA01190;
-                public static readonly int QuantityBase = 0xA01290;
-            
-        }
-
-        public static class AbilityBases
-        {
-            public static readonly int Yuna = 0xA022A0;
-            public static readonly int Rikku = 0xA02940;
-            public static readonly int Paine = 0xA02FE0;
-        }
-
-        public static class General
-        {
-            public static readonly int Gil = 0xA00CE8;
-            public static readonly int GarmentGridBase = 0xA00D14;
-        }
-
-        public static class Dresspheres
-        {
-            public static readonly int DressphereBase = 0xA00D1C;
+            return 0;
         }
 
         public enum StatOffsets : int
@@ -55,8 +36,8 @@ namespace Farplane.FFX2
             HPModifier = 0x4,
             MPModifier = 0x8,
             ModStrength = 0xc,
-            ModMagic = 0xd,
-            ModDefense = 0xe,
+            ModDefense = 0x3,
+            ModMagic = 0xe,
             ModMagicDefense = 0xf,
             ModAgility = 0x10,
             ModAccuracy = 0x11,
@@ -77,12 +58,6 @@ namespace Farplane.FFX2
             Evasion = 0x33,
             Luck = 0x34,
             Size = 0x7A,
-        }
-
-        public static class Items
-        {
-            public static readonly int ItemBase = 0xA00E50;
-            public static readonly int QuantityBase = 0xA01050;
         }
 
         public enum DebugFlags : int
@@ -107,57 +82,11 @@ namespace Farplane.FFX2
             FirstAttack = 0x9F78E4 // 0xFF == OFF
         }
 
-        public enum Dressphere
+        public enum Party
         {
-            None,
-            Gunner,
-            GunMage,
-            Alchemist,
-            Warrior,
-            Samurai,
-            DarkKnight,
-            Berserker,
-            Songstress,
-            BlackMage,
-            WhiteMage,
-            Thief,
-            Trainer,
-            LadyLuck,
-            Mascot,
-            FloralFallal,
-            RightPistil,
-            LeftPistil,
-            MachinaMaw,
-            SmasherR,
-            CrusherL,
-            FullThrottle,
-            DextralWing,
-            SinistralWing,
-            Psychic = 28,
-            Festivalist = 29
-        }
-
-        public class Abilities
-        {
-            public enum Gunner
-            {
-                Attack,
-                TriggerHappy,
-                Potshot,
-                CheapShot,
-                EnchantedAmmo,
-                TargetMP,
-                QuarterPounder,
-                OnTheLevel,
-                BurstShot,
-                Tableturner,
-                Scattershot,
-                Scatterburst,
-                Darkproof,
-                Unk,
-                TriggerHappyLv2,
-                TriggerHappyLv3
-            }
+            Yuna,
+            Rikku,
+            Paine
         }
     }
 }

@@ -53,8 +53,8 @@ namespace Farplane.FFX2.EditorPanels
 
         public void Refresh()
         {
-            itemTypes = MemoryReader.ReadBytes(Offsets.Accessories.AccessoriesBase, 0x100);
-            itemCounts = MemoryReader.ReadBytes(Offsets.Accessories.QuantityBase, 0x80);
+            itemTypes = MemoryReader.ReadBytes((int)OffsetType.ItemType, 0x100);
+            itemCounts = MemoryReader.ReadBytes((int)OffsetType.ItemCount, 0x80);
 
             for (int i = 0; i < 128; i++)
             {

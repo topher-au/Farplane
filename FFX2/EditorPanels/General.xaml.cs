@@ -20,6 +20,7 @@ namespace Farplane.FFX2.EditorPanels
     /// </summary>
     public partial class General : UserControl
     {
+        private readonly int _offsetCurrentGil = (int) OffsetType.CurrentGil;
         public General()
         {
             InitializeComponent();
@@ -27,7 +28,7 @@ namespace Farplane.FFX2.EditorPanels
 
         public void Refresh()
         {
-            NumGil.Text = MemoryReader.ReadUInt32(Offsets.General.Gil).ToString();
+            NumGil.Text = MemoryReader.ReadUInt32(_offsetCurrentGil).ToString();
         }
 
 
@@ -44,7 +45,7 @@ namespace Farplane.FFX2.EditorPanels
                 return;
             }
 
-            MemoryReader.WriteBytes(Offsets.General.Gil, BitConverter.GetBytes((uint)gil));
+            MemoryReader.WriteBytes(_offsetCurrentGil, BitConverter.GetBytes((uint)gil));
         }
     }
 }
