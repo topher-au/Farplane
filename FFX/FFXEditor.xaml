@@ -20,7 +20,7 @@
         <TreeView Name="EditorTree" Grid.Column="0" SelectedItemChanged="EditorTree_OnSelectedItemChanged">
             <TreeViewItem Header="General" />
             <TreeViewItem Name="PartyEditor" Header="Party" />
-            <TreeViewItem Header="Aeons" />
+            <TreeViewItem Name="AeonEditor" Header="Aeons" />
             <TreeViewItem Name="SphereGridEditor" Header="Sphere Grid" />
             <TreeViewItem Name="ItemEditor" Header="Items" />
             <TreeViewItem Name="EquipmentEditor" Header="Equipment" />

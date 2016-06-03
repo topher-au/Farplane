@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Farplane.FFX.EditorPanels;
+using Farplane.FFX.EditorPanels.Aeons;
 using Farplane.FFX.EditorPanels.Debug;
 using Farplane.FFX.EditorPanels.Equipment;
 using Farplane.FFX.EditorPanels.Items;
@@ -32,6 +33,7 @@ namespace Farplane.FFX
     public partial class FFXEditor : MetroWindow
     {
         private PartyPanel _partyPanel = new PartyPanel();
+        private AeonsPanel _aeonsPanel = new AeonsPanel();
         private ItemsPanel _itemsPanel = new ItemsPanel();
         private SphereGridPanel _sphereGridPanel = new SphereGridPanel();
         private EquipmentPanel _equipmentPanel = new EquipmentPanel();
@@ -76,8 +78,11 @@ namespace Farplane.FFX
                     _partyPanel.Refresh();
                     EditorContent.Content = _partyPanel;
                     break;
+                case "AeonEditor":
+                    _aeonsPanel.Refresh();
+                    EditorContent.Content = _aeonsPanel;
+                    break;
                 case "ItemEditor":
-                    if (!Debugger.IsAttached) goto default;
                     _itemsPanel.Refresh();
                     EditorContent.Content = _itemsPanel;
                     break;
