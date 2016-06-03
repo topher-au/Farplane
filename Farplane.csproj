@@ -144,6 +144,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\Aeons\AeonsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\Aeons\AeonStats.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FFX\EditorPanels\Aeons\AeonAbilities.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="FFX\EditorPanels\Debug\DebugPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -200,6 +212,7 @@
     <Compile Include="Common\ButtonGrid.xaml.cs">
       <DependentUpon>ButtonGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\DataTextSerializer.cs" />
     <Compile Include="Common\SearchDialog.xaml.cs">
       <DependentUpon>SearchDialog.xaml</DependentUpon>
     </Compile>
@@ -264,6 +277,15 @@
     </Compile>
     <Compile Include="FFX2\Offsets.cs" />
     <Compile Include="FFX2\Values\Accessories.cs" />
+    <Compile Include="FFX\EditorPanels\Aeons\AeonsPanel.xaml.cs">
+      <DependentUpon>AeonsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\Aeons\AeonStats.xaml.cs">
+      <DependentUpon>AeonStats.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\Aeons\AeonAbilities.xaml.cs">
+      <DependentUpon>AeonAbilities.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFX\EditorPanels\Debug\DebugPanel.xaml.cs">
       <DependentUpon>DebugPanel.xaml</DependentUpon>
     </Compile>
