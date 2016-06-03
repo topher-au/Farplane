@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Farplane.FFX.EditorPanels.Aeons.AeonsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Aeons"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="380">
+    <GroupBox Header="Aeons">
+        <StackPanel>
+            <TabControl Name="TabAeon" SelectionChanged="TabAeon_OnSelectionChanged">
+                <TabItem Header="Valefor" />
+                <TabItem Header="Ifrit" />
+                <TabItem Header="Ixion" />
+                <TabItem Header="Shiva" />
+                <TabItem Header="Bahamut" />
+                <TabItem Header="Anima" />
+                <TabItem Header="Yojimbo" />
+                <TabItem Header="Cindy" />
+                <TabItem Header="Sandy" />
+                <TabItem Header="Mindy" />
+            </TabControl>
+            <TabControl Name="TabAeonTab" SelectionChanged="TabAeonTab_OnSelectionChanged">
+                <TabItem Header="Stats" />
+                <TabItem Header="Abilities" />
+            </TabControl>
+            <ContentControl Name="ContentAeon" />
+        </StackPanel>
+    </GroupBox>
+</UserControl>
