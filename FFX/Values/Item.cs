@@ -11,11 +11,15 @@ namespace Farplane.FFX.Values
     {
         private const int TotalItems = 112;
 
+        private static readonly int ItemOffset = Offsets.GetOffset(OffsetType.ItemTypes);
+        private static readonly int CountOffset = Offsets.GetOffset(OffsetType.ItemCounts);
+
         public static Item[] Items =
         {
+            new Item { ID = 0x00FF, Name = "None" },
             new Item { ID = 0x2000, Name = "Potion" },
-            new Item { ID = 0x2001, Name = "Hi-potion" },
-            new Item { ID = 0x2002, Name = "X-potion" },
+            new Item { ID = 0x2001, Name = "Hi-Potion" },
+            new Item { ID = 0x2002, Name = "X-Potion" },
             new Item { ID = 0x2003, Name = "Mega Potion" },
             new Item { ID = 0x2004, Name = "Ether" },
             new Item { ID = 0x2005, Name = "Turbo Ether" },
@@ -134,11 +138,10 @@ namespace Farplane.FFX.Values
 
         public static Item[] ReadItems()
         {
-            var itemOffset = Offsets.GetOffset(OffsetType.ItemTypes);
-            var countOffset = Offsets.GetOffset(OffsetType.ItemCounts);
 
-            var itemData = MemoryReader.ReadBytes(itemOffset, TotalItems * 2);
-            var countData = MemoryReader.ReadBytes(countOffset, TotalItems);
+
+            var itemData = MemoryReader.ReadBytes(ItemOffset, TotalItems * 2);
+            var countData = MemoryReader.ReadBytes(CountOffset, TotalItems);
 
             var itemList = new List<Item>();
 
@@ -156,6 +159,12 @@ namespace Farplane.FFX.Values
             }
 
             return itemList.ToArray();
+        }
+
+        public static void WriteItem(int itemSlot, int itemId, byte itemCount)
+        {
+            MemoryReader.WriteBytes(ItemOffset + itemSlot*2, BitConverter.GetBytes((ushort) itemId));
+            MemoryReader.WriteByte(CountOffset + itemSlot, itemCount);
         }
 
         public int ID { get; set; }
