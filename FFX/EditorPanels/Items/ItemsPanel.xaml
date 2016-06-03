@@ -8,7 +8,17 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <GroupBox Header="Items">
         <TabControl>
-            <TabItem Header="Items" Name="TabItems" />
+            <TabItem Header="Items">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Entering or exiting the items menu in-game will refresh your items</TextBlock>
+                    <ContentControl Grid.Row="1" Name="TabItems" />
+                </Grid>
+                
+            </TabItem>
             <TabItem Header="Key Items" Name="TabKeyItems"/>
         </TabControl>
     </GroupBox>
