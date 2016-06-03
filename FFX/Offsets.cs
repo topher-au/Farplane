@@ -16,7 +16,22 @@ namespace Farplane.FFX
             {OffsetType.ItemCounts, 0xD30B5C},
             {OffsetType.DebugFlags, 0xD2A8F8},
             {OffsetType.PartyInBattleFlags, 0x1F10EA0},
-            {OffsetType.PartyGainedApFlags, 0x1F10EC4}
+            {OffsetType.PartyGainedApFlags, 0x1F10EC4},
+            {OffsetType.AeonNames, 0xD32E7C}
+        };
+
+        public static int[] AeonNames => new int[]
+        {
+            0x00,
+            0x14,
+            0x28,
+            0x3C,
+            0x50,
+            0x64,
+            0x78,
+            0x8C,
+            0xA0,
+            0xB4
         };
 
         public static int GetOffset(OffsetType offsetType)
@@ -34,7 +49,8 @@ namespace Farplane.FFX
         ItemCounts,
         DebugFlags,
         PartyInBattleFlags,
-        PartyGainedApFlags
+        PartyGainedApFlags,
+        AeonNames,
     }
 
     public enum EquipmentOffset
