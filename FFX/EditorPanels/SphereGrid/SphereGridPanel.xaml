@@ -3,21 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Farplane.FFX.EditorPanels"
+             xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.SphereGrid"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <GroupBox Header="Sphere Grid">
-        <StackPanel>
-            <TabControl Name="TabSphereGrid">
-                <TabItem Header="Tidus" />
-                <TabItem Header="Yuna" />
-                <TabItem Header="Auron" />
-                <TabItem Header="Kimahri" />
-                <TabItem Header="Wakka" />
-                <TabItem Header="Lulu" />
-                <TabItem Header="Rikku" />
-            </TabControl>
-            <ContentControl Name="SphereGridEditor" />
-        </StackPanel>
+        <ContentControl Name="SphereGridEditor" />
     </GroupBox>
 </UserControl>

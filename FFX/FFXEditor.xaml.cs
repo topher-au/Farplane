@@ -42,6 +42,9 @@ namespace Farplane.FFX
 
         private NotImplementedPanel _notImplementedPanel = new NotImplementedPanel();
 
+        private int _defaultHeight = 540;
+        private int _defaultWidth = 640;
+        private bool _rolledUp = false;
         private bool _windowPinned = false;
             
         public FFXEditor()
@@ -59,7 +62,8 @@ namespace Farplane.FFX
                 {
                     Dispatcher.Invoke((MethodInvoker)delegate
                     {
-                        Environment.Exit(0);
+                        Close();
+                        
                     });
 
                     return;
@@ -89,7 +93,6 @@ namespace Farplane.FFX
                     EditorContent.Content = _itemsPanel;
                     break;
                 case "SphereGridEditor":
-                    if (!Debugger.IsAttached) goto default;
                     _sphereGridPanel.Refresh();
                     EditorContent.Content = _sphereGridPanel;
                     break;
@@ -134,6 +137,29 @@ namespace Farplane.FFX
             ButtonPin.IsChecked = _windowPinned;
 
             this.Topmost = _windowPinned;
+        }
+
+        private void ButtonRollUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (_rolledUp)
+            {
+                Left -= _defaultWidth - 170;
+
+                GridContent.Visibility = Visibility.Visible;
+
+                Width = _defaultWidth;
+                Height = _defaultHeight;
+            }
+            else
+            {
+                Width = 170;
+                Left += _defaultWidth - Width;
+                
+                Height = 30;
+                GridContent.Visibility = Visibility.Hidden;
+            }
+            _rolledUp = !_rolledUp;
+            
         }
     }
 }

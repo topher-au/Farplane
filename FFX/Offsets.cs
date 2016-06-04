@@ -20,6 +20,8 @@ namespace Farplane.FFX
             {OffsetType.AeonNames, 0xD32E7C},
             {OffsetType.KeyItems, 0xD30F1C},
             {OffsetType.AlBhed, 0xD307A0},
+            {OffsetType.SphereGridNodes, 0x12AE078 },
+            {OffsetType.SphereGridCursor, 0x12BEB6C },
         };
 
         public static int[] AeonNames => new int[]
@@ -54,7 +56,9 @@ namespace Farplane.FFX
         PartyGainedApFlags,
         AeonNames,
         KeyItems,
-        AlBhed
+        AlBhed,
+        SphereGridNodes,
+        SphereGridCursor
     }
 
     public enum EquipmentOffset
@@ -154,7 +158,7 @@ namespace Farplane.FFX
         Unknown14,
         Unknown15,
         Unknown16,
-        Unknown17,
+        AlwaysOverdrive,
         AlwaysCritical,
         AlwaysDeal1,
         AlwaysDeal10000,
@@ -165,6 +169,6 @@ namespace Farplane.FFX
         Unknown18,
         PermanentSensor,
         Unknown19,
-        Unknown20,
+        UnknownHangGame,
     }
 }

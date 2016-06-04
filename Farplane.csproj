@@ -200,6 +200,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\SphereGrid\SphereGridEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FFX\EditorPanels\SphereGrid\SphereGridPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -329,6 +333,9 @@
     <Compile Include="FFX\EditorPanels\Boosters\BoostersPanel.xaml.cs">
       <DependentUpon>BoostersPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FFX\EditorPanels\SphereGrid\SphereGridEditor.xaml.cs">
+      <DependentUpon>SphereGridEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFX\EditorPanels\SphereGrid\SphereGridPanel.xaml.cs">
       <DependentUpon>SphereGridPanel.xaml</DependentUpon>
     </Compile>
@@ -415,6 +422,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\rollup.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

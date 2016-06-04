@@ -15,9 +15,12 @@
             <ToggleButton Name="ButtonPin" Click="ButtonPin_Click" ToolTip="Always on top">
                 <Image Source="../Resources/Images/pin.png" Width="16" Height="16"/>
             </ToggleButton>
+            <ToggleButton Name="ButtonRollUp" Click="ButtonRollUp_Click" ToolTip="Shrink Farplane">
+                <Image Source="../Resources/Images/rollup.png" Width="16" Height="16"/>
+            </ToggleButton>
         </metro:WindowCommands>
     </metro:MetroWindow.RightWindowCommands>
-    <Grid>
+    <Grid Name="GridContent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160"/>
             <ColumnDefinition />

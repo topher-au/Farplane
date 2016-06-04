@@ -21,16 +21,16 @@ namespace Farplane.FFX.EditorPanels.SphereGrid
     /// </summary>
     public partial class SphereGridPanel : UserControl
     {
+        private SphereGridEditor _sphereGridEditor = new SphereGridEditor();
         public SphereGridPanel()
         {
             InitializeComponent();
-            foreach(var tabItem in TabSphereGrid.Items)
-                ControlsHelper.SetHeaderFontSize((TabItem)tabItem, 14);
+            SphereGridEditor.Content = _sphereGridEditor;
         }
 
         public void Refresh()
         {
-            
+            _sphereGridEditor.Refresh();
         }
     }
 }

@@ -50,6 +50,8 @@ namespace Farplane
                 var FFX2Editor = new FFX2Editor();
                 var gameQuit = FFX2Editor.ShowDialog();
                     Show();
+                Topmost = true;
+                Topmost = false;
             }
         }
 
@@ -64,6 +66,8 @@ namespace Farplane
                 var FFXEditor = new FFXEditor();
                 var gameQuit=FFXEditor.ShowDialog();
                     Show();
+                Topmost = true;
+                Topmost = false;
             }
         }
 
