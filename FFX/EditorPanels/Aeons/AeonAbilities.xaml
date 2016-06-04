@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Aeons"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="400">
-    <GroupBox Header="Abilities">
+    <GroupBox Header="Abilities" Margin="1">
         <TabControl Name="TabAbilities">
             <TabItem Name="TabSkills" Header="Skills" />
             <TabItem Name="TabSpecial" Header="Special" />

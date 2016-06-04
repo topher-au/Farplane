@@ -55,6 +55,7 @@
                             <Button Name="Ability3" Margin="2" Click="AbilityButton_Click"/>
                         </StackPanel>
                     </GroupBox>
+                    <Button Content="Delete Item" Margin="2" Click="DeleteItem_Click" Visibility="Collapsed"/>
                 </StackPanel>
                 
             </GroupBox>

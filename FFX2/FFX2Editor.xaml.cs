@@ -35,6 +35,8 @@ namespace Farplane.FFX2
         private GarmentGridEditor mGarmentGridEditor = new GarmentGridEditor();
         private DebugOptions mDebugOptions = new DebugOptions();
 
+        private bool _windowPinned = false;
+
         public FFX2Editor()
         {
             InitializeComponent();
@@ -132,6 +134,14 @@ namespace Farplane.FFX2
         private void RefreshAll_Click(object sender, RoutedEventArgs e)
         {
             RefreshAll();
+        }
+
+        private void ButtonPin_Click(object sender, RoutedEventArgs e)
+        {
+            _windowPinned = !_windowPinned;
+            ButtonPin.IsChecked = _windowPinned;
+
+            this.Topmost = _windowPinned;
         }
     }
 }

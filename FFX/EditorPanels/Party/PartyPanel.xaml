@@ -9,7 +9,7 @@
              d:DesignHeight="460" d:DesignWidth="500">
     <GroupBox Header="Party">
         <StackPanel Margin="0">
-            <TabControl Name="TabPartySelect" SelectionChanged="TabPartySelect_OnSelectionChanged">
+            <TabControl Padding="0"  Name="TabPartySelect" SelectionChanged="TabPartySelect_OnSelectionChanged">
                 <TabItem Header="Tidus" />
                 <TabItem Header="Yuna" />
                 <TabItem Header="Auron" />
@@ -19,7 +19,7 @@
                 <TabItem Header="Rikku" />
                 <TabItem Header="Seymour" />
             </TabControl>
-            <party:PartyEditor x:Name="PartyEditor"/>
+            <party:PartyEditor x:Name="PartyEditor" Margin="0,-5,0,0"/>
         </StackPanel>
     </GroupBox>
 </UserControl>

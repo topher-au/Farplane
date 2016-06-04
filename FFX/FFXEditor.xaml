@@ -6,10 +6,15 @@
         xmlns:local="clr-namespace:Farplane.FFX"
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Farplane Editor - Final Fantasy X" Height="540" Width="640" BorderThickness="0" GlowBrush="Black" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Farplane Editor - Final Fantasy X" Height="540" Width="640" BorderThickness="0" GlowBrush="Black" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/Farplane;component/Resources/Farplane_Icon.ico">
     <metro:MetroWindow.RightWindowCommands>
         <metro:WindowCommands>
-            <Button Content="Refresh" Click="RefreshAll_Click"/>
+            <Button Click="RefreshAll_Click" ToolTip="Refresh all data">
+                <Image Source="../Resources/Images/reload.png" Width="16" Height="16"/>
+            </Button>
+            <ToggleButton Name="ButtonPin" Click="ButtonPin_Click" ToolTip="Always on top">
+                <Image Source="../Resources/Images/pin.png" Width="16" Height="16"/>
+            </ToggleButton>
         </metro:WindowCommands>
     </metro:MetroWindow.RightWindowCommands>
     <Grid>

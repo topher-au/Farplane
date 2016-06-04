@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -26,12 +27,16 @@ namespace Farplane
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        
+        private ConfigFlyout _configFlyout = new ConfigFlyout();
+
         public MainWindow()
         {
             InitializeComponent();
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             Title = string.Format(Title, $"{version.Major}.{version.Minor}.{version.Build}");
+
+            Flyouts = new FlyoutsControl();
+            Flyouts.Items.Add(_configFlyout);
         }
 
         private void FFX2_Click(object sender, RoutedEventArgs e)
@@ -60,6 +65,21 @@ namespace Farplane
                 var gameQuit=FFXEditor.ShowDialog();
                     Show();
             }
+        }
+
+        private void ButtonConfig_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonConfig.Visibility = Visibility.Collapsed;
+            _configFlyout.IsOpen = true;
+        }
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            
+            if (!_configFlyout.IsOpen) return;
+            e.Cancel = true;
+            _configFlyout.IsOpen = false;
+            ButtonConfig.Visibility = Visibility.Visible;
         }
     }
 }

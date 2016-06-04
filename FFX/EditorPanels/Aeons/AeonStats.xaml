@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Aeons"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="360">
-    <GroupBox Header="Stats">
+    <GroupBox Header="Stats" Margin="1">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -15,23 +15,15 @@
             <StackPanel Grid.Column="0">
                 <DockPanel Margin="2,2,2,6">
                     <TextBlock Text="Name" Margin="5"/>
-                    <TextBox Name="TextAeonName" Text="Valefor" Width="90" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown"/>
+                    <TextBox Name="TextAeonName" Text="Valefor" Width="90" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown" MaxLength="8"/>
                 </DockPanel>
                 <DockPanel Margin="2">
-                    <TextBlock Text="Current HP" Margin="5"/>
-                    <TextBox Name="TextCurrentHP" Text="99999" Width="60" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown"/>
+                    <TextBlock Text="Base HP" Margin="5"/>
+                    <TextBox Name="TextBaseHP" Text="99999" Width="60" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown"/>
                 </DockPanel>
                 <DockPanel Margin="2">
-                    <TextBlock Text="Max HP" Margin="5"/>
-                    <TextBox Name="TextMaxHP" Text="99999" Width="60" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown"/>
-                </DockPanel>
-                <DockPanel Margin="2">
-                    <TextBlock Text="Current MP" Margin="5"/>
-                    <TextBox Name="TextCurrentMP" Text="9999" Width="50" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown" />
-                </DockPanel>
-                <DockPanel Margin="2">
-                    <TextBlock Text="Max MP" Margin="5"/>
-                    <TextBox Name="TextMaxMP" Text="9999" Width="50" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown" />
+                    <TextBlock Text="Base MP" Margin="5"/>
+                    <TextBox Name="TextBaseMP" Text="9999" Width="50" HorizontalAlignment="Right" KeyDown="TextBox_OnKeyDown" />
                 </DockPanel>
                 <DockPanel Margin="2"/>
                 <DockPanel Margin="2">

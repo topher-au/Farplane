@@ -72,6 +72,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Common\ConfigFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\SearchDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -180,6 +184,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\Party\PartyOverdrive.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FFX\EditorPanels\Party\PartyPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -212,7 +220,11 @@
     <Compile Include="Common\ButtonGrid.xaml.cs">
       <DependentUpon>ButtonGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\ConfigFlyout.xaml.cs">
+      <DependentUpon>ConfigFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\DataTextSerializer.cs" />
+    <Compile Include="Common\Error.cs" />
     <Compile Include="Common\SearchDialog.xaml.cs">
       <DependentUpon>SearchDialog.xaml</DependentUpon>
     </Compile>
@@ -277,6 +289,7 @@
     </Compile>
     <Compile Include="FFX2\Offsets.cs" />
     <Compile Include="FFX2\Values\Accessories.cs" />
+    <Compile Include="FFX\Cheats.cs" />
     <Compile Include="FFX\EditorPanels\Aeons\AeonsPanel.xaml.cs">
       <DependentUpon>AeonsPanel.xaml</DependentUpon>
     </Compile>
@@ -304,6 +317,9 @@
     <Compile Include="FFX\EditorPanels\Party\PartyEditor.xaml.cs">
       <DependentUpon>PartyEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FFX\EditorPanels\Party\PartyOverdrive.xaml.cs">
+      <DependentUpon>PartyOverdrive.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFX\EditorPanels\Party\PartyPanel.xaml.cs">
       <DependentUpon>PartyPanel.xaml</DependentUpon>
     </Compile>
@@ -328,6 +344,7 @@
     <Compile Include="FFX\Values\EquipName.cs" />
     <Compile Include="FFX\Values\Item.cs" />
     <Compile Include="FFX\Values\KeyItem.cs" />
+    <Compile Include="FFX\Values\OverdriveMode.cs" />
     <Compile Include="FFX\Values\SphereGridNode.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -371,7 +388,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\FFX_X-2_HD_Remaster_Logo.png" />
   </ItemGroup>
@@ -393,6 +409,12 @@
     <Resource Include="FFX\Resources\MenuIcons\equip_5_1.png" />
     <Resource Include="FFX\Resources\MenuIcons\equip_6_0.png" />
     <Resource Include="FFX\Resources\MenuIcons\equip_6_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\pin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\reload.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,16 +8,15 @@ namespace Farplane.Common
 {
     public static class BitHelper
     {
-        public static bool[] GetBitArray(byte[] source, int length = 0)
+        public static bool[] GetBitArray(byte[] source, int outLength = 0)
         {
-            var outLength = length == 0 ? source.Length*8 : length*8;
+            if (outLength == 0) outLength = source.Length*8;
             var outArray = new bool[outLength];
 
             for (int i = 0; i < outLength; i++)
             {
                 var bitIndex = i%8;
                 var byteIndex = i/8;
-
                 var isSet = (source[byteIndex] & (1 << bitIndex)) != 0;
                 outArray[i] = isSet;
             }

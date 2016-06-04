@@ -22,38 +22,61 @@ namespace Farplane.FFX.EditorPanels.Items
     /// </summary>
     public partial class ItemsPanel : UserControl
     {
-        private ButtonGrid _itemButtons = new ButtonGrid(2,112);
+        private readonly int _offsetKeyItem = Offsets.GetOffset(OffsetType.KeyItems);
+        private readonly int _offsetAlBhed = Offsets.GetOffset(OffsetType.AlBhed);
+
+        private readonly ButtonGrid _itemButtons = new ButtonGrid(2, 112);
+        private readonly ButtonGrid _keyItemButtons = new ButtonGrid(2, KeyItem.KeyItems.Length - 1);
+
+        private static readonly ComboBox ComboItemList = new ComboBox() { ItemsSource = Item.Items.Select(item => item.Name) };
+        private static readonly TextBox TextItemCount = new TextBox();
+        private static readonly StackPanel PanelEditItem = new StackPanel()
+        {
+            Orientation = Orientation.Horizontal,
+            Children =
+            {
+                ComboItemList,
+                TextItemCount
+            }
+        };
+
+        private bool _refreshing = false;
+
         private Item[] _currentItems;
         private int _editingItem = -1;
 
-        private static ComboBox _comboItemList = new ComboBox() {ItemsSource = Item.Items.Select(item => item.Name) };
-        private static TextBox _textItemCount = new TextBox();
-        private static StackPanel _panelEditItem = new StackPanel()
-        {
-            Orientation = Orientation.Horizontal,
-                Children =
-                {
-                    _comboItemList,
-                    _textItemCount
-                }
-        };
+        private bool[] _keyItemState;
+        private bool[] _alBhedState;
+
+        private readonly Brush _trueKeyItemBrush = new Button().Foreground;
+        private readonly Brush _falseKeyItemBrush = Brushes.LightGray;
 
         public ItemsPanel()
         {
             InitializeComponent();
             TabItems.Content = _itemButtons;
+            ContentKeyItems.Content = _keyItemButtons;
+
             _itemButtons.ButtonClicked += ItemButtonsOnButtonClicked;
-            _comboItemList.KeyDown += ItemEditor_KeyDown;
-            _textItemCount.KeyDown += ItemEditor_KeyDown;
 
-            
+            ComboItemList.KeyDown += ItemEditor_KeyDown;
+            TextItemCount.KeyDown += ItemEditor_KeyDown;
+
+            _keyItemButtons.ButtonClicked += KeyItemButtonsOnButtonClicked;
         }
 
-        private void SaveItem(int buttonIndex, int itemID, byte itemCount)
+        private void KeyItemButtonsOnButtonClicked(int buttonIndex)
         {
-            Item.WriteItem(buttonIndex, itemID, itemCount);
+            var keyItemData = MemoryReader.ReadBytes(_offsetKeyItem, 8);
+            var bitIndex = KeyItem.KeyItems[buttonIndex].BitIndex;
+            var keyByteIndex = bitIndex / 8;
+            var keyBitIndex = bitIndex % 8;
+
+            keyItemData[keyByteIndex] = BitHelper.ToggleBit(keyItemData[keyByteIndex], keyBitIndex);
+            MemoryReader.WriteBytes(_offsetKeyItem, keyItemData);
+            Refresh();
         }
-        
+
         private void ItemButtonsOnButtonClicked(int buttonIndex)
         {
             if (_editingItem == buttonIndex) return;
@@ -65,18 +88,18 @@ namespace Farplane.FFX.EditorPanels.Items
 
             var itemIndex = Item.Items.ToList().IndexOf(baseItem);
 
-            _comboItemList.SelectedIndex = itemIndex;
-            _comboItemList.KeyDown += ItemEditor_KeyDown;
+            ComboItemList.SelectedIndex = itemIndex;
+            ComboItemList.KeyDown += ItemEditor_KeyDown;
 
-            _textItemCount.Text = clickedItem.Count.ToString();
+            TextItemCount.Text = clickedItem.Count.ToString();
 
-            _itemButtons.SetContent(buttonIndex, _panelEditItem);
+            _itemButtons.SetContent(buttonIndex, PanelEditItem);
             _editingItem = buttonIndex;
 
-            _textItemCount.SelectionStart = 0;
-            _textItemCount.SelectionLength = _textItemCount.Text.Length;
+            TextItemCount.SelectionStart = 0;
+            TextItemCount.SelectionLength = TextItemCount.Text.Length;
 
-            _textItemCount.Focus();
+            TextItemCount.Focus();
         }
 
         private void ItemEditor_KeyDown(object sender, KeyEventArgs keyEventArgs)
@@ -86,8 +109,8 @@ namespace Farplane.FFX.EditorPanels.Items
             switch (keyEventArgs.Key)
             {
                 case Key.Enter:
-                    var itemIndex = _comboItemList.SelectedIndex;
-                    var itemCount = byte.Parse(_textItemCount.Text);
+                    var itemIndex = ComboItemList.SelectedIndex;
+                    var itemCount = byte.Parse(TextItemCount.Text);
                     if (itemCount == 0) itemIndex = 0;
                     if (itemIndex == 0) itemCount = 0;
                     Item.WriteItem(_editingItem, Item.Items[itemIndex].ID, itemCount);
@@ -101,9 +124,11 @@ namespace Farplane.FFX.EditorPanels.Items
 
         public void Refresh()
         {
+            _refreshing = true;
             _editingItem = -1;
             _currentItems = Item.ReadItems();
-            
+
+            // Refresh inventory items
             for (int i = 0; i < _currentItems.Length; i++)
             {
                 if (_currentItems[i].ID == 0xFF)
@@ -117,6 +142,52 @@ namespace Farplane.FFX.EditorPanels.Items
                     _itemButtons.SetContent(i, _currentItems[i].Name + " x" + _currentItems[i].Count);
                 }
             }
+
+            // Refresh key items and al bhed dictionaries
+            var keyItemData = MemoryReader.ReadBytes(_offsetKeyItem, 8);
+            var alBhedData = MemoryReader.ReadBytes(_offsetAlBhed, 4);
+            _keyItemState = BitHelper.GetBitArray(keyItemData, 58);
+            _alBhedState = BitHelper.GetBitArray(alBhedData, 26);
+
+            // Key Items
+            for (int i = 0; i < KeyItem.KeyItems.Length - 1; i++)
+            {
+                if (_keyItemState[KeyItem.KeyItems[i].BitIndex])
+                {
+                    // Key item owned
+                    _keyItemButtons.Buttons[i].Foreground = _trueKeyItemBrush;
+                    _keyItemButtons.SetContent(i, $"{KeyItem.KeyItems[i].Name}");
+                }
+                else
+                {
+                    // Key item not owned
+                    _keyItemButtons.Buttons[i].Foreground = _falseKeyItemBrush;
+                    _keyItemButtons.SetContent(i, $"{KeyItem.KeyItems[i].Name}");
+                }
+            }
+
+            // Al Bhed Dictionaries
+            for (int i = 0; i < 26; i++)
+            {
+                (PanelAlBhed.Children[i] as CheckBox).IsChecked = _alBhedState[i];
+            }
+            _refreshing = false;
+        }
+
+        private void AlBhedDictionary_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            if (_refreshing) return;
+            var checkBox = sender as CheckBox;
+            var alBhedData = MemoryReader.ReadBytes(_offsetAlBhed, 4);
+
+            var boxIndex = PanelAlBhed.Children.IndexOf(checkBox);
+
+            var byteIndex = boxIndex/8;
+            var bitIndex = boxIndex%8;
+
+            alBhedData[byteIndex] = BitHelper.ToggleBit(alBhedData[byteIndex], bitIndex);
+            MemoryReader.WriteBytes(_offsetAlBhed, alBhedData);
+            Refresh();
         }
     }
 }

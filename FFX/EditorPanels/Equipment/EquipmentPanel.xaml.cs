@@ -188,7 +188,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
                 {
                     abilityButton.Visibility = Visibility.Visible;
 
-                    if (abilities[ability] == 0xFF || abilities[ability] == 0x8000)
+                    if (abilities[ability] == 0xFF)
                     {
                         // Empty slot
                         abilityButton.Content = string.Empty;
@@ -347,6 +347,11 @@ namespace Farplane.FFX.EditorPanels.Equipment
             MemoryReader.WriteBytes(Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem * EquipmentLength + (int)EquipmentOffset.Appearance, BitConverter.GetBytes((ushort)searchItem.ID));
             Refresh();
             
+        }
+
+        private void DeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

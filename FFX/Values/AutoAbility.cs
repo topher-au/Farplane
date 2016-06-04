@@ -97,7 +97,8 @@ namespace Farplane.FFX.Values
             new AutoAbility {ID = 0x8000 + 60, Name="Poisonproof" },
             new AutoAbility {ID = 0x8000 + 58, Name="Poisonstrike" },
             new AutoAbility {ID = 0x8000 + 59, Name="Poisontouch" },
-            new AutoAbility {ID = 0x8080, Name="Sensor" },
+            new AutoAbility {ID = 0x8080, Name="Ribbon" },
+            new AutoAbility {ID = 0x8000, Name="Sensor" },
             new AutoAbility {ID = 0x8000 + 69, Name="Silence Ward" },
             new AutoAbility {ID = 0x8000 + 68, Name="Silenceproof" },
             new AutoAbility {ID = 0x8000 + 66, Name="Silencestrike" },
@@ -138,6 +139,7 @@ namespace Farplane.FFX.Values
             new AutoAbility {ID = 0x8000 + 52, Name="Zombieproof" },
             new AutoAbility {ID = 0x8000 + 50, Name="Zombiestrike" },
             new AutoAbility {ID = 0x8000 + 51, Name="Zombietouch" },
+            
         };
 
 

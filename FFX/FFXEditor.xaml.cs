@@ -41,6 +41,8 @@ namespace Farplane.FFX
         private BoostersPanel _boostersPanel = new BoostersPanel();
 
         private NotImplementedPanel _notImplementedPanel = new NotImplementedPanel();
+
+        private bool _windowPinned = false;
             
         public FFXEditor()
         {
@@ -113,6 +115,7 @@ namespace Farplane.FFX
         {
             // Refresh panels here
             _partyPanel.Refresh();
+            _aeonsPanel.Refresh();
             _itemsPanel.Refresh();
             _sphereGridPanel.Refresh();
             _equipmentPanel.Refresh();
@@ -123,6 +126,14 @@ namespace Farplane.FFX
         private void RefreshAll_Click(object sender, RoutedEventArgs e)
         {
             RefreshAllPanels();
+        }
+
+        private void ButtonPin_Click(object sender, RoutedEventArgs e)
+        {
+            _windowPinned = !_windowPinned;
+            ButtonPin.IsChecked = _windowPinned;
+
+            this.Topmost = _windowPinned;
         }
     }
 }

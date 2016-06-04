@@ -4,15 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Party"
+             xmlns:FFXEditor="clr-namespace:Farplane.FFX.EditorPanels"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="450">
-    <TabControl>
+    <TabControl Margin="0,-5,0,0" Padding="0">
         <TabItem Header="Stats">
-            <local:PartyStats x:Name="PartyStats"/>
+            <local:PartyStats x:Name="PartyStats" Margin="0,-2,0,0"/>
         </TabItem>
         <TabItem Header="Abilities">
-            <local:PartyAbilities x:Name="PartyAbilities" />
+            <local:PartyAbilities x:Name="PartyAbilities"  Margin="0,-2,0,0"/>
         </TabItem>
-            <TabItem Header="Overdrive" />
+        <TabItem Header="Overdrive">
+            <local:PartyOverdrive x:Name="PartyOverdrive"  Margin="0,-2,0,0"/>
+        </TabItem>
     </TabControl>
 </UserControl>

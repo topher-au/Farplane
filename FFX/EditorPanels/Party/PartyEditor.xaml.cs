@@ -33,6 +33,7 @@ namespace Farplane.FFX.EditorPanels.Party
 
             PartyStats.Refresh(_character);
             PartyAbilities.Refresh(_character);
+            PartyOverdrive.Refresh(_character);
         }
 
         public void Load(Characters character)

@@ -24,6 +24,21 @@ namespace Farplane.Common
         public delegate void ButtonClickedDelegate(int buttonIndex);
         public event ButtonClickedDelegate ButtonClicked;
 
+        private int ButtonCount => GridBase.Children.Count;
+
+        public Button[] Buttons
+        {
+            get
+            {
+                var buttons = new Button[ButtonCount];
+                for (int i = 0; i < ButtonCount; i++)
+                {
+                    buttons[i] = (Button)GridBase.Children[i];
+                }
+                return buttons;
+            }
+        }
+
         public bool ShowScrollBar
         {
             get { return ScrollViewer.VerticalScrollBarVisibility == ScrollBarVisibility.Visible ? true : false; }

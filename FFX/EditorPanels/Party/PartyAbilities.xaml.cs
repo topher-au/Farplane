@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
 using Farplane.FFX.Values;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 
 namespace Farplane.FFX.EditorPanels.Party
@@ -34,6 +35,9 @@ namespace Farplane.FFX.EditorPanels.Party
         private readonly Ability[] _bMagic = Ability.Abilities.Where(a => a.Type == AbilityType.BlackMagic).ToArray();
         private int _characterIndex = -1;
 
+        private static readonly Tuple<AppTheme, Accent> currentStyle = ThemeManager.DetectAppStyle(Application.Current);
+        private readonly Brush _trueAbilityBrush = new SolidColorBrush((Color)currentStyle.Item1.Resources["BlackColor"]);
+        private readonly Brush _falseAbilityBrush = new SolidColorBrush((Color)currentStyle.Item1.Resources["Gray2"]);
         public PartyAbilities()
         {
             InitializeComponent();
@@ -108,7 +112,7 @@ namespace Farplane.FFX.EditorPanels.Party
             var offset = Offsets.GetOffset(OffsetType.PartyStatsBase) + 0x94 * _characterIndex +
                          (int)PartyStatOffset.SkillFlags;
             var skillBytes =
-                MemoryReader.ReadBytes(offset, 0x0C);
+                MemoryReader.ReadBytes(offset, 0x0D);
 
             var newByte = BitHelper.ToggleBit(skillBytes[byteIndex], bitIndex);
             skillBytes[byteIndex] = newByte;
@@ -122,34 +126,38 @@ namespace Farplane.FFX.EditorPanels.Party
             if (_characterIndex == -1) return;
             var skillBytes =
                 MemoryReader.ReadBytes(Offsets.GetOffset(OffsetType.PartyStatsBase) + 0x94*characterIndex + (int) PartyStatOffset.SkillFlags,
-                    0x0C);
+                    0x0D);
             var skillArray = BitHelper.GetBitArray(skillBytes);
 
             for (int i = 0; i < _skills.Length; i++)
             {
                 var button = (Button)_gridSkill.GridBase.Children[i];
-                button.Content = $"{_skills[i].Name} - {skillArray[_skills[i].BitOffset]}";
+                button.Foreground = skillArray[_skills[i].BitOffset] ? _trueAbilityBrush : _falseAbilityBrush;
+                button.Content = _skills[i].Name;
             }
 
             
             for (int i = 0; i < _specials.Length; i++)
             {
                 var button = (Button)_gridSpecial.GridBase.Children[i];
-                button.Content = $"{_specials[i].Name} - {skillArray[_specials[i].BitOffset]}";
+                button.Foreground = skillArray[_specials[i].BitOffset] ? _trueAbilityBrush : _falseAbilityBrush;
+                button.Content = _specials[i].Name;
             }
 
             
             for (int i = 0; i < _wMagic.Length; i++)
             {
                 var button = (Button)_gridWhiteMagic.GridBase.Children[i];
-                button.Content = $"{_wMagic[i].Name} - {skillArray[_wMagic[i].BitOffset]}";
+                button.Foreground = skillArray[_wMagic[i].BitOffset] ? _trueAbilityBrush : _falseAbilityBrush;
+                button.Content = _wMagic[i].Name;
             }
 
             
             for (int i = 0; i < _bMagic.Length; i++)
             {
                 var button = (Button)_gridBlackMagic.GridBase.Children[i];
-                button.Content = $"{_bMagic[i].Name} - {skillArray[_bMagic[i].BitOffset]}";
+                button.Foreground = skillArray[_bMagic[i].BitOffset] ? _trueAbilityBrush : _falseAbilityBrush;
+                button.Content = _bMagic[i].Name;
             }
         }
     }

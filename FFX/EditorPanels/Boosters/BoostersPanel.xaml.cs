@@ -31,46 +31,57 @@ namespace Farplane.FFX.EditorPanels.Boosters
         private static readonly int _offsetInBattle = Offsets.GetOffset(OffsetType.PartyInBattleFlags);
         private static readonly int _offsetGainedAp = Offsets.GetOffset(OffsetType.PartyGainedApFlags);
 
+        private int _statsOffset = Offsets.GetOffset(OffsetType.PartyStatsBase);
+        private bool _statsLocked = false;
+        private int[][] _statsToLock = new int[18][];
+
         public BoostersPanel()
         {
             InitializeComponent();
-            _memoryModThread = new Thread(MemoryModThread) { IsBackground = true };
-            if(!_memoryModThread.IsAlive)
+            _memoryModThread = new Thread(MemoryModThread) {IsBackground = true};
+            if (!_memoryModThread.IsAlive)
                 _memoryModThread.Start();
 
             for (int i = 0; i < 8; i++)
             {
-                    ShareBoxes.Children.Add(new CheckBox()
-                    {
-                        Name = "CheckBoxAPShare" + i,
-                        Content = (Characters) i,
-                        Margin = new Thickness(5),
-                        IsChecked=i != 7
-                    });
+                ShareBoxes.Children.Add(new CheckBox()
+                {
+                    Name = "CheckBoxAPShare" + i,
+                    Content = (Characters) i,
+                    Margin = new Thickness(5),
+                    IsChecked = i != 7
+                });
             }
-                
         }
 
         private void MemoryModThread()
         {
             while (true)
             {
+                // Shared AP mod
                 if (_sharedApEnabled)
                 {
                     if (!MemoryReader.CheckProcess()) break;
-                    Dispatcher.Invoke(UpdateSharedAPState);
+                    try
+                    {
+                        Dispatcher.Invoke(UpdateSharedAPState);
+                    }
+                    catch (Exception ex)
+                    {
+                        // App probably exited, silent exception
+                    }
 
                     var writeBuffer = new byte[8];
                     for (var i = 0; i < 8; i++)
                     {
                         writeBuffer[i] = _sharedApState[i];
                     }
-                        
 
                     MemoryReader.WriteBytes(_offsetInBattle, writeBuffer);
                     MemoryReader.WriteBytes(_offsetGainedAp, writeBuffer);
                 }
-                Thread.Sleep(100);
+
+                Thread.Sleep(10);
             }
         }
 
@@ -81,7 +92,7 @@ namespace Farplane.FFX.EditorPanels.Boosters
             for (int i = 0; i < 8; i++)
             {
                 var box = (CheckBox) ShareBoxes.Children[i];
-                _sharedApState[i] = box.IsChecked.Value ? (byte)1 : gainedAp[i];
+                _sharedApState[i] = box.IsChecked.Value ? (byte) 1 : gainedAp[i];
             }
         }
 
@@ -95,6 +106,26 @@ namespace Farplane.FFX.EditorPanels.Boosters
             _sharedApEnabled = !_sharedApEnabled;
 
             ButtonSharedAP.Content = _sharedApEnabled ? "ENABLED" : "DISABLED";
+        }
+
+        private void GiveAllItems_Click(object sender, RoutedEventArgs e)
+        {
+            Cheats.GiveAllItems();
+        }
+
+        private void MaxAllStats_Click(object sender, RoutedEventArgs e)
+        {
+            Cheats.MaxAllStats();
+        }
+
+        private void MaxSphereLevels_Click(object sender, RoutedEventArgs e)
+        {
+            Cheats.MaxSphereLevels();
+        }
+
+        private void LearnAllAbilities_Click(object sender, RoutedEventArgs e)
+        {
+            Cheats.LearnAllAbilities();
         }
     }
 }
