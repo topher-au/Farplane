@@ -10,10 +10,27 @@ be for quite some time) you may encounter bugs or crashes. Although Farplane doe
 - Party editor
  - Stat customization
  - Ability customization
+ - Overdrive mode customization
+- Aeon editor
+ - Stat customization
+ - Ability customization
+- Item editor
+ - Change item types and quantities
+ - Change key items
 - Equipment customization
- - Name, appearance, type, abilities
+ - Name, appearance and type
+ - Change ability slots and auto abilities
 - Debug options
- - Control monsters, true invincibility, max damage, perma-Sensor and more
+ - Control monsters
+ - True invincibility
+ - Deal max damage 
+ - Permanent Sensor
+ - Many more
+- Boosters
+ - Max all levels
+ - Max all stats
+ - Give all items
+ - Learn all abilities
 
 **Final Fantasy X-2**
 - General editor
