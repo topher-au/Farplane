@@ -171,4 +171,10 @@ namespace Farplane.FFX
         Unknown19,
         UnknownHangGame,
     }
+
+    public enum BlockLength
+    {
+        PartyStats = 0x94,
+        SphereGridNode = 0x28
+    }
 }

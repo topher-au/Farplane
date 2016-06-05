@@ -50,7 +50,7 @@ namespace Farplane.FFX
             for (var i = 0; i < 8; i++)
             {
                 int characterOffset = partyOffset + 0x94 * i;
-                MemoryReader.WriteBytes(characterOffset + (int)PartyStatOffset.SphereLevelCurrent, BitConverter.GetBytes((uint)255));
+                MemoryReader.WriteByte(characterOffset + (int)PartyStatOffset.SphereLevelCurrent, 255);
             }
         }
 
