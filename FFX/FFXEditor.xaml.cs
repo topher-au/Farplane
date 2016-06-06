@@ -16,11 +16,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Farplane.FFX.EditorPanels;
 using Farplane.FFX.EditorPanels.Aeons;
+using Farplane.FFX.EditorPanels.Battle;
+using Farplane.FFX.EditorPanels.Blitzball;
 using Farplane.FFX.EditorPanels.Debug;
 using Farplane.FFX.EditorPanels.Equipment;
 using Farplane.FFX.EditorPanels.Items;
 using Farplane.FFX.EditorPanels.Party;
 using Farplane.FFX.EditorPanels.Boosters;
+using Farplane.FFX.EditorPanels.General;
+using Farplane.FFX.EditorPanels.MonsterArena;
 using Farplane.FFX.EditorPanels.SphereGrid;
 using MahApps.Metro.Controls;
 using TreeView = System.Windows.Controls.TreeView;
@@ -32,12 +36,16 @@ namespace Farplane.FFX
     /// </summary>
     public partial class FFXEditor : MetroWindow
     {
+        private GeneralPanel _generalPanel = new GeneralPanel();
         private PartyPanel _partyPanel = new PartyPanel();
         private AeonsPanel _aeonsPanel = new AeonsPanel();
         private ItemsPanel _itemsPanel = new ItemsPanel();
         private SphereGridPanel _sphereGridPanel = new SphereGridPanel();
         private EquipmentPanel _equipmentPanel = new EquipmentPanel();
+        private BlitzballPanel _blitzballPanel = new BlitzballPanel();
+        private MonsterArenaPanel _monsterArenaPanel = new MonsterArenaPanel();
         private DebugPanel _debugPanel = new DebugPanel();
+        private BattlePanel _battlePanel = new BattlePanel();
         private BoostersPanel _boostersPanel = new BoostersPanel();
 
         private NotImplementedPanel _notImplementedPanel = new NotImplementedPanel();
@@ -52,6 +60,7 @@ namespace Farplane.FFX
             InitializeComponent();
             var watcherThread = new Thread(ProcessChecker) { IsBackground = true };
             watcherThread.Start();
+            (EditorTree.Items[0] as TreeViewItem).IsSelected = true;
         }
 
         public void ProcessChecker()
@@ -80,6 +89,10 @@ namespace Farplane.FFX
 
             switch (treeViewItem.Name)
             {
+                case "GeneralEditor":
+                    _generalPanel.Refresh();
+                    EditorContent.Content = _generalPanel;
+                    break;
                 case "PartyEditor":
                     _partyPanel.Refresh();
                     EditorContent.Content = _partyPanel;
@@ -100,6 +113,18 @@ namespace Farplane.FFX
                     _equipmentPanel.Refresh();
                     EditorContent.Content = _equipmentPanel;
                     break;
+                case "BlitzballEditor":
+                    _blitzballPanel.Refresh();
+                    EditorContent.Content = _blitzballPanel;
+                    break;
+                case "MonsterArenaEditor":
+                    _monsterArenaPanel.Refresh();
+                    EditorContent.Content = _monsterArenaPanel;
+                    break;
+                case "BattleEditor":
+                    _battlePanel.Refresh();
+                    EditorContent.Content = _battlePanel;
+                    break;
                 case "DebugEditor":
                     _debugPanel.Refresh();
                     EditorContent.Content = _debugPanel;
@@ -117,11 +142,15 @@ namespace Farplane.FFX
         public void RefreshAllPanels()
         {
             // Refresh panels here
+            _generalPanel.Refresh();
             _partyPanel.Refresh();
             _aeonsPanel.Refresh();
             _itemsPanel.Refresh();
             _sphereGridPanel.Refresh();
             _equipmentPanel.Refresh();
+            _blitzballPanel.Refresh();
+            _monsterArenaPanel.Refresh();
+            _battlePanel.Refresh();
             _debugPanel.Refresh();
             _boostersPanel.Refresh();
         }

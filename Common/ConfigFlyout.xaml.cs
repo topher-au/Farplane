@@ -41,6 +41,9 @@ namespace Farplane.Common
             ComboAccent.SelectedIndex =
                 ThemeManager.Accents.ToList().IndexOf(currentAccent);
 
+            CheckExitFarplane.IsChecked = Settings.Default.CloseWithGame;
+            CheckShowAllProcesses.IsChecked = Settings.Default.ShowAllProcesses;
+
             canSetTheme = true;
         }
 
@@ -48,6 +51,17 @@ namespace Farplane.Common
         {
             if (!canSetTheme) return;
             ThemeManager.ChangeAppStyle(Application.Current, (Accent)ComboAccent.SelectedItem, (AppTheme)ComboTheme.SelectedItem);
+            SettingUpdated(sender, e);
+        }
+
+        private void SettingUpdated(object sender, RoutedEventArgs e)
+        {
+            if (!canSetTheme) return;
+            Settings.Default.CloseWithGame = CheckExitFarplane.IsChecked.Value;
+            Settings.Default.ShowAllProcesses = CheckShowAllProcesses.IsChecked.Value;
+            Settings.Default.AppAccent = (ComboAccent.SelectedItem as Accent).Name;
+            Settings.Default.AppTheme = (ComboTheme.SelectedItem as AppTheme).Name;
+            Settings.Default.Save();
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
 using Farplane.FFX2.Values;
+using MahApps.Metro.Controls;
 
 namespace Farplane.FFX2.EditorPanels
 {
@@ -88,7 +89,7 @@ namespace Farplane.FFX2.EditorPanels
 
             
             var currentCmd = ReadAbility(commandIndex);
-            var commandDialog = new SearchDialog(textList, currentCmd.ToString("X2"));
+            var commandDialog = new SearchDialog(textList, currentCmd.ToString("X2")) {Owner=this.TryFindParent<Window>()};
 
             commandDialog.ShowDialog();
             if (commandDialog.DialogResult.HasValue && commandDialog.DialogResult.Value == false) return;

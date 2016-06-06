@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Farplane.FFX2"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Search" Width="300" Height="376" WindowStartupLocation="CenterScreen" BorderThickness="0" GlowBrush="Black" ResizeMode="NoResize">
+        Title="Search" Width="300" Height="376" WindowStartupLocation="CenterScreen" BorderThickness="0" GlowBrush="Black" ResizeMode="NoResize" ShowInTaskbar="False">
     <StackPanel>
         <GroupBox Header="Search by name or ID">
             <StackPanel>

@@ -13,22 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Farplane.FFX.EditorPanels
+namespace Farplane.FFX.EditorPanels.Blitzball
 {
     /// <summary>
-    /// Interaction logic for NotImplementedPanel.xaml
+    /// Interaction logic for BlitzballPanel.xaml
     /// </summary>
-    public partial class NotImplementedPanel : UserControl
+    public partial class BlitzballPanel : UserControl
     {
-        public NotImplementedPanel()
+        public BlitzballPanel()
         {
             InitializeComponent();
         }
 
-        public void SetText(string header, string text)
+        public void Refresh()
         {
-            TextNYI.Text = text;
-            GroupNYI.Header = header;
+            
         }
     }
 }

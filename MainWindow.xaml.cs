@@ -18,6 +18,8 @@ using System.Windows.Shapes;
 using Farplane.Common;
 using Farplane.FFX;
 using Farplane.FFX2;
+using Farplane.Properties;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 
 namespace Farplane
@@ -31,6 +33,35 @@ namespace Farplane
 
         public MainWindow()
         {
+            var exeVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            if (exeVersion > new Version(Settings.Default.SettingsVersion))
+                Settings.Default.Upgrade();
+
+            Settings.Default.SettingsVersion = exeVersion.ToString();
+            Settings.Default.Save();
+
+            try
+            {
+                // Load app theme and accent
+                var currentTheme = ThemeManager.GetAppTheme(Settings.Default.AppTheme);
+                var currentAccent = ThemeManager.GetAccent(Settings.Default.AppAccent);
+
+                ThemeManager.ChangeAppStyle(Application.Current, currentAccent, currentTheme);
+            }
+            catch
+            {
+                // Theme error, revert to default
+                Settings.Default.AppTheme = "BaseLight";
+                Settings.Default.AppAccent = "Blue";
+
+                Settings.Default.Save();
+
+                var currentTheme = ThemeManager.GetAppTheme(Settings.Default.AppTheme);
+                var currentAccent = ThemeManager.GetAccent(Settings.Default.AppAccent);
+
+                ThemeManager.ChangeAppStyle(Application.Current, currentAccent, currentTheme);
+            }
+            
             InitializeComponent();
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             Title = string.Format(Title, $"{version.Major}.{version.Minor}.{version.Build}");
@@ -41,15 +72,19 @@ namespace Farplane
 
         private void FFX2_Click(object sender, RoutedEventArgs e)
         {
-            var processSelect = new ProcessSelectWindow("FFX-2");
+            var processSelect = new ProcessSelectWindow("FFX-2") {Owner=this};
             processSelect.ShowDialog();
 
             if (processSelect.DialogResult == true)
             {
                 Hide();
+
                 var FFX2Editor = new FFX2Editor();
-                var gameQuit = FFX2Editor.ShowDialog();
-                    Show();
+                FFX2Editor.ShowDialog();
+
+                if(Settings.Default.CloseWithGame) Environment.Exit(0);
+
+                Show();
                 Topmost = true;
                 Topmost = false;
             }
@@ -57,15 +92,19 @@ namespace Farplane
 
         private void FFX_Click(object sender, RoutedEventArgs e)
         {
-            var processSelect = new ProcessSelectWindow("FFX");
+            var processSelect = new ProcessSelectWindow("FFX") {Owner=this};
             processSelect.ShowDialog();
 
             if (processSelect.DialogResult == true)
             {
                 Hide();
+
                 var FFXEditor = new FFXEditor();
-                var gameQuit=FFXEditor.ShowDialog();
-                    Show();
+                FFXEditor.ShowDialog();
+
+                if (Settings.Default.CloseWithGame) Environment.Exit(0);
+
+                Show();
                 Topmost = true;
                 Topmost = false;
             }
@@ -73,17 +112,7 @@ namespace Farplane
 
         private void ButtonConfig_Click(object sender, RoutedEventArgs e)
         {
-            ButtonConfig.Visibility = Visibility.Collapsed;
-            _configFlyout.IsOpen = true;
-        }
-
-        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
-        {
-            
-            if (!_configFlyout.IsOpen) return;
-            e.Cancel = true;
-            _configFlyout.IsOpen = false;
-            ButtonConfig.Visibility = Visibility.Visible;
+            _configFlyout.IsOpen = !_configFlyout.IsOpen;
         }
     }
 }

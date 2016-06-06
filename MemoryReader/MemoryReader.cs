@@ -86,7 +86,7 @@ namespace Farplane
             return (byte) bytes[0];
         }
 
-        public static byte[] ReadBytes(int address, int length)
+        public static byte[] ReadBytes(int address, int length, bool pointer = false)
         {
             if (!_isAttached) return null;
 
@@ -94,11 +94,11 @@ namespace Farplane
                 var readBuffer = new byte[length];
             
             var bytesRead = 0;
-            WinAPI.ReadProcessMemory(_memoryHandle, _memoryProcess.MainModule.BaseAddress + address, readBuffer, length, bytesRead);
+            WinAPI.ReadProcessMemory(_memoryHandle, (pointer ? (IntPtr)0 : _memoryProcess.MainModule.BaseAddress) + address, readBuffer, length, bytesRead);
             return readBuffer;
         }
 
-        public static bool WriteBytes(int address, byte[] bytes)
+        public static bool WriteBytes(int address, byte[] bytes, bool pointer=false)
         {
             if (!_isAttached) return false;
 
@@ -106,7 +106,7 @@ namespace Farplane
             bytes.CopyTo(writeBuffer,0);
             var bytesWritten = 0;
 
-            var success = WinAPI.WriteProcessMemory(_memoryHandle, _memoryProcess.MainModule.BaseAddress + address, writeBuffer,
+            var success = WinAPI.WriteProcessMemory(_memoryHandle, (pointer ? (IntPtr)0 : _memoryProcess.MainModule.BaseAddress) + address, writeBuffer,
                 writeBuffer.Length, bytesWritten);
 
             return success;

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
 using Farplane.FFX.Values;
+using MahApps.Metro;
 
 namespace Farplane.FFX.EditorPanels.Items
 {
@@ -48,8 +49,9 @@ namespace Farplane.FFX.EditorPanels.Items
         private bool[] _keyItemState;
         private bool[] _alBhedState;
 
-        private readonly Brush _trueKeyItemBrush = new Button().Foreground;
-        private readonly Brush _falseKeyItemBrush = Brushes.LightGray;
+        private static readonly Tuple<AppTheme, Accent> currentStyle = ThemeManager.DetectAppStyle(Application.Current);
+        private readonly Brush _trueKeyItemBrush = new SolidColorBrush((Color)currentStyle.Item1.Resources["BlackColor"]);
+        private readonly Brush _falseKeyItemBrush = new SolidColorBrush((Color)currentStyle.Item1.Resources["Gray2"]);
 
         public ItemsPanel()
         {

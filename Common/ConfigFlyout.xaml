@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Farplane.Common"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
-             d:DesignHeight="260" d:DesignWidth="480" Height="270" Position="Top" CloseButtonVisibility="Collapsed">
+             d:DesignHeight="100" d:DesignWidth="480" Height="140" Position="Top" CloseButtonVisibility="Collapsed">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -15,10 +15,10 @@
         <GroupBox Grid.Column="0" Header="Settings" VerticalAlignment="Bottom" Margin="-30,5,5,5">
             <StackPanel>
                 <DockPanel Margin="0,0,0,5">
-                    <CheckBox Content="Always show all processes" />
+                    <CheckBox Name="CheckShowAllProcesses" Content="Always show all processes" Checked="SettingUpdated" Unchecked="SettingUpdated"/>
                 </DockPanel>
                 <DockPanel Margin="0,0,0,5">
-                    <CheckBox Content="Close Farplane with game" />
+                    <CheckBox Name="CheckExitFarplane" Content="Exit Farplane when an editor is closed" Checked="SettingUpdated" Unchecked="SettingUpdated" />
                 </DockPanel>
             </StackPanel>
         </GroupBox>

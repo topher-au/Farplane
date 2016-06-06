@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,8 +21,15 @@ namespace Farplane.FFX
             {OffsetType.AeonNames, 0xD32E7C},
             {OffsetType.KeyItems, 0xD30F1C},
             {OffsetType.AlBhed, 0xD307A0},
-            {OffsetType.SphereGridNodes, 0x12AE078 },
-            {OffsetType.SphereGridCursor, 0x12BEB6C },
+            {OffsetType.SphereGridNodes, 0x12AE078},
+            {OffsetType.SphereGridCursor, 0x12BEB6C},
+            {OffsetType.CurrentGil, 0xD307D8},
+            {OffsetType.BattleEnemyPointer, 0xD34460},
+            {OffsetType.BattlePlayerPointer, 0xD334CC},
+            {OffsetType.RemoveDamageLimit, 0x38ED3D},
+            {OffsetType.RemoveHPLimit, 0x386897},
+            {OffsetType.RemoveMPLimit, 0x3868BF},
+            {OffsetType.MonsterArena, 0xD30C9C},
         };
 
         public static int[] AeonNames => new int[]
@@ -58,7 +66,14 @@ namespace Farplane.FFX
         KeyItems,
         AlBhed,
         SphereGridNodes,
-        SphereGridCursor
+        SphereGridCursor,
+        CurrentGil,
+        BattleEnemyPointer,
+        BattlePlayerPointer,
+        RemoveDamageLimit,
+        RemoveHPLimit,
+        RemoveMPLimit,
+        MonsterArena
     }
 
     public enum EquipmentOffset
@@ -172,9 +187,12 @@ namespace Farplane.FFX
         UnknownHangGame,
     }
 
+
     public enum BlockLength
     {
         PartyStats = 0x94,
-        SphereGridNode = 0x28
+        SphereGridNode = 0x28,
+        BattleEntity = 0xF90,
+        MonsterArenaCount = 0x8B
     }
 }

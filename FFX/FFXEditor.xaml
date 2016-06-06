@@ -26,13 +26,15 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <TreeView Name="EditorTree" Grid.Column="0" SelectedItemChanged="EditorTree_OnSelectedItemChanged">
-            <TreeViewItem Header="General" />
+            <TreeViewItem Name="GeneralEditor" Header="General" />
             <TreeViewItem Name="PartyEditor" Header="Party" />
-            <TreeViewItem Name="AeonEditor" Header="Aeons" />
             <TreeViewItem Name="SphereGridEditor" Header="Sphere Grid" />
             <TreeViewItem Name="ItemEditor" Header="Items" />
             <TreeViewItem Name="EquipmentEditor" Header="Equipment" />
-            <TreeViewItem Header="Blitzball" />
+            <TreeViewItem Name="AeonEditor" Header="Aeons" />
+            <TreeViewItem Name="BattleEditor" Header="Battle" />
+            <TreeViewItem Name="MonsterArenaEditor" Header="Monster Arena" />
+            <TreeViewItem Name="BlitzballEditor" Header="Blitzball" />
             <TreeViewItem Name="DebugEditor" Header="Debug Options" />
             <TreeViewItem Name="Boosters" Header="Boosters" />
         </TreeView>

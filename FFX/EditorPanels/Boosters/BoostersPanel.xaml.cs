@@ -127,5 +127,16 @@ namespace Farplane.FFX.EditorPanels.Boosters
         {
             Cheats.LearnAllAbilities();
         }
+
+        private void ButtonRemoveStatLimit_Click(object sender, RoutedEventArgs e)
+        {
+            Cheats.RemoveHPLimit();
+            Cheats.RemoveMPLimit();
+        }
+
+        private void ButtonRemoveDamageLimit_Click(object sender, RoutedEventArgs e)
+        {
+            Cheats.RemoveDamageLimit();
+        }
     }
 }

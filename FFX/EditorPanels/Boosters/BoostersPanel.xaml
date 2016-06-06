@@ -19,11 +19,23 @@
                 </GroupBox>
                 <GroupBox Header="Temporary Boosters">
                     <StackPanel>
-                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Margin="5" FontWeight="SemiBold">Farplane must be running for these boosters to remain active</TextBlock>
+                        <GroupBox Header="Limit Break">
+                            <StackPanel>
+                                <TextBlock HorizontalAlignment="Center">Limit breaks will active until the game is closed</TextBlock>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Content="Remove HP/MP limit" Margin="5" Click="ButtonRemoveStatLimit_Click"/>
+                                    <Button Grid.Column="1" Content="Remove damage limit" Margin="5" Click="ButtonRemoveDamageLimit_Click"/>
+                                </Grid>
+                            </StackPanel>
+                        </GroupBox>
                         <GroupBox Header="AP Sharing" >
                             <StackPanel>
                                 <StackPanel>
-                                    <TextBlock Text="Selected characters will always receive AP after battle" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                                    <TextBlock Text="While enabled, selected characters will always receive AP after battle, regardless of participation" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
                                     <Button Name="ButtonSharedAP" Content="DISABLED" Click="SharedAP_Click" Margin="5" />
                                 </StackPanel>
                                 <WrapPanel Name="ShareBoxes" Margin="5" />

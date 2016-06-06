@@ -7,18 +7,18 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:p="clr-namespace:Farplane.Properties"
         mc:Ignorable="d"
-        Title="Farplane v{0} - Final Fantasy X/X-2 HD Remaster Editor" Height="340" Width="480" TitleCaps ="False"  WindowStartupLocation="CenterScreen" EnableDWMDropShadow="True" IsMaxRestoreButtonEnabled="False" ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" ResizeMode="NoResize" Closing="MainWindow_OnClosing" Icon="Resources/Farplane_Icon.ico">
+        Title="Farplane v{0} - Final Fantasy X/X-2 HD Remaster Editor" Height="400" Width="540" TitleCaps ="False"  WindowStartupLocation="CenterScreen" EnableDWMDropShadow="True" IsMaxRestoreButtonEnabled="False" ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" ResizeMode="NoResize" Icon="Resources/Farplane_Icon.ico">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Name="ButtonConfig" Content="Config" Click="ButtonConfig_Click" Visibility="Collapsed"/>
+            <Button Name="ButtonConfig" Click="ButtonConfig_Click"><Image Source="Resources/Images/settings.png" Width="16" Height="16"/></Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="240"/>
+            <RowDefinition Height="280"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Image Source="Resources/FFX_X-2_HD_Remaster_Logo.png" Grid.Row="0" />
+        <Image Source="Resources/Farplane_Splash.png" Grid.Row="0" Margin="5" />
         <DockPanel Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>

@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Equipment"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <GroupBox Header="Not Yet Implemented">
+    <GroupBox Name="GroupNYI" Header="Not Yet Implemented">
         <DockPanel VerticalAlignment="Center">
-            <TextBlock TextWrapping="Wrap" TextAlignment="Center">
+            <TextBlock Name="TextNYI" TextWrapping="Wrap" TextAlignment="Center">
                 The selected option is not currently implemeted
             </TextBlock>
         </DockPanel>

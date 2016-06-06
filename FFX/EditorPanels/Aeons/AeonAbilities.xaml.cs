@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
 using Farplane.FFX.Values;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 
 namespace Farplane.FFX.EditorPanels.Aeons
@@ -34,8 +35,9 @@ namespace Farplane.FFX.EditorPanels.Aeons
         private readonly Ability[] _bMagic = Ability.Abilities.Where(a => a.Type == AbilityType.BlackMagic).ToArray();
         private int _characterIndex = -1;
 
-        private readonly Brush _trueAbilityBrush = new Button().Foreground;
-        private readonly Brush _falseAbilityBrush = Brushes.LightGray;
+        private static readonly Tuple<AppTheme, Accent> currentStyle = ThemeManager.DetectAppStyle(Application.Current);
+        private readonly Brush _trueAbilityBrush = new SolidColorBrush((Color)currentStyle.Item1.Resources["BlackColor"]);
+        private readonly Brush _falseAbilityBrush = new SolidColorBrush((Color)currentStyle.Item1.Resources["Gray2"]);
 
         public AeonAbilities()
         {

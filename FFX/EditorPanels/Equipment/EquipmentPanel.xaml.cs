@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
 using Farplane.FFX.Values;
+using MahApps.Metro.Controls;
 
 namespace Farplane.FFX.EditorPanels.Equipment
 {
@@ -255,7 +256,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
             foreach(var ability in AutoAbility.AutoAbilities)
                 searchList.Add($"{ability.ID.ToString("X4")} {ability.Name}");
 
-            var searchDialog = new SearchDialog(searchList);
+            var searchDialog = new SearchDialog(searchList) {Owner = this.TryFindParent<Window>()};
             var searchComplete = searchDialog.ShowDialog();
 
             if (!searchComplete.HasValue || !searchComplete.Value) return;

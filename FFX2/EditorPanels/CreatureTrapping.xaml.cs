@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
 using Farplane.FFX2.Values;
+using MahApps.Metro.Controls;
 
 namespace Farplane.FFX2.EditorPanels
 {
@@ -195,7 +196,7 @@ namespace Farplane.FFX2.EditorPanels
             foreach (var creature in Values.Creatures.CreatureList)
                 creatureSearchList.Add($"{creature.ID.ToString("X4")} {creature.Name}");
             
-            var creatureSearch = new SearchDialog(creatureSearchList);
+            var creatureSearch = new SearchDialog(creatureSearchList) {Owner=this.TryFindParent<Window>()};
             creatureSearch.ShowDialog();
 
             if (creatureSearch.DialogResult == false) return;

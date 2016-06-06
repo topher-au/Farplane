@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,15 +21,24 @@ namespace Farplane.Common
             return outBytes;
         }
 
-        public static string ToString(byte[] inputBytes)
+        public static string ToString(byte[] inputBytes, bool printUnknown = false)
         {
             var outBytes = new StringBuilder();
 
             for (int i = 0; i < inputBytes.Length; i++)
             {
                 if (inputBytes[i] == 0x00) return outBytes.ToString();
-                var addChar = (char) ffxToASCII[inputBytes[i]];
-                outBytes.Append(addChar);
+                try
+                {
+                    var addChar = (char) ffxToASCII[inputBytes[i]];
+                    outBytes.Append(addChar);
+                }
+                catch
+                {
+                    if(printUnknown)
+                        outBytes.Append ($"[{inputBytes[i].ToString("X2")}]");
+                }
+
             }
                 
 
@@ -37,6 +47,7 @@ namespace Farplane.Common
 
         public static Dictionary<byte, char> ffxToASCII = new Dictionary<byte, char>
         {
+            {0x03, '\n' },
             {0x30, '0' },
             {0x31, '1' },
             {0x32, '2' },

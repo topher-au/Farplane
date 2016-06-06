@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Farplane.FFX2;
+using Farplane.Properties;
 using MahApps.Metro.Controls;
 
 namespace Farplane.Common
@@ -35,6 +36,13 @@ namespace Farplane.Common
         {
             InitializeComponent();
             _moduleName = moduleName;
+
+            if (Settings.Default.ShowAllProcesses)
+            {
+                _moduleName = string.Empty;
+                ShowAllProcesses.IsChecked = true;
+            }
+
             PopulateProcessList(_moduleName);
         }
 
@@ -95,6 +103,7 @@ namespace Farplane.Common
 
         private void ShowAllProcesses_Click(object sender, RoutedEventArgs e)
         {
+            if (!_ready) return;
             ShowAllProcesses.IsChecked = !ShowAllProcesses.IsChecked;
             RefreshList();
         }

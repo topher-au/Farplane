@@ -72,5 +72,27 @@ namespace Farplane.FFX
                 MemoryReader.WriteBytes(characterAbilityOffset, currentAbilities);
             }
         }
+
+        public static void RemoveDamageLimit()
+        {
+            var offset = Offsets.GetOffset(OffsetType.RemoveDamageLimit);
+            var bytesToWrite = new byte[] {0x90, 0x90, 0x90, 0x90, 0xBB, 0xFF, 0xFF, 0xFF, 0x7F}; // db 90 90 90 90
+                                                                                                  // mov ebx, 0x7FFFFFFF
+            MemoryReader.WriteBytes(offset, bytesToWrite);
+        }
+
+        public static void RemoveHPLimit()
+        {
+            var offset = Offsets.GetOffset(OffsetType.RemoveHPLimit);
+            var bytesToWrite = new byte[] { 0xB8, 0xFF, 0xFF, 0xFF, 0x7F }; // mov eax, 0x7FFFFFFF
+            MemoryReader.WriteBytes(offset, bytesToWrite);
+        }
+
+        public static void RemoveMPLimit()
+        {
+            var offset = Offsets.GetOffset(OffsetType.RemoveMPLimit);
+            var bytesToWrite = new byte[] { 0xB8, 0xFF, 0xFF, 0xFF, 0x7F }; // mov eax, 0x7FFFFFFF
+            MemoryReader.WriteBytes(offset, bytesToWrite);
+        }
     }
 }
