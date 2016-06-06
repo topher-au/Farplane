@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
+        Title="Select Game Process" Height="400" Width="260" WindowStartupLocation="CenterScreen" ShowMaxRestoreButton="False" BorderThickness="0" GlowBrush="Black" IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False" ShowIconOnTitleBar="False" ShowMinButton="False" ShowInTaskbar="False">
 
     <Grid>
         <Grid.RowDefinitions>

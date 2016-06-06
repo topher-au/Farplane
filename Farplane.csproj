@@ -160,6 +160,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="FFX\EditorPanels\Battle\BattlePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\Blitzball\BlitzballMatchPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\Blitzball\BlitzballPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FFX\EditorPanels\Debug\DebugPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -168,7 +180,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\General\GeneralPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FFX\EditorPanels\Items\ItemsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\MonsterArena\MonsterArenaPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -303,14 +323,29 @@
     <Compile Include="FFX\EditorPanels\Aeons\AeonAbilities.xaml.cs">
       <DependentUpon>AeonAbilities.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FFX\EditorPanels\Battle\BattlePanel.xaml.cs">
+      <DependentUpon>BattlePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\Blitzball\BlitzballMatchPanel.xaml.cs">
+      <DependentUpon>BlitzballMatchPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\Blitzball\BlitzballPanel.xaml.cs">
+      <DependentUpon>BlitzballPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFX\EditorPanels\Debug\DebugPanel.xaml.cs">
       <DependentUpon>DebugPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\EditorPanels\Equipment\EquipmentPanel.xaml.cs">
       <DependentUpon>EquipmentPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FFX\EditorPanels\General\GeneralPanel.xaml.cs">
+      <DependentUpon>GeneralPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFX\EditorPanels\Items\ItemsPanel.xaml.cs">
       <DependentUpon>ItemsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\MonsterArena\MonsterArenaPanel.xaml.cs">
+      <DependentUpon>MonsterArenaPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\EditorPanels\NotImplementedPanel.xaml.cs">
       <DependentUpon>NotImplementedPanel.xaml</DependentUpon>
@@ -345,12 +380,15 @@
     <Compile Include="FFX\Offsets.cs" />
     <Compile Include="FFX\Values\Ability.cs" />
     <Compile Include="FFX\Values\AutoAbility.cs" />
+    <Compile Include="FFX\Values\BattleEntity.cs" />
+    <Compile Include="FFX\Values\Blitzball.cs" />
     <Compile Include="FFX\Values\DamageFormula.cs" />
     <Compile Include="FFX\Values\Enums.cs" />
     <Compile Include="FFX\Values\EquipAppearances.cs" />
     <Compile Include="FFX\Values\EquipName.cs" />
     <Compile Include="FFX\Values\Item.cs" />
     <Compile Include="FFX\Values\KeyItem.cs" />
+    <Compile Include="FFX\Values\MonsterArenaData.cs" />
     <Compile Include="FFX\Values\OverdriveMode.cs" />
     <Compile Include="FFX\Values\SphereGridNode.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -384,6 +422,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -394,9 +433,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\FFX_X-2_HD_Remaster_Logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Farplane_Icon.ico" />
@@ -425,6 +461,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\rollup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Farplane_Splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
