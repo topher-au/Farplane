@@ -37,19 +37,33 @@ namespace Farplane.FFX.EditorPanels.General
         private void TextGil_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Enter) return;
-            int currentGil;
 
             try
             {
-                currentGil = int.Parse(TextGil.Text);
+                var currentGil = int.Parse(TextGil.Text);
+                MemoryReader.WriteBytes(_offsetGil, BitConverter.GetBytes(currentGil));
+                TextGil.SelectAll();
             }
             catch
             {
                 Error.Show("The value you entered was invalid.");
-                return;
             }
+        }
 
-            MemoryReader.WriteBytes(_offsetGil, BitConverter.GetBytes(currentGil));
+        private void TextTidusOverdrive_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter) return;
+
+            try
+            {
+                var tidusOverdrive = int.Parse(TextTidusOverdrive.Text);
+                MemoryReader.WriteBytes(_offsetGil, BitConverter.GetBytes(tidusOverdrive));
+                TextTidusOverdrive.SelectAll();
+            }
+            catch
+            {
+                Error.Show("The value you entered was invalid.");
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 using Farplane.FFX.EditorPanels;
 using Farplane.FFX.EditorPanels.Aeons;
 using Farplane.FFX.EditorPanels.Battle;
-using Farplane.FFX.EditorPanels.Blitzball;
+using Farplane.FFX.EditorPanels.BlitzballPanel;
 using Farplane.FFX.EditorPanels.Debug;
 using Farplane.FFX.EditorPanels.Equipment;
 using Farplane.FFX.EditorPanels.Items;

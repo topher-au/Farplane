@@ -66,7 +66,8 @@ namespace Farplane.FFX.EditorPanels.Party
 
             try
             {
-                switch ((sender as TextBox).Name)
+                var textBox = (sender as TextBox);
+                switch (textBox.Name)
                 {
                     case "TextTotalAP":
                         MemoryReader.WriteBytes(_statsBase + (int)PartyStatOffset.ApTotal,
@@ -132,6 +133,7 @@ namespace Farplane.FFX.EditorPanels.Party
                         MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.BaseAccuracy, byte.Parse(TextBaseAccuracy.Text));
                         break;
                 }
+                textBox.SelectAll();
             }
             catch (Exception ex)
             {

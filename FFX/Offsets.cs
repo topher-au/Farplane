@@ -30,6 +30,12 @@ namespace Farplane.FFX
             {OffsetType.RemoveHPLimit, 0x386897},
             {OffsetType.RemoveMPLimit, 0x3868BF},
             {OffsetType.MonsterArena, 0xD30C9C},
+            {OffsetType.BlitzballDataPointer, 0x384670},
+            {OffsetType.BlitzballGamePointer, 0xF2FF14},
+            {OffsetType.BlitzballTeamSizes, 0xD2d704 },
+            {OffsetType.RemoveHPCheck, 0x38D389 },
+            {OffsetType.RemoveMPCheck, 0x38E5FE },
+            {OffsetType.TidusOverdrive, 0xD3083C }
         };
 
         public static int[] AeonNames => new int[]
@@ -73,7 +79,13 @@ namespace Farplane.FFX
         RemoveDamageLimit,
         RemoveHPLimit,
         RemoveMPLimit,
-        MonsterArena
+        MonsterArena,
+        BlitzballDataPointer,
+        BlitzballGamePointer,
+        BlitzballTeamSizes,
+        RemoveMPCheck,
+        RemoveHPCheck,
+        TidusOverdrive
     }
 
     public enum EquipmentOffset
@@ -149,6 +161,16 @@ namespace Farplane.FFX
         OverdriveBlank2 = 0x80,
         OverdriveAeonsOnly = 0x82,
         OverdriveModes = 0x84
+    }
+
+    public enum BlitzballDataOffset
+    {
+        EquippedTechs = 0x266,
+        TechCount = 0x392,
+        PlayerLevels = 0x3CE,
+        TeamData = 0x41a,
+        ContractLength = 0x52a,
+        PlayerEXP = 0x568,
     }
 
     public enum DebugFlags

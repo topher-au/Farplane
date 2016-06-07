@@ -1,25 +1,21 @@
-﻿<UserControl x:Class="Farplane.FFX.EditorPanels.Blitzball.BlitzballPanel"
+﻿<UserControl x:Class="Farplane.FFX.EditorPanels.BlitzballPanel.BlitzballPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Blitzball"
+             xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.BlitzballPanel"
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="480">
     <GroupBox Header="Blitzball">
         <TabControl>
             <TabItem Header="Players">
-                <Grid>
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Sorry, the Player Editor is not yet implemented</TextBlock>
-                </Grid>
+                <local:BlitzballPlayerEditor x:Name="PlayerEditor"/>
             </TabItem>
             <TabItem Header="Teams">
-                <Grid>
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Sorry, the team editor is not yet implemented</TextBlock>
-                </Grid>
+                <local:BlitzballTeamEditor x:Name="TeamEditor"/>
             </TabItem>
-            <TabItem Header="Current Match">
-                <local:BlitzballMatchPanel />
+            <TabItem Header="Current Match" Visibility="Collapsed">
+                <local:BlitzballMatchPanel x:Name="MatchEditor" />
             </TabItem>
         </TabControl>
     </GroupBox>

@@ -85,11 +85,13 @@ namespace Farplane.FFX.EditorPanels.Party
                         MemoryReader.WriteByte(
                             _partyOffset + (_characterIndex*0x94) + (int) PartyStatOffset.OverdriveLevel,
                             byte.Parse(TextOverdriveCurrent.Text));
+                        TextOverdriveCurrent.SelectAll();
                         break;
                     case "TextOverdriveMax":
                         MemoryReader.WriteByte(
                             _partyOffset + (_characterIndex*0x94) + (int) PartyStatOffset.OverdriveMax,
                             byte.Parse(TextOverdriveMax.Text));
+                        TextOverdriveMax.SelectAll();
                         break;
                     default:
                         SetOverdriveCount(sender);
@@ -130,6 +132,7 @@ namespace Farplane.FFX.EditorPanels.Party
             try
             {
                 odCount = ushort.Parse(textBox.Text);
+                OverdriveMode.SetOverdriveCounter(_characterIndex, OverdriveMode.OverdriveModes[odIndex].BitIndex, odCount);
             }
             catch
             {
@@ -137,8 +140,9 @@ namespace Farplane.FFX.EditorPanels.Party
                 return;
             }
 
-            OverdriveMode.SetOverdriveCounter(_characterIndex, OverdriveMode.OverdriveModes[odIndex].BitIndex, odCount);
+            
             Refresh(_characterIndex);
+            textBox.SelectAll();
         }
 
         public void Refresh(int characterIndex)

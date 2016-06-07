@@ -71,11 +71,13 @@ namespace Farplane.FFX.EditorPanels.MonsterArena
                     if (args.Key != Key.Enter) return;
                     try
                     {
+                        var textBox = (sender as TextBox);
                         var panelIndex =
-                            GridMonsterArenaMonsters.Children.IndexOf((DockPanel) (sender as TextBox).Parent);
+                            GridMonsterArenaMonsters.Children.IndexOf((DockPanel) textBox.Parent);
                         var monsterIndex = monsters[panelIndex].Index;
                         WriteMonster(monsterIndex, byte.Parse(monsterCount.Text));
                         Refresh();
+                        textBox.SelectAll();
                     }
                     catch (Exception ex)
                     {

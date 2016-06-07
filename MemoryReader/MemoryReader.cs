@@ -50,39 +50,39 @@ namespace Farplane
             _memoryHandle = IntPtr.Zero;
         }
 
-        public static int ReadInt32(int address)
+        public static int ReadInt32(int address, bool pointer = false)
         {
-            var bytes = ReadBytes(address, 4);
+            var bytes = ReadBytes(address, 4, pointer);
             return BitConverter.ToInt32(bytes, 0);
         }
 
-        public static Int16 ReadInt16(int address)
+        public static Int16 ReadInt16(int address, bool pointer = false)
         {
-            var bytes = ReadBytes(address, 2);
+            var bytes = ReadBytes(address, 2, pointer);
             return BitConverter.ToInt16(bytes, 0);
         }
 
-        public static uint ReadUInt32(int address)
+        public static uint ReadUInt32(int address, bool pointer = false)
         {
-            var bytes = ReadBytes(address, 4);
+            var bytes = ReadBytes(address, 4, pointer);
             return BitConverter.ToUInt32(bytes, 0);
         }
 
-        public static UInt16 ReadUInt16(int address)
+        public static UInt16 ReadUInt16(int address, bool pointer = false)
         {
-            var bytes = ReadBytes(address, 2);
+            var bytes = ReadBytes(address, 2, pointer);
             return BitConverter.ToUInt16(bytes, 0);
         }
 
-        public static bool ReadByteFlag(int address)
+        public static bool ReadByteFlag(int address, bool pointer = false)
         {
-            var bytes = ReadBytes(address, 1);
+            var bytes = ReadBytes(address, 1, pointer);
             return bytes[0] == 1 ? true : false;
         }
 
-        public static byte ReadByte(int address)
+        public static byte ReadByte(int address, bool pointer=false)
         {
-            var bytes = ReadBytes(address, 1);
+            var bytes = ReadBytes(address, 1, pointer);
             return (byte) bytes[0];
         }
 
@@ -112,13 +112,13 @@ namespace Farplane
             return success;
         }
 
-        public static bool WriteByte(int address, byte bytes)
+        public static bool WriteByte(int address, byte bytes, bool pointer=false)
         {
             if (!_isAttached) return false;
 
             var bytesWritten = 0;
 
-            var success = WinAPI.WriteProcessMemory(_memoryHandle, _memoryProcess.MainModule.BaseAddress + address, new byte[] {bytes}, 
+            var success = WinAPI.WriteProcessMemory(_memoryHandle, (pointer ? (IntPtr)0 : _memoryProcess.MainModule.BaseAddress) + address, new byte[] {bytes}, 
                 1, bytesWritten);
 
             return success;

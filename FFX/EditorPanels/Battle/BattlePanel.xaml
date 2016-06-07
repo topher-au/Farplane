@@ -24,130 +24,193 @@
                     <TabItem Header="Entity 1" />
                     <TabItem Header="Entity 1" />
                 </TabControl>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <GroupBox Header="Stats">
-                            <StackPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Current HP" />
-                                    <TextBox Name="TextCurrentHP" Width="80" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown"/>
-                                </DockPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Current MP" />
-                                    <TextBox Name="TextCurrentMP" Width="80" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown" />
-                                </DockPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Overdrive" />
-                                    <TextBox Name="TextOverdrive" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown" />
-                                </DockPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Strength" />
-                                    <TextBox Name="TextStrength" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown" />
-                                </DockPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Defense" />
-                                    <TextBox Name="TextDefense" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown" />
-                                </DockPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Magic" />
-                                    <TextBox Name="TextMagic" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown" />
-                                </DockPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Magic Defense" />
-                                    <TextBox Name="TextMagicDefense" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown" />
-                                </DockPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Agility" />
-                                    <TextBox Name="TextAgility" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown" />
-                                </DockPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Luck" />
-                                    <TextBox Name="TextLuck" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown" />
-                                </DockPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Evasion" />
-                                    <TextBox Name="TextEvasion" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown"/>
-                                </DockPanel>
-                                <DockPanel Margin="2">
-                                    <TextBlock Margin="5" Text="Accuracy" />
-                                    <TextBox Name="TextAccuracy" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextCurrentHP_OnKeyDown"/>
-                                </DockPanel>
-                            </StackPanel>
-                        </GroupBox>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
-                        <GroupBox Header="Negative Status Effects">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <StackPanel Grid.Column="0" Grid.Row="1">
-                                    <CheckBox Name="CheckFlag8" Content="Power Break" Margin="2" Tag="5"/>
-                                    <CheckBox Name="CheckFlag6" Content="Magic Break" Margin="2" Tag="7"/>
-                                    <CheckBox Name="CheckFlag7" Content="Armor Break" Margin="2" Tag="6"/>
-                                    <CheckBox Name="CheckFlag5" Content="Mental Break" Margin="2" Tag="8"/>
-                                    <CheckBox Name="CheckFlag4" Content="Poison" Margin="2" Tag="9"/>
-                                    <CheckBox Name="CheckFlag3" Content="Petrification" Margin="2" Tag="10"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="1" Grid.Row="1">
-                                    <CheckBox Name="CheckFlag2" Content="Zombie" Margin="2" Tag="11"/>
-                                    <CheckBox Name="CheckFlag1" Content="KO" Margin="2" Tag="12"/>
-                                    <!-- 4 unknown status -->
-                                    <CheckBox Name="CheckFlag12" Content="Threaten" Margin="2" Tag="1"/>
-                                    <CheckBox Name="CheckFlag11" Content="Provoke" Margin="2" Tag="2"/>
-                                    <CheckBox Name="CheckFlag10" Content="Berserk" Margin="2" Tag="3"/>
-                                    <CheckBox Name="CheckFlag9" Content="Confusion" Margin="2" Tag="4"/>
-                                </StackPanel>
-                                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                                    <DockPanel>
-                                        <CheckBox Content="Sleep" Margin="2"/>
-                                        <DockPanel HorizontalAlignment="Right">
-                                            <TextBlock Text="Turns Left" Margin="5" />
-                                            <TextBox Name="TextSleep" HorizontalAlignment="Right" Width="40"/>
-                                        </DockPanel>
+                <TabControl Name="TabEditor" SelectionChanged="TabEntity_OnSelectionChanged" SelectedIndex="0">
+                    <TabItem Header="Stats">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <GroupBox Header="Stats">
+                                <StackPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Current HP" />
+                                        <TextBox Name="TextCurrentHP" Width="80" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown"/>
                                     </DockPanel>
-                                    <DockPanel>
-                                        <CheckBox Content="Silence" Margin="2"/>
-                                        <DockPanel HorizontalAlignment="Right">
-                                            <TextBlock Text="Turns Left" Margin="5" />
-                                            <TextBox Name="TextSilence" HorizontalAlignment="Right" Width="40"/>
-                                        </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Current MP" />
+                                        <TextBox Name="TextCurrentMP" Width="70" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown" />
                                     </DockPanel>
-                                    <DockPanel>
-                                        <CheckBox Content="Darkness" Margin="2"/>
-                                        <DockPanel HorizontalAlignment="Right">
-                                            <TextBlock Text="Turns Left" Margin="5" />
-                                            <TextBox Name="TextDarkness" HorizontalAlignment="Right" Width="40"/>
-                                        </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Max HP" />
+                                        <TextBox Name="TextMaxHP" Width="80" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown"/>
+                                    </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Max MP" />
+                                        <TextBox Name="TextMaxMP" Width="70" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown" />
+                                    </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Overdrive" />
+                                        <TextBox Name="TextOverdrive" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown" />
+                                    </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Overdrive" />
+                                        <TextBox Name="TextOverdriveMax" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown" />
                                     </DockPanel>
                                 </StackPanel>
-                            </Grid>
-                        </GroupBox>
-                        <GroupBox Header="Positive Status Effects">
+                            </GroupBox>
+                            <GroupBox Grid.Column="1" Header="Stats">
+                                <StackPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Strength" />
+                                        <TextBox Name="TextStrength" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown" />
+                                    </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Defense" />
+                                        <TextBox Name="TextDefense" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown" />
+                                    </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Magic" />
+                                        <TextBox Name="TextMagic" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown" />
+                                    </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Magic Defense" />
+                                        <TextBox Name="TextMagicDefense" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown" />
+                                    </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Agility" />
+                                        <TextBox Name="TextAgility" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown" />
+                                    </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Luck" />
+                                        <TextBox Name="TextLuck" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown" />
+                                    </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Evasion" />
+                                        <TextBox Name="TextEvasion" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown"/>
+                                    </DockPanel>
+                                    <DockPanel Margin="2">
+                                        <TextBlock Margin="5" Text="Accuracy" />
+                                        <TextBox Name="TextAccuracy" Width="50" HorizontalAlignment="Right" TextAlignment="Right" KeyDown="TextBoxStat_KeyDown"/>
+                                    </DockPanel>
+                                </StackPanel>
+                            </GroupBox>
+                        </Grid>
+
+                    </TabItem>
+                    <TabItem Header="Status">
+                        <StackPanel>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center">
+                                    Most effects update immediately, some will only update when the character has a turn and some effect icons may not appear/disappear
+                            </TextBlock>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0">
+                                <GroupBox Header="Negative Status Effects" Grid.Column="0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Column="0" Grid.Row="1">
+                                            <CheckBox Name="CheckFlag8" Content="Power Break" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <CheckBox Name="CheckFlag6" Content="Magic Break" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <CheckBox Name="CheckFlag7" Content="Armor Break" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <CheckBox Name="CheckFlag5" Content="Mental Break" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <CheckBox Name="CheckFlag4" Content="Poison" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <CheckBox Name="CheckFlag3" Content="Petrification" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <CheckBox Name="CheckPositiveFlag2" Content="Distill Power" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag3" Content="Distill Mana" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Grid.Row="1">
+                                            <CheckBox Name="CheckFlag2" Content="Zombie" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <CheckBox Name="CheckFlag1" Content="KO" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <!-- 4 unknown status -->
+                                            <CheckBox Name="CheckFlag12" Content="Threaten" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <CheckBox Name="CheckFlag11" Content="Provoke" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <CheckBox Name="CheckFlag10" Content="Berserk" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
+                                            <CheckBox Name="CheckFlag9" Content="Confusion" Margin="2" Checked="CheckFlagNegative_Changed" Unchecked="CheckFlagNegative_Changed"/>
 
-                                </StackPanel>
-                                <StackPanel Grid.Column="1">
-
-                                </StackPanel>
+                                            <CheckBox Name="CheckPositiveFlag4" Content="Distill Speed" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag6" Content="Distill Ability" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                                            <DockPanel>
+                                                <CheckBox Name="CheckSleep" Content="Sleep" Margin="2" Checked="CheckSleep_OnChecked" Unchecked="CheckSleep_OnChecked"/>
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Turns Left" Margin="5" />
+                                                    <TextBox Name="TextSleep" HorizontalAlignment="Right" Width="40" KeyDown="TextBoxStat_KeyDown"/>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel>
+                                                <CheckBox Name="CheckSilence" Content="Silence" Margin="2" Checked="CheckSilence_OnChecked" Unchecked="CheckSilence_OnChecked"/>
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Turns Left" Margin="5" />
+                                                    <TextBox Name="TextSilence" HorizontalAlignment="Right" Width="40" KeyDown="TextBoxStat_KeyDown"/>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel>
+                                                <CheckBox Name="CheckDarkness" Content="Darkness" Margin="2" Checked="CheckDarkness_OnChecked" Unchecked="CheckDarkness_OnChecked"/>
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Turns Left" Margin="5" />
+                                                    <TextBox Name="TextDarkness" HorizontalAlignment="Right" Width="40" KeyDown="TextBoxStat_KeyDown"/>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel>
+                                                <CheckBox Name="CheckPositiveFlag15" Content="Doom" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Turns Left" Margin="5" />
+                                                    <TextBox Name="TextDoom" HorizontalAlignment="Right" Width="40" KeyDown="TextBoxStat_KeyDown"/>
+                                                </DockPanel>
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Grid.Column="1" Header="Positive Status Effects">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <CheckBox Name="CheckShell" Content="Shell" Margin="2" Checked="CheckShell_OnChecked" Unchecked="CheckShell_OnChecked"/>
+                                            <CheckBox Name="CheckProtect" Content="Protect" Margin="2"  Checked="CheckProtect_OnChecked" Unchecked="CheckProtect_OnChecked"/>
+                                            <CheckBox Name="CheckReflect" Content="Reflect" Margin="2"  Checked="CheckReflect_OnChecked" Unchecked="CheckReflect_OnChecked"/>
+                                            <CheckBox Name="CheckNulTide" Content="NulTide" Margin="2"  Checked="CheckNulTide_OnChecked" Unchecked="CheckNulTide_OnChecked"/>
+                                            <CheckBox Name="CheckNulBlaze" Content="NulBlaze" Margin="2"  Checked="CheckNulBlaze_OnChecked" Unchecked="CheckNulBlaze_OnChecked"/>
+                                            <CheckBox Name="CheckNulShock" Content="NulShock" Margin="2"  Checked="CheckNulShock_OnChecked" Unchecked="CheckNulShock_OnChecked"/>
+                                            <CheckBox Name="CheckNulFrost" Content="NulFrost" Margin="2"  Checked="CheckNulFrost_OnChecked" Unchecked="CheckNulFrost_OnChecked"/>
+                                            <CheckBox Name="CheckRegen" Content="Regen" Margin="2"  Checked="CheckRegen_OnChecked" Unchecked="CheckRegen_OnChecked"/>
+                                            <CheckBox Name="CheckHaste" Content="Haste" Margin="2" Checked="CheckHaste_OnChecked" Unchecked="CheckHaste_OnChecked"/>
+                                            <CheckBox Name="CheckSlow" Content="Slow" Margin="2"  Checked="CheckSlow_OnChecked" Unchecked="CheckSlow_OnChecked"/>
+                                            <CheckBox Name="CheckUnknown" Content="Unknown" Margin="2"  Checked="CheckUnknown_OnChecked" Unchecked="CheckUnknown_OnChecked"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <CheckBox Name="CheckPositiveFlag1" Content="Scan" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag5" Content="-" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag7" Content="Shield" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag8" Content="Boost" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag9" Content="Eject" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag10" Content="Auto-Life" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag11" Content="Curse" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag12" Content="Defend" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag13" Content="Guard" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag14" Content="Sentinel" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                            <CheckBox Name="CheckPositiveFlag16" Content="Unknown" Margin="2"  Checked="CheckPositiveFlag_OnChecked" Unchecked="CheckPositiveFlag_OnChecked"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </GroupBox>
                             </Grid>
-                        </GroupBox>
-                    </StackPanel>
-                </Grid>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Header="Misc" Visibility="Collapsed"/>
+                </TabControl>
             </StackPanel>
         </Grid>
     </GroupBox>

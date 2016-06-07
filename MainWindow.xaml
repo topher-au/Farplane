@@ -25,8 +25,8 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button Content="Final Fantasy X" Click="FFX_Click" Grid.Column="0" Margin="5"/>
-                <Button Content="Final Fantasy X-2" Click="FFX2_Click" Grid.Column="1" Margin="5"/>
+                <Button Content="Final Fantasy X" Click="FFX_Click" Grid.Column="0" Margin="5" FontSize="16"/>
+                <Button Content="Final Fantasy X-2" Click="FFX2_Click" Grid.Column="1" Margin="5" FontSize="16"/>
             </Grid>
         </DockPanel>
     </Grid>

@@ -8,10 +8,14 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <GroupBox Header="General">
             <StackPanel>
-                <DockPanel>
+            <DockPanel Margin="2">
                     <TextBlock Margin="5">Gil</TextBlock>
                     <TextBox Name="TextGil" Width="80" HorizontalAlignment="Right" KeyDown="TextGil_OnKeyDown"></TextBox>
                 </DockPanel>
-            </StackPanel>
+            <DockPanel Margin="2">
+                <TextBlock Margin="5">Tidus Overdrive Times Used</TextBlock>
+                <TextBox Name="TextTidusOverdrive" Width="80" HorizontalAlignment="Right" KeyDown="TextTidusOverdrive_OnKeyDown"></TextBox>
+            </DockPanel>
+        </StackPanel>
     </GroupBox>
 </UserControl>

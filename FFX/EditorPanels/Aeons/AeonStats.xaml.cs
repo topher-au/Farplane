@@ -71,7 +71,8 @@ namespace Farplane.FFX.EditorPanels.Aeons
 
             try
             {
-                switch ((sender as TextBox).Name)
+                var textBox = (sender as TextBox);
+                switch (textBox.Name)
                 {
                     case "TextAeonName":
                         var nameBytes = StringConverter.ToFFXBytes(TextAeonName.Text);
@@ -119,6 +120,7 @@ namespace Farplane.FFX.EditorPanels.Aeons
                         MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.BaseAccuracy, byte.Parse(TextBaseAccuracy.Text));
                         break;
                 }
+                textBox.SelectAll();
             }
             catch (Exception ex)
             {

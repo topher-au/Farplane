@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="Farplane.FFX.EditorPanels.Blitzball.BlitzballMatchPanel"
+﻿<UserControl x:Class="Farplane.FFX.EditorPanels.BlitzballPanel.BlitzballMatchPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Blitzball"
+             xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.BlitzballPanel"
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="460">
     <Grid>

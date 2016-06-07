@@ -76,22 +76,51 @@ namespace Farplane.FFX
         public static void RemoveDamageLimit()
         {
             var offset = Offsets.GetOffset(OffsetType.RemoveDamageLimit);
-            var bytesToWrite = new byte[] {0x90, 0x90, 0x90, 0x90, 0xBB, 0xFF, 0xFF, 0xFF, 0x7F}; // db 90 90 90 90
-                                                                                                  // mov ebx, 0x7FFFFFFF
+            var bytesToWrite = new byte[] 
+            {
+                0x90, 0x90, 0x90, 0x90,         // db 90 90 90 90
+                0xBB, 0xFF, 0xFF, 0xFF, 0x7F    // mov ebx, 0x7FFFFFFF
+            };       
+                                                                                                    
             MemoryReader.WriteBytes(offset, bytesToWrite);
         }
 
         public static void RemoveHPLimit()
         {
             var offset = Offsets.GetOffset(OffsetType.RemoveHPLimit);
-            var bytesToWrite = new byte[] { 0xB8, 0xFF, 0xFF, 0xFF, 0x7F }; // mov eax, 0x7FFFFFFF
+            var bytesToWrite = new byte[]
+            {
+                0xB8, 0xFF, 0xFF, 0xFF, 0x7F    // mov eax, 0x7FFFFFFF
+            };     
+            MemoryReader.WriteBytes(offset, bytesToWrite);
+
+            offset = Offsets.GetOffset(OffsetType.RemoveHPCheck);
+            bytesToWrite = new byte[]
+            {
+                0x25, 0xFF, 0xFF, 0xFF, 0x7F,   // and eax,7FFFFFFF
+                0x90,                           // nop
+                0x90,                           // nop
+                0x90,                           // nop
+                0x90,                           // nop
+                0x90,                           // nop
+            };         
             MemoryReader.WriteBytes(offset, bytesToWrite);
         }
 
         public static void RemoveMPLimit()
         {
             var offset = Offsets.GetOffset(OffsetType.RemoveMPLimit);
-            var bytesToWrite = new byte[] { 0xB8, 0xFF, 0xFF, 0xFF, 0x7F }; // mov eax, 0x7FFFFFFF
+            var bytesToWrite = new byte[]
+            {
+                0xB8, 0xFF, 0xFF, 0xFF, 0x7F    // mov eax, 0x7FFFFFFF
+            };     
+            MemoryReader.WriteBytes(offset, bytesToWrite);
+
+            offset = Offsets.GetOffset(OffsetType.RemoveMPCheck);
+            bytesToWrite = new byte[]
+            {
+                0x68, 0xFF, 0xFF, 0xFF, 0x7F    // push 0x7FFFFFFF
+            };         
             MemoryReader.WriteBytes(offset, bytesToWrite);
         }
     }
