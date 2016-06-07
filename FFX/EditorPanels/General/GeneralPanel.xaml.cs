@@ -22,6 +22,7 @@ namespace Farplane.FFX.EditorPanels.General
     public partial class GeneralPanel : UserControl
     {
         private readonly int _offsetGil = Offsets.GetOffset(OffsetType.CurrentGil);
+        private readonly int _offsetTidusOverdrive = Offsets.GetOffset(OffsetType.TidusOverdrive);
 
         public GeneralPanel()
         {
@@ -31,7 +32,9 @@ namespace Farplane.FFX.EditorPanels.General
         public void Refresh()
         {
             var currentGil = MemoryReader.ReadInt32(_offsetGil);
+            var tidusOverdrive = MemoryReader.ReadInt32(_offsetTidusOverdrive);
             TextGil.Text = currentGil.ToString();
+            TextTidusOverdrive.Text = tidusOverdrive.ToString();
         }
 
         private void TextGil_OnKeyDown(object sender, KeyEventArgs e)
@@ -57,7 +60,7 @@ namespace Farplane.FFX.EditorPanels.General
             try
             {
                 var tidusOverdrive = int.Parse(TextTidusOverdrive.Text);
-                MemoryReader.WriteBytes(_offsetGil, BitConverter.GetBytes(tidusOverdrive));
+                MemoryReader.WriteBytes(_offsetTidusOverdrive, BitConverter.GetBytes(tidusOverdrive));
                 TextTidusOverdrive.SelectAll();
             }
             catch
