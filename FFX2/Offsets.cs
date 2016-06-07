@@ -36,7 +36,7 @@ namespace Farplane.FFX2
             HPModifier = 0x4,
             MPModifier = 0x8,
             ModStrength = 0xc,
-            ModDefense = 0x3,
+            ModDefense = 0xd,
             ModMagic = 0xe,
             ModMagicDefense = 0xf,
             ModAgility = 0x10,
