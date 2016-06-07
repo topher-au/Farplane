@@ -1,25 +1,29 @@
-![FFX/X-2 HD Remaster Logo](https://raw.githubusercontent.com/topher-au/Farplane/master/Resources/FFX_X-2_HD_Remaster_Logo.png)
+![FFX/X-2 HD Remaster Logo](https://raw.githubusercontent.com/topher-au/Farplane/master/Resources/Farplane_Splash.png)
 
 ## Farplane
 Farplane is a memory editing tool for Final Fantasy X/X-2 HD Remaster. As the project is still in development (and likely will
 be for quite some time) you may encounter bugs or crashes. Although Farplane doesn't edit any files, always keep a backup of your saved data, and it is recommended that you use a different save slot where possible.
 
-### Current Features
+### Major Features
 
 **Final Fantasy X**
-- Party editor
- - Stat customization
- - Ability customization
- - Overdrive mode customization
-- Aeon editor
- - Stat customization
- - Ability customization
+- Party and aeon editor
+ - Customize your party and aeon's stats and abilities
+- Sphere grid editor
+ - Select a node in game and modify it
 - Item editor
  - Change item types and quantities
  - Change key items
 - Equipment customization
- - Name, appearance and type
+ - Customize name, appearance and weapon/armor type
  - Change ability slots and auto abilities
+- Blitzball Editor
+ - Modify player levels, experience and equipped techs
+ - Modify team sizes and rosters
+- Battle Editor
+ - Change party/enemy HP/MP, stats and status effects in real-time
+- Monster Arena
+ - Modify capture counts and capture/release all
 - Debug options
  - Control monsters
  - True invincibility
@@ -31,6 +35,8 @@ be for quite some time) you may encounter bugs or crashes. Although Farplane doe
  - Max all stats
  - Give all items
  - Learn all abilities
+ - Shared AP after battle
+ - Set HP/MP and damage limits to 2,147,483,647 (maximum unsigned integer value)
 
 **Final Fantasy X-2**
 - General editor
