@@ -117,7 +117,7 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             {
                 // equip tech
                 var tech = Blitzball.Techs[searchDialog.ResultIndex];
-                MemoryReader.WriteByte(_dataOffset + (int)BlitzballDataOffset.EquippedTechs + techIndex + playerIndex, (byte)tech.Index,
+                MemoryReader.WriteByte(_dataOffset + (int)BlitzballDataOffset.EquippedTechs + techIndex + (playerIndex * 5), (byte)tech.Index,
                     true);
             }
             Refresh();
