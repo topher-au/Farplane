@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
+using Farplane.FFX.Data;
 using Farplane.FFX.Values;
 using MahApps.Metro.Controls;
 
@@ -24,111 +25,91 @@ namespace Farplane.FFX.EditorPanels.Equipment
     /// </summary>
     public partial class EquipmentPanel : UserControl
     {
+        private const string NameUnknown = "????";
+        private const string NameEmpty = "< Empty >";
+        private const int TotalSlots = 0xB2;
+
         private int currentItem = -1;
-        private byte[] _equipmentBytes;
-        private const int EquipmentLength = 0x16;
-        private const int EquipmentSlots = 0xB2;
+        private byte[] _allEquipBytes;
+        private EquipmentItem _currentItem;
+
+
         private int _selectedItem = -1;
         private bool _refreshing = false;
+
+        private readonly BitmapImage[] _icons =
+        {
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_0_0.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_0_1.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_1_0.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_1_1.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_2_0.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_2_1.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_3_0.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_3_1.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_4_0.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_4_1.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_5_0.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_5_1.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_6_0.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_6_1.png")),
+        };
+
 
         public EquipmentPanel()
         {
             InitializeComponent();
 
-            // Initialize equipment list
-            for (var slotItemIndex = 0; slotItemIndex < EquipmentSlots; slotItemIndex++)
-            {
-                
-
-                var equipmentItem = new ListViewItem
-                {
-                    Name = "Item" + slotItemIndex,
-                    Content = "<NONE>"
-                };
-                ListEquipment.Items.Add(equipmentItem);
-            }
-
             // Initialize equipment item view
-            for (var charaIndex=0; charaIndex < 18; charaIndex++)
-                ComboEquipmentCharacter.Items.Add((Characters)charaIndex);
+            for (var charaIndex = 0; charaIndex < 18; charaIndex++)
+                ComboEquipmentCharacter.Items.Add((Characters) charaIndex);
+
+            for (var formulaIndex = 0; formulaIndex < DamageFormula.DamageFormulas.Length; formulaIndex++)
+                ComboDamageFormula.Items.Add(DamageFormula.DamageFormulas[formulaIndex].Name);
+        }
+
+        public void ReadEquipmentBytes()
+        {
+            _allEquipBytes = MemoryReader.ReadBytes(Offsets.GetOffset(OffsetType.EquipmentBase),
+                TotalSlots*(int) BlockLength.EquipmentItem);
         }
 
         public void Refresh()
         {
             _refreshing = true;
 
-            _equipmentBytes = MemoryReader.ReadBytes(Offsets.GetOffset(OffsetType.EquipmentBase), EquipmentSlots * EquipmentLength);
+            ListEquipment.Items.Clear();
 
-            for (int equipmentSlot = 0; equipmentSlot < EquipmentSlots; equipmentSlot++)
+            ReadEquipmentBytes();
+
+            for (int equipmentSlot = 0; equipmentSlot < TotalSlots; equipmentSlot++)
             {
-                var listItem = (ListViewItem)ListEquipment.Items[equipmentSlot];
-                // Copy item data to array
-                var itemOffset = equipmentSlot*EquipmentLength;
+                var imageIcon = new Image {Width = 24, Height = 24, Name = "ImageIcon"};
+                var textName = new TextBlock() {VerticalAlignment = VerticalAlignment.Center, Name = "TextName"};
 
-                var equipmentItem = (ListViewItem)ListEquipment.Items[equipmentSlot];
+                var panelItem = new DockPanel() {Children = {imageIcon, textName}, Margin = new Thickness(0)};
+                var listItem = new ListViewItem() {Content = panelItem};
 
-                // TODO: implement equipment icon
+                var currentItem = Data.Equipment.ReadItem(equipmentSlot);
 
-                var nameIndex = _equipmentBytes[itemOffset + (int)EquipmentOffset.Name];
-                var itemChara = (Characters)_equipmentBytes[itemOffset + (int)EquipmentOffset.Character];
-
-                var itemType = _equipmentBytes[itemOffset + (int) EquipmentOffset.Type];
-
-                
-
-                if (nameIndex == 0xFF)
-                    equipmentItem.Content = "<EMPTY>";
-                else if (equipmentSlot >= 0x0C && equipmentSlot <= 0x21) // hide aeon gear
+                if (currentItem.Character > 6)
                 {
-                    listItem.Visibility = Visibility.Collapsed;
-                    continue;
+                    // Aeon or Seymour, no name available
+                    var charaName = ((Characters) currentItem.Character).ToString();
+                    textName.Text = $"{NameUnknown} [{charaName}]";
+                }
+                else if (currentItem.SlotOccupied == 0)
+                {
+                    // Empty slot
+                    textName.Text = NameEmpty;
                 }
                 else
                 {
-                    Image itemIcon = null;
-                    string itemText = string.Empty;
-
-                    if ((int) itemChara < 7)
-                    {
-                        itemIcon = new Image
-                        {
-                            Source =
-                                new BitmapImage(
-                                    new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_" + (int) itemChara +
-                                            "_" + itemType + ".png")),
-                            Width = 24,
-                            Height = 24
-                        };
-                        itemText = EquipName.EquipNames[(int) itemChara][nameIndex];
-                    }
-                    else
-                    {
-                        itemIcon = new Image
-                        {
-                            Width = 24,
-                            Height = 24
-                        };
-                        itemText = "????";
-                    }
-
-                    equipmentItem.Content =
-                        new DockPanel()
-                        {
-                            Margin= new Thickness(0),
-                            Children =
-                            {
-                                itemIcon,
-                                new TextBlock()
-                                {
-                                    Text =itemText,
-                                    VerticalAlignment = VerticalAlignment.Center,
-                                    Margin = new Thickness(2)
-                                }
-                            }
-                        };
+                    textName.Text = EquipName.EquipNames[currentItem.Character][currentItem.Name];
+                    imageIcon.Source = _icons[currentItem.Character*2 + currentItem.Type];
                 }
-                    
-                        
+
+                ListEquipment.Items.Add(listItem);
             }
 
             if (ListEquipment.SelectedIndex == -1) ListEquipment.SelectedIndex = 0;
@@ -140,78 +121,109 @@ namespace Farplane.FFX.EditorPanels.Equipment
         private void RefreshSelectedItem()
         {
             _refreshing = true;
-            _equipmentBytes = MemoryReader.ReadBytes(Offsets.GetOffset(OffsetType.EquipmentBase), EquipmentSlots * EquipmentLength);
+
+            ReadEquipmentBytes();
 
             if (_selectedItem == -1) _selectedItem = 0;
-            var itemOffset = _selectedItem * EquipmentLength;
 
-            // read item data
-            var itemName = _equipmentBytes[itemOffset + (int)EquipmentOffset.Name];
-            var itemChara = _equipmentBytes[itemOffset + (int)EquipmentOffset.Character];
-            var itemType = _equipmentBytes[itemOffset + (int)EquipmentOffset.Type];
-            var itemAppearance = BitConverter.ToUInt16(_equipmentBytes,itemOffset + (int)EquipmentOffset.Appearance);
+            _currentItem = Data.Equipment.ReadItem(_selectedItem);
 
-            var itemAbilityCount = _equipmentBytes[itemOffset + (int)EquipmentOffset.AbilityCount];
-            var abilities = new ushort[4];
-            for (int a = 0; a < 4; a++)
-                abilities[a] = BitConverter.ToUInt16(_equipmentBytes, itemOffset + (int)EquipmentOffset.Ability0 + (2 * a));
+            if ((_selectedItem >= 0x0C && _selectedItem <= 0x21) ||
+                _currentItem.SlotOccupied == 0)
+                ButtonDeleteItem.IsEnabled = false;
+            else
+                ButtonDeleteItem.IsEnabled = true;
 
-            // update controls
-            var itemNameString = "????";
-            if (itemChara < 7)
+            var listItem = ListEquipment.Items[_selectedItem] as ListViewItem;
+            var imageIcon = (listItem.Content as DockPanel).FindChild<Image>("ImageIcon");
+            var listText = (listItem.Content as DockPanel).FindChild<TextBlock>("TextName");
+
+            if (_currentItem.SlotOccupied == 0)
             {
-                itemNameString = EquipName.EquipNames[(int)itemChara][itemName];
+                ContentNoItem.Visibility = Visibility.Visible;
+                ContentEditItem.Visibility = Visibility.Collapsed;
+
+                listText.Text = NameEmpty;
+                _refreshing = false;
+                return;
             }
 
-            var appearance = EquipAppearance.FromID(itemAppearance);
-            var appearanceString = string.Empty;
-            if (appearance != null)
-                appearanceString = appearance.Name;
 
-            GroupEquipmentEditor.Header = itemNameString;
-            ButtonEquipmentName.Content = itemNameString;
-            ButtonEquipmentAppearance.Content = appearanceString;
-            ComboEquipmentCharacter.SelectedIndex = itemChara;
-            ComboEquipmentType.SelectedIndex = itemType;
-            ComboEquipmentSlots.SelectedIndex = itemAbilityCount;
-
-            // update abilities
-            for (int ability = 0; ability < 4; ability++)
+            if (_currentItem.Character < 7)
             {
-                var abilityButton = (AbilityPanel.Children[ability] as Button);
-                if (abilityButton == null) continue;
+                var nameString = EquipName.EquipNames[_currentItem.Character][_currentItem.Name];
 
-                if (ability >= itemAbilityCount)
-                {
-                    abilityButton.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    abilityButton.Visibility = Visibility.Visible;
+                listText.Text = nameString;
+                imageIcon.Source = _icons[_currentItem.Character*2 + _currentItem.Type];
 
-                    if (abilities[ability] == 0xFF)
-                    {
-                        // Empty slot
-                        abilityButton.Content = string.Empty;
-                    }
-                    else
-                    {
-                        var abilityName = AutoAbility.AutoAbilities.First(a => a.ID == abilities[ability]).Name;
-                        abilityButton.Content = abilityName;
-                    }
-                }
+                ButtonEquipmentName.Content = nameString;
+                GroupEquipmentEditor.Header = nameString;
             }
+            else
+            {
+                var nameString = ((Characters) _currentItem.Character).ToString();
+
+                listText.Text = $"{NameUnknown} [{nameString}]";
+                imageIcon.Source = null;
+
+                ButtonEquipmentName.Content = NameUnknown;
+                GroupEquipmentEditor.Header = NameUnknown;
+            }
+
+            var appearance = EquipAppearance.EquipAppearances.FirstOrDefault(e => e.ID == _currentItem.Appearance);
+            if (appearance == null)
+                ButtonEquipmentAppearance.Content = NameUnknown;
+            else
+                ButtonEquipmentAppearance.Content = appearance.Name;
+
+            ComboEquipmentCharacter.SelectedIndex = _currentItem.Character;
+            ComboEquipmentType.SelectedIndex = _currentItem.Type;
+
+            var damageFormula = DamageFormula.DamageFormulas.FirstOrDefault(f => f.ID == _currentItem.DamageFormula);
+
+            if (damageFormula == null)
+                ComboDamageFormula.SelectedIndex = 0;
+            else
+                ComboDamageFormula.SelectedIndex = Array.IndexOf(DamageFormula.DamageFormulas, damageFormula);
+
+            TextAttackPower.Text = _currentItem.AttackPower.ToString();
+            TextCritChance.Text = _currentItem.Critical.ToString();
+
+            ComboEquipmentSlots.SelectedIndex = _currentItem.AbilityCount;
+
+            for (int slot = 0; slot < 4; slot++)
+            {
+                var button = (Button) FindName("Ability" + slot.ToString().Trim());
+
+                if (slot >= _currentItem.AbilityCount)
+                {
+                    button.Visibility = Visibility.Collapsed;
+                    continue;
+                }
+                button.Visibility = Visibility.Visible;
+                var ability = AutoAbility.FromID(_currentItem.Abilities[slot]);
+
+                if (ability == null)
+                {
+                    // no ability in this slot
+                    button.Content = NameEmpty;
+                    continue;
+                }
+
+                button.Content = ability.Name;
+            }
+
+            ContentNoItem.Visibility = Visibility.Collapsed;
+            ContentEditItem.Visibility = Visibility.Visible;
+
             _refreshing = false;
         }
 
         private void SelectedEquipment_Changed(object sender, SelectionChangedEventArgs e)
         {
             if (_refreshing) return;
-            var selectedItem = (ListViewItem)e.AddedItems[0];
-            var itemIndex = int.Parse(selectedItem.Name.Substring(4));
-            _selectedItem = itemIndex;
+            _selectedItem = ListEquipment.SelectedIndex;
             RefreshSelectedItem();
-
         }
 
         private void ComboEquipmentSlots_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -233,17 +245,16 @@ namespace Farplane.FFX.EditorPanels.Equipment
                     abilityButton.Visibility = Visibility.Visible;
                 }
             }
-            var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + (_selectedItem * EquipmentLength);
-            MemoryReader.WriteBytes(offset + (int)EquipmentOffset.AbilityCount, new byte[] {(byte)newSlots});
+            var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + (_selectedItem*(int) BlockLength.EquipmentItem);
+            MemoryReader.WriteBytes(offset + (int) EquipmentOffset.AbilityCount, new byte[] {(byte) newSlots});
 
             RefreshSelectedItem();
         }
 
-        private void WriteAbility(int itemSlot, int abilitySlot, int abilityId)
+        private void WriteAbility(int itemSlot, int abilitySlot, ushort abilityId)
         {
-            var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + (itemSlot * EquipmentLength);
-            MemoryReader.WriteBytes(offset + (int)EquipmentOffset.Ability0 + (abilitySlot*2),
-                BitConverter.GetBytes((ushort) abilityId));
+            _currentItem.Abilities[abilitySlot] = abilityId;
+            Data.Equipment.WriteItem(itemSlot, _currentItem);
         }
 
         private void AbilityButton_Click(object sender, RoutedEventArgs e)
@@ -253,7 +264,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
 
             // Generate search list
             var searchList = new List<string>();
-            foreach(var ability in AutoAbility.AutoAbilities)
+            foreach (var ability in AutoAbility.AutoAbilities)
                 searchList.Add($"{ability.ID.ToString("X4")} {ability.Name}");
 
             var searchDialog = new SearchDialog(searchList) {Owner = this.TryFindParent<Window>()};
@@ -269,7 +280,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
             else
             {
                 var ability = AutoAbility.AutoAbilities[searchDialog.ResultIndex];
-                WriteAbility(_selectedItem, index, ability.ID);
+                WriteAbility(_selectedItem, index, (ushort) ability.ID);
             }
 
             RefreshSelectedItem();
@@ -277,15 +288,17 @@ namespace Farplane.FFX.EditorPanels.Equipment
 
         private void ButtonEquipmentName_OnClick(object sender, RoutedEventArgs e)
         {
-            var currentChara = (int)_equipmentBytes[_selectedItem * EquipmentLength + (int)EquipmentOffset.Character];
+            var currentChara =
+                (int) _allEquipBytes[_selectedItem*(int) BlockLength.EquipmentItem + (int) EquipmentOffset.Character];
 
             if (currentChara > 6) currentChara = 0;
 
             var searchList = new List<string>();
-            for(int n=0; n<EquipName.EquipNames[currentChara].Length; n++)
+            for (int n = 0; n < EquipName.EquipNames[currentChara].Length; n++)
                 searchList.Add($"{n.ToString("X2")} {EquipName.EquipNames[currentChara][n]}");
 
-            var currentName = (int)_equipmentBytes[_selectedItem * EquipmentLength + (int)EquipmentOffset.Name];
+            var currentName =
+                (int) _allEquipBytes[_selectedItem*(int) BlockLength.EquipmentItem + (int) EquipmentOffset.Name];
             var nameString = string.Empty;
 
             if (currentChara < 7)
@@ -299,44 +312,49 @@ namespace Farplane.FFX.EditorPanels.Equipment
             if (!searchComplete.Value) return;
             var searchIndex = searchDialog.ResultIndex;
 
-            MemoryReader.WriteByte(Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem * EquipmentLength, (byte)searchIndex);
+            MemoryReader.WriteByte(
+                Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem*(int) BlockLength.EquipmentItem,
+                (byte) searchIndex);
 
-            Refresh();
+            RefreshSelectedItem();
         }
 
         private void ComboEquipmentCharacter_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_refreshing) return;
 
-            var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem*EquipmentLength + (int)EquipmentOffset.Character;
+            var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem*(int) BlockLength.EquipmentItem +
+                         (int) EquipmentOffset.Character;
             MemoryReader.WriteBytes(offset, new byte[] {(byte) ComboEquipmentCharacter.SelectedIndex});
 
-            Refresh();
-            
+            RefreshSelectedItem();
         }
 
         private void ComboEquipmentType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_refreshing) return;
 
-            var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem * EquipmentLength + (int)EquipmentOffset.Type;
-            MemoryReader.WriteBytes(offset, new byte[] { (byte)ComboEquipmentType.SelectedIndex });
+            var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem*(int) BlockLength.EquipmentItem +
+                         (int) EquipmentOffset.Type;
+            MemoryReader.WriteBytes(offset, new byte[] {(byte) ComboEquipmentType.SelectedIndex});
 
-            Refresh();
-            
+            RefreshSelectedItem();
         }
 
         private void ButtonEquipmentAppearance_OnClick(object sender, RoutedEventArgs e)
         {
-            var currentChara = (int)_equipmentBytes[_selectedItem * EquipmentLength + (int)EquipmentOffset.Character];
+            var currentChara =
+                (int) _allEquipBytes[_selectedItem*(int) BlockLength.EquipmentItem + (int) EquipmentOffset.Character];
 
             if (currentChara > 6) currentChara = 0;
 
             var searchList = new List<string>();
             for (int n = 0; n < EquipAppearance.EquipAppearances.Length; n++)
-                searchList.Add($"{EquipAppearance.EquipAppearances[n].ID.ToString("X2")} {EquipAppearance.EquipAppearances[n].Name}");
+                searchList.Add(
+                    $"{EquipAppearance.EquipAppearances[n].ID.ToString("X2")} {EquipAppearance.EquipAppearances[n].Name}");
 
-            var currentAppearance = BitConverter.ToUInt16(_equipmentBytes, _selectedItem * EquipmentLength + (int)EquipmentOffset.Appearance);
+            var currentAppearance = BitConverter.ToUInt16(_allEquipBytes,
+                _selectedItem*(int) BlockLength.EquipmentItem + (int) EquipmentOffset.Appearance);
 
             var searchDialog = new SearchDialog(searchList, currentAppearance.ToString("X4"), false);
             var searchComplete = searchDialog.ShowDialog();
@@ -345,14 +363,95 @@ namespace Farplane.FFX.EditorPanels.Equipment
             var searchIndex = searchDialog.ResultIndex;
             var searchItem = EquipAppearance.EquipAppearances[searchIndex];
 
-            MemoryReader.WriteBytes(Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem * EquipmentLength + (int)EquipmentOffset.Appearance, BitConverter.GetBytes((ushort)searchItem.ID));
-            Refresh();
+            MemoryReader.WriteBytes(
+                Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem*(int) BlockLength.EquipmentItem +
+                (int) EquipmentOffset.Appearance, BitConverter.GetBytes((ushort) searchItem.ID));
+            RefreshSelectedItem();
+        }
+
+        private void ButtonDeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedItem >= 0x0C && _selectedItem <= 0x21) return;
+
+            var nameString = string.Empty;
+
+            try
+            {
+                nameString = EquipName.EquipNames[_currentItem.Character][_currentItem.Name];
+            }
+            catch
+            {
+                nameString = "This item";
+            }
+
+            var confirm =
+                MessageBox.Show(
+                    $"{nameString} will be permanently deleted!\n\nAre you sure?",
+                    "Confirm item deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (confirm != MessageBoxResult.Yes) return;
+
+            var itemEmpty = new EquipmentItem() {Abilities = new ushort[4]};
+            Data.Equipment.WriteItem(_selectedItem, itemEmpty);
+            RefreshSelectedItem();
+        }
+
+        private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
+        {
+            var itemEmpty = new EquipmentItem()
+            {
+                SlotOccupied = 0x01,
+                Appearance = 0x4002,
+                Name = 0x11,
+                Abilities = new ushort[] {0xFF, 0xFF, 0xFF, 0xFF},
+                AbilityCount = 0x04,
+                DamageFormula = 0x01,
+                AttackPower = 15,
+                Critical = 3,
+                EquippedBy = 0xFF
+            };
+            Data.Equipment.WriteItem(_selectedItem, itemEmpty);
+            RefreshSelectedItem();
+        }
+
+        private void ComboDamageFormula_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_refreshing) return;
+
+            var formula = DamageFormula.DamageFormulas[ComboDamageFormula.SelectedIndex];
+            _currentItem.DamageFormula = (byte)formula.ID;
+            Data.Equipment.WriteItem(_selectedItem, _currentItem);
+            RefreshSelectedItem();
+        }
+
+        private void TextAttackPower_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (_refreshing || e.Key != Key.Enter) return;
+
+            try
+            {
+                _currentItem.AttackPower = byte.Parse(TextAttackPower.Text);
+                Data.Equipment.WriteItem(_selectedItem, _currentItem);
+            }
+            catch
+            {
+                Error.Show("Please enter a number between 0 and 255.");
+            }
             
         }
 
-        private void DeleteItem_Click(object sender, RoutedEventArgs e)
+        private void TextCritChance_OnKeyDown(object sender, KeyEventArgs e)
         {
-            throw new NotImplementedException();
+            if (_refreshing || e.Key != Key.Enter) return;
+
+            try
+            {
+                _currentItem.Critical = byte.Parse(TextCritChance.Text);
+                Data.Equipment.WriteItem(_selectedItem, _currentItem);
+            }
+            catch
+            {
+                Error.Show("Please enter a number between 0 and 255.");
+            }
         }
     }
 }

@@ -5,7 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Equipment"
              mc:Ignorable="d" 
-             d:DesignHeight="460" d:DesignWidth="500">
+             d:DesignHeight="510" d:DesignWidth="480">
+    <UserControl.Resources>
+        <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+    </UserControl.Resources>
     <GroupBox Header="Equipment">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -13,52 +18,79 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <GroupBox Header="Inventory" Grid.Column="0">
-                <ListView Name="ListEquipment"  Grid.Column="0" SelectionChanged="SelectedEquipment_Changed"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="28"/>
+                    </Grid.RowDefinitions>
+                    <ListView Name="ListEquipment" SelectionChanged="SelectedEquipment_Changed"/>
+                    <Button Grid.Row="1" Content="Delete Item" VerticalAlignment="Bottom" Name="ButtonDeleteItem" Click="ButtonDeleteItem_Click"/>
+                </Grid>
             </GroupBox>
-                
-            <GroupBox Header="Item Name" Grid.Column="1" Name="GroupEquipmentEditor">
-                <StackPanel Margin="5">
-                    <DockPanel Margin="2">
-                        <TextBlock Text="Name" Margin="5"/>
-                        <Button Name="ButtonEquipmentName" HorizontalAlignment="Right" Width="150" Click="ButtonEquipmentName_OnClick"/>
-                    </DockPanel>
-                    <DockPanel Margin="2">
-                        <TextBlock Text="Appearance" Margin="5"/>
-                        <Button Name="ButtonEquipmentAppearance" HorizontalAlignment="Right" Width="150" Click="ButtonEquipmentAppearance_OnClick"/>
-                    </DockPanel>
-                    <DockPanel Margin="2">
-                        <TextBlock Text="Character" Margin="5"/>
-                        <ComboBox Name="ComboEquipmentCharacter" HorizontalAlignment="Right" Width="100" SelectionChanged="ComboEquipmentCharacter_OnSelectionChanged"/>
-                    </DockPanel>
-                    <DockPanel Margin="2">
-                        <TextBlock Text="Equipment Type" Margin="5"/>
-                        <ComboBox Name="ComboEquipmentType" HorizontalAlignment="Right" Width="100" SelectionChanged="ComboEquipmentType_OnSelectionChanged">
-                            <ComboBoxItem>Weapon</ComboBoxItem>
-                            <ComboBoxItem>Armor</ComboBoxItem>
-                        </ComboBox>
-                    </DockPanel>
-                    <DockPanel Margin="2">
-                        <TextBlock Text="Ability Slots" Margin="5"/>
-                        <ComboBox Name="ComboEquipmentSlots" HorizontalAlignment="Right" Width="60" SelectionChanged="ComboEquipmentSlots_OnSelectionChanged">
-                            <ComboBoxItem>0</ComboBoxItem>
-                            <ComboBoxItem>1</ComboBoxItem>
-                            <ComboBoxItem>2</ComboBoxItem>
-                            <ComboBoxItem>3</ComboBoxItem>
-                            <ComboBoxItem>4</ComboBoxItem>
-                        </ComboBox>
-                    </DockPanel>
-                    <GroupBox Header="Abilities" Margin="2,7,2,2">
-                        <StackPanel Name="AbilityPanel" Margin="2">
-                            <Button Name="Ability0" Margin="2" Click="AbilityButton_Click"/>
-                            <Button Name="Ability1" Margin="2" Click="AbilityButton_Click"/>
-                            <Button Name="Ability2" Margin="2" Click="AbilityButton_Click"/>
-                            <Button Name="Ability3" Margin="2" Click="AbilityButton_Click"/>
-                        </StackPanel>
-                    </GroupBox>
-                    <Button Content="Delete Item" Margin="2" Click="DeleteItem_Click" Visibility="Collapsed"/>
-                </StackPanel>
-                
-            </GroupBox>
+            <ContentControl Grid.Column="1" Name="ContentNoItem" Visibility="Collapsed">
+                <Grid>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Text="This equipment slot is empty"/>
+                        <Button Content="Create New Item" Margin="5" Click="ButtonCreateNew_Click"/>
+                    </StackPanel>
+                </Grid>
+            </ContentControl>
+            <ContentControl Grid.Column="1" Name="ContentEditItem">
+                <GroupBox Header="Item Name" Name="GroupEquipmentEditor">
+                    <StackPanel Margin="5">
+                        <DockPanel Margin="2">
+                            <TextBlock Text="Name" VerticalAlignment="Center"/>
+                            <Button Name="ButtonEquipmentName" HorizontalAlignment="Right" Width="150" Click="ButtonEquipmentName_OnClick"/>
+                        </DockPanel>
+                        <DockPanel Margin="2">
+                            <TextBlock Text="Appearance" VerticalAlignment="Center"/>
+                            <Button Name="ButtonEquipmentAppearance" HorizontalAlignment="Right" Width="150" Click="ButtonEquipmentAppearance_OnClick"/>
+                        </DockPanel>
+                        <DockPanel Margin="2">
+                            <TextBlock Text="Character" VerticalAlignment="Center"/>
+                            <ComboBox Name="ComboEquipmentCharacter" HorizontalAlignment="Right" Width="100" SelectionChanged="ComboEquipmentCharacter_OnSelectionChanged"/>
+                        </DockPanel>
+                        <DockPanel Margin="2">
+                            <TextBlock Text="Equipment Type" VerticalAlignment="Center"/>
+                            <ComboBox Name="ComboEquipmentType" HorizontalAlignment="Right" Width="100" SelectionChanged="ComboEquipmentType_OnSelectionChanged">
+                                <ComboBoxItem>Weapon</ComboBoxItem>
+                                <ComboBoxItem>Armor</ComboBoxItem>
+                            </ComboBox>
+                        </DockPanel>
+                        <DockPanel Margin="2">
+                            <TextBlock Text="Damage Formula" VerticalAlignment="Center"/>
+                            <ComboBox Name="ComboDamageFormula" HorizontalAlignment="Right" Width="140" SelectionChanged="ComboDamageFormula_OnSelectionChanged"/>
+                        </DockPanel>
+                        <DockPanel Margin="2">
+                            <TextBlock Text="Attack Power" VerticalAlignment="Center"/>
+                            <TextBox Name="TextAttackPower" HorizontalAlignment="Right" Width="50" KeyDown="TextAttackPower_OnKeyDown"/>
+                        </DockPanel>
+                        <DockPanel Margin="2">
+                            <TextBlock Text="Critical Hit Percentage" VerticalAlignment="Center"/>
+                            <TextBox Name="TextCritChance" HorizontalAlignment="Right" Width="50" KeyDown="TextCritChance_OnKeyDown"/>
+                        </DockPanel>
+                        <DockPanel Margin="2">
+                            <TextBlock Text="Ability Slots" VerticalAlignment="Center"/>
+                            <ComboBox Name="ComboEquipmentSlots" HorizontalAlignment="Right" Width="60" SelectionChanged="ComboEquipmentSlots_OnSelectionChanged">
+                                <ComboBoxItem>0</ComboBoxItem>
+                                <ComboBoxItem>1</ComboBoxItem>
+                                <ComboBoxItem>2</ComboBoxItem>
+                                <ComboBoxItem>3</ComboBoxItem>
+                                <ComboBoxItem>4</ComboBoxItem>
+                            </ComboBox>
+                        </DockPanel>
+                        <GroupBox Header="Abilities" Margin="2">
+                            <StackPanel Name="AbilityPanel" Margin="2">
+                                <Button Name="Ability0" Margin="2" Click="AbilityButton_Click"/>
+                                <Button Name="Ability1" Margin="2" Click="AbilityButton_Click"/>
+                                <Button Name="Ability2" Margin="2" Click="AbilityButton_Click"/>
+                                <Button Name="Ability3" Margin="2" Click="AbilityButton_Click"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+
+                </GroupBox>
+            </ContentControl>
         </Grid>
     </GroupBox>
 </UserControl>

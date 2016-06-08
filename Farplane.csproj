@@ -399,6 +399,7 @@
     <Compile Include="FFX\Values\DamageFormula.cs" />
     <Compile Include="FFX\Values\Enums.cs" />
     <Compile Include="FFX\Values\EquipAppearances.cs" />
+    <Compile Include="FFX\Data\Equipment.cs" />
     <Compile Include="FFX\Values\EquipName.cs" />
     <Compile Include="FFX\Values\Item.cs" />
     <Compile Include="FFX\Values\KeyItem.cs" />

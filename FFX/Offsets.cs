@@ -215,6 +215,7 @@ namespace Farplane.FFX
         PartyStats = 0x94,
         SphereGridNode = 0x28,
         BattleEntity = 0xF90,
-        MonsterArenaCount = 0x8B
+        MonsterArenaCount = 0x8B,
+        EquipmentItem = 0x16
     }
 }
