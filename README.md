@@ -1,5 +1,9 @@
 ![FFX/X-2 HD Remaster Logo](https://raw.githubusercontent.com/topher-au/Farplane/master/Resources/Farplane_Splash.png)
 
+If you like Farplane, please consider donating! Your donation helps support continued development toward the project. You can donate via PayPal by visiting my Pledgie link below!
+
+[![Click here to lend your support to: Farplane Editor for Final Fantasy X/X-2 HD Remaster and make a donation at pledgie.com !](https://pledgie.com/campaigns/31866.png?skin_name=chrome)](https://pledgie.com/campaigns/31866)
+
 ## Farplane
 Farplane is a memory editing tool for Final Fantasy X/X-2 HD Remaster. As the project is still in development (and likely will
 be for quite some time) you may encounter bugs or crashes. Although Farplane doesn't edit any files, always keep a backup of your saved data, and it is recommended that you use a different save slot where possible.
