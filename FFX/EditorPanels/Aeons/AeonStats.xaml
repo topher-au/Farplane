@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Aeons"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="360">
-    <GroupBox Header="Stats" Margin="1">
+    <GroupBox Header="Stats">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

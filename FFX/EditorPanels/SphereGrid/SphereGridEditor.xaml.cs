@@ -41,8 +41,10 @@ namespace Farplane.FFX.EditorPanels.SphereGrid
         private void refreshNode()
         {
             var node = SphereGridNode.ReadNode(currentNode);
-            ComboNodeType.SelectedIndex = node.Type.ID;
 
+            TextCurrentNode.Text = $"Currently editing node #{currentNode}";
+            ComboNodeType.SelectedIndex = node.Type.ID;
+            
             var activations = BitHelper.GetBitArray(new byte[] { node.ActivatedBy }, 7);
             for (int i = 0; i < 7; i++)
             {
@@ -50,21 +52,9 @@ namespace Farplane.FFX.EditorPanels.SphereGrid
             }
         }
 
-        private void NextNode_Click(object sender, RoutedEventArgs e)
-        {
-            currentNode++;
-            Refresh();
-        }
-
-        private void PreviousNode_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentNode == 0) return;
-            currentNode--;
-            Refresh();
-        }
-
         private void ComboNodeType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_refreshing) return;
             var byteOffset = Offsets.GetOffset(OffsetType.SphereGridNodes) + currentNode*40 + NodeOffset.NodeType;
 
             MemoryReader.WriteByte((int) byteOffset, (byte) SphereGridNode.NodeTypes[ComboNodeType.SelectedIndex].ID);
@@ -90,6 +80,7 @@ namespace Farplane.FFX.EditorPanels.SphereGrid
         {
             var selectedNode = BitConverter.ToUInt16(MemoryReader.ReadBytes(Offsets.GetOffset(OffsetType.SphereGridCursor), 2),0);
             currentNode = selectedNode;
+            
             Refresh();
         }
     }

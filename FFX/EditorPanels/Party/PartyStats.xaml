@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Party"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="360">
-    <GroupBox Header="Stats" Margin="0">
+    <GroupBox Header="Stats">
         <StackPanel>
             <TextBlock HorizontalAlignment="Center" Margin="0,0,0,5">Open the items menu to recalculate current stats</TextBlock>
             <Grid>

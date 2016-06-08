@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels"
              xmlns:party="clr-namespace:Farplane.FFX.EditorPanels.Party"
              mc:Ignorable="d" 
-             d:DesignHeight="460" d:DesignWidth="500">
+             d:DesignHeight="510" d:DesignWidth="480">
     <GroupBox Header="Party">
-        <StackPanel Margin="0">
-            <TabControl Padding="0"  Name="TabPartySelect" SelectionChanged="TabPartySelect_OnSelectionChanged">
+        <StackPanel>
+            <TabControl Padding="0" Name="TabPartySelect" SelectionChanged="TabPartySelect_OnSelectionChanged" Margin="0,0,0,-5">
                 <TabItem Header="Tidus" />
                 <TabItem Header="Yuna" />
                 <TabItem Header="Auron" />
@@ -19,7 +19,7 @@
                 <TabItem Header="Rikku" />
                 <TabItem Header="Seymour" />
             </TabControl>
-            <party:PartyEditor x:Name="PartyEditor" Margin="0,-5,0,0"/>
+            <party:PartyEditor x:Name="PartyEditor"/>
         </StackPanel>
     </GroupBox>
 </UserControl>

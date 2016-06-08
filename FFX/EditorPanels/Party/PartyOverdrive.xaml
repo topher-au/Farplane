@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="480">
     <StackPanel Margin="0">
-        <GroupBox Margin="0,0,0,5" Header="Overdrive">
+        <GroupBox Header="Overdrive">
             <DockPanel>
                 <DockPanel>
                     <TextBlock Margin="5,5,20,5">Overdrive Mode</TextBlock>
@@ -28,7 +28,7 @@
                 </DockPanel>
             </DockPanel>
         </GroupBox>
-        <GroupBox Margin="0,0,0,5" Header="Learned Overdrives" Visibility="Collapsed">
+        <GroupBox Header="Learned Overdrives" Visibility="Collapsed">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -44,7 +44,7 @@
                 <CheckBox Grid.Row="1" Grid.Column="1" Name="Overdrive3" Margin="2" Content="Blitz Ace" />
             </Grid>
         </GroupBox>
-        <GroupBox Margin="0" Header="Overdrive Modes">
+        <GroupBox Header="Overdrive Modes">
             <Grid Name="GridOverdrive">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />

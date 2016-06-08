@@ -8,7 +8,7 @@
              d:DesignHeight="500" d:DesignWidth="380">
     <GroupBox Header="Aeons">
         <StackPanel>
-            <TabControl Name="TabAeon" SelectionChanged="TabAeon_OnSelectionChanged" Padding="0">
+            <TabControl Name="TabAeon" SelectionChanged="TabAeon_OnSelectionChanged" Padding="0" Margin="0,0,0,-5">
                 <TabItem Header="Valefor" />
                 <TabItem Header="Ifrit" />
                 <TabItem Header="Ixion" />
@@ -20,11 +20,11 @@
                 <TabItem Header="Sandy" />
                 <TabItem Header="Mindy" />
             </TabControl>
-            <TabControl Name="TabAeonTab" SelectionChanged="TabAeonTab_OnSelectionChanged" Padding="0" Margin="0,-10,0,0">
+            <TabControl Name="TabAeonTab" SelectionChanged="TabAeonTab_OnSelectionChanged" Padding="0" Margin="0,0,0,-5">
                 <TabItem Header="Stats" />
                 <TabItem Header="Abilities" />
             </TabControl>
-            <ContentControl Name="ContentAeon" Margin="0,-4,0,0" />
+            <ContentControl Name="ContentAeon" />
         </StackPanel>
     </GroupBox>
 </UserControl>
