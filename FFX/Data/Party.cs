@@ -21,14 +21,25 @@ namespace Farplane.FFX.Data
         {
             var party = Memory.ReadBytes(_offsetPartyList, 8);
             if(party == null) return new Character[8];
-            var emptySlot = Array.IndexOf(party, (byte) 0xFF);
-            if (emptySlot == -1) emptySlot = 8;
-            var outArray = new Character[emptySlot];
+            var outArray = new Character[8];
 
-            for (int i = 0; i < emptySlot; i++)
+            for (int i = 0; i < 8; i++)
                 outArray[i] = (Character) party[i];
             
             return outArray;
+        }
+
+        internal static void SetActiveParty(Character[] characters)
+        {
+            var writeArray = new byte[8];
+            for (int i = 0; i < 8; i++)
+            {
+                if (i > characters.Length)
+                    writeArray[i] = 0xFF;
+                else
+                    writeArray[i] = (byte) characters[i];
+            }
+            Memory.WriteBytes(_offsetPartyList, writeArray);
         }
 
         public static void AddCharacter(Character character)
@@ -37,12 +48,13 @@ namespace Farplane.FFX.Data
             var partyList = Party.GetActiveParty();
             int partySize = partyList.Length;
             int charaPos = Array.IndexOf(partyList, character);
+            var writePos = Array.IndexOf(partyList, Character.None);
 
             // If character is not in the party
-            if (charaPos == -1)
+            if (charaPos == -1 && writePos != -1)
             {
                 // Write character into the last party slot
-                Memory.WriteByte(_offsetPartyList + partySize, (byte)character);
+                Memory.WriteByte(_offsetPartyList + writePos, (byte)character);
             }
         }
 
@@ -57,13 +69,14 @@ namespace Farplane.FFX.Data
             if (charaPos != -1)
             {
                 // Remove and move all party members up
-                for (int i = charaPos; i < partySize-1; i++)
+                for (int i = charaPos; i < partySize - 1; i++)
                 {
-                    partyList[i] = partyList[i];
+                    partyList[i] = partyList[i+1];
                 }
                 // Empty last slot
-                partyList[partySize-1] = Character.None;
+                partyList[partySize - 1] = Character.None;
             }
+            else return;
 
             // Convert party list to array of byte
             var partyBytes = new byte[partySize];

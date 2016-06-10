@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
+using Farplane.FFX.Values;
 
 namespace Farplane.FFX.EditorPanels.General
 {
@@ -23,18 +24,39 @@ namespace Farplane.FFX.EditorPanels.General
     {
         private readonly int _offsetGil = Offsets.GetOffset(OffsetType.CurrentGil);
         private readonly int _offsetTidusOverdrive = Offsets.GetOffset(OffsetType.TidusOverdrive);
+        private readonly Character[] _enumValues = (Character[])Enum.GetValues(typeof(Character));
+        private bool _refreshing = false;
 
         public GeneralPanel()
         {
             InitializeComponent();
+
+            _refreshing = true;
+            var characterList = Enum.GetNames(typeof(Character));
+            foreach (ComboBox comboBox in StackCurrentParty.Children)
+            {
+                comboBox.ItemsSource = characterList;
+            }
+            _refreshing = false;
         }
 
         public void Refresh()
         {
+            _refreshing = true;
             var currentGil = Memory.ReadInt32(_offsetGil);
             var tidusOverdrive = Memory.ReadInt32(_offsetTidusOverdrive);
             TextGil.Text = currentGil.ToString();
             TextTidusOverdrive.Text = tidusOverdrive.ToString();
+
+
+            var partyList = Data.Party.GetActiveParty();
+            for (int i = 0; i < 8; i++)
+            {
+                var comboBox = StackCurrentParty.Children[i] as ComboBox;
+                comboBox.SelectedIndex = Array.IndexOf(_enumValues, partyList[i]);
+            }
+
+            _refreshing = false;
         }
 
         private void TextGil_OnKeyDown(object sender, KeyEventArgs e)
@@ -67,6 +89,18 @@ namespace Farplane.FFX.EditorPanels.General
             {
                 Error.Show("The value you entered was invalid.");
             }
+        }
+
+        private void PartyMember_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_refreshing) return;
+            var charArray = new Character[8];
+            for (int i = 0; i < 8; i++)
+            {
+                var comboBox = StackCurrentParty.Children[i] as ComboBox;
+                charArray[i] = _enumValues[comboBox.SelectedIndex];
+            }
+            Data.Party.SetActiveParty(charArray);
         }
     }
 }
