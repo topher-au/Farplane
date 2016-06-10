@@ -38,7 +38,7 @@
                             </ListView>
                             <StackPanel Grid.Row="1">
                                 <TextBlock TextWrapping="Wrap" TextAlignment="Center">
-                                    An editor restart is required for any changes to take effect!
+                                    Please restart the editor to update the list of available mods
                                 </TextBlock>
                                 <Button Content="Open Mods Folder" Margin="5" Click="ButtonOpenMods_Click" />
                             </StackPanel>
