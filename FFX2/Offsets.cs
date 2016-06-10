@@ -21,10 +21,16 @@ namespace Farplane.FFX2
         KnownGarmentGrids = 0xA00D14,
         DressphereCountBase = 0xA00D1C,
         ItemType = 0xA00E50,
-        ItemCount = 0xA01050
-    }
+        ItemCount = 0xA01050,
+        RemoveHPLimit,
+        RemoveMPLimit = 0x20E763, // B8 3F 42 0F 00 EB 16
+        // FFX-2.exe+20E763 - B8 3F420F00           - mov eax,000F423F { 999999 }
+        // FFX-2.exe+20E768 - EB 16                 - jmp FFX-2.exe+20E780
 
-    public static class Offsets
+
+}
+
+public static class Offsets
     {
         public static int GetOffset()
         {

@@ -150,7 +150,7 @@ namespace Farplane.FFX.Values
         public static SphereGridNode ReadNode(int nodeIndex)
         {
             var offsetNode = Offsets.GetOffset(OffsetType.SphereGridNodes) + nodeIndex*40;
-            var nodeBytes = MemoryReader.ReadBytes(offsetNode, 40);
+            var nodeBytes = Memory.ReadBytes(offsetNode, 40);
 
             return new SphereGridNode()
             {

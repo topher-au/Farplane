@@ -48,7 +48,7 @@ namespace Farplane.FFX.EditorPanels.Aeons
             for (int i = 0; i < 10; i++)
             {
                 var aeonTab = (TabItem)TabAeon.Items[i];
-                var aeonNameBytes = MemoryReader.ReadBytes(_offsetAeonName + Offsets.AeonNames[i], 8);
+                var aeonNameBytes = Memory.ReadBytes(_offsetAeonName + Offsets.AeonNames[i], 8);
                 var aeonName = Common.StringConverter.ToString(aeonNameBytes);
                 aeonTab.Header = aeonName;
             }

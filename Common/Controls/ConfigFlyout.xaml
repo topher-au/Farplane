@@ -1,4 +1,4 @@
-﻿<Controls:Flyout x:Class="Farplane.Common.ConfigFlyout"
+﻿<Controls:Flyout x:Class="Farplane.Common.Controls.ConfigFlyout"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,22 +6,32 @@
              xmlns:local="clr-namespace:Farplane.Common"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="480" Height="140" Position="Top" CloseButtonVisibility="Collapsed">
+             d:DesignHeight="100" d:DesignWidth="480" Height="200" Position="Top" CloseButtonVisibility="Collapsed">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition  Width="200"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Column="0" Header="Settings" VerticalAlignment="Bottom" Margin="-30,5,5,5">
-            <StackPanel>
-                <DockPanel Margin="0,0,0,5">
-                    <CheckBox Name="CheckShowAllProcesses" Content="Always show all processes" Checked="SettingUpdated" Unchecked="SettingUpdated"/>
-                </DockPanel>
-                <DockPanel Margin="0,0,0,5">
-                    <CheckBox Name="CheckExitFarplane" Content="Exit Farplane when an editor is closed" Checked="SettingUpdated" Unchecked="SettingUpdated" />
-                </DockPanel>
-            </StackPanel>
-        </GroupBox>
+        <TextBlock FontSize="20" FontWeight="SemiBold" VerticalAlignment="Top" Margin="-10,5,5,5">Settings</TextBlock>
+        <StackPanel Grid.Column="0" VerticalAlignment="Bottom" Margin="-30,0,0,0">
+            <GroupBox Header="Mods">
+                <StackPanel>
+                    <DockPanel Margin="0,0,0,5">
+                        <CheckBox Name="CheckEnableMods" Content="Allow Farplane to load mod scripts" Checked="CheckEnableMods_OnChecked" Unchecked="CheckEnableMods_OnChecked"/>
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Settings" >
+                <StackPanel>
+                    <DockPanel Margin="0,0,0,5">
+                        <CheckBox Name="CheckShowAllProcesses" Content="Always show all processes" Checked="SettingUpdated" Unchecked="SettingUpdated"/>
+                    </DockPanel>
+                    <DockPanel Margin="0,0,0,5">
+                        <CheckBox Name="CheckExitFarplane" Content="Exit Farplane when an editor is closed" Checked="SettingUpdated" Unchecked="SettingUpdated" />
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
         
         <GroupBox Grid.Column="1" Header="Theme" VerticalAlignment="Bottom">
             <StackPanel>

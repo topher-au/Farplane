@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Farplane.FFX.Values
 {
-    public enum Characters
+    public enum Character
     {
         Tidus,
         Yuna,
@@ -25,6 +25,7 @@ namespace Farplane.FFX.Values
         Anima,
         Cindy,
         Sandy,
-        Mindy
+        Mindy,
+        None=0xFF
     }
 }

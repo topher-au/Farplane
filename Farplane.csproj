@@ -38,8 +38,16 @@
     <ApplicationIcon>Resources\Farplane_Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSScriptLibrary, Version=3.12.2.0, Culture=neutral, PublicKeyToken=70fcc3d18c749033, processorArchitecture=MSIL">
+      <HintPath>..\packages\CS-Script.bin.3.12.2.1\lib\net45\CSScriptLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\CS-Script.bin.3.12.2.1\lib\net45\Mono.CSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -68,15 +76,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Common\ButtonGrid.xaml">
+    <Compile Include="FarplaneMod\ModLogger.cs" />
+    <Compile Include="FarplaneMod\ModSettings.cs" />
+    <Compile Include="FarplaneMod\ModThread.cs" />
+    <Compile Include="FFX\EditorPanels\Mods\ModsPanel.xaml.cs">
+      <DependentUpon>ModsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FarplaneMod\IFarplaneMod.cs" />
+    <Compile Include="FarplaneMod\ModUpdateThread.cs" />
+    <None Include="Mods\FFX-SeymourInParty.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Mods\FFX-AutoCamera.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Include="Common\Controls\ButtonGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\ConfigFlyout.xaml">
+    <Page Include="Common\Controls\ConfigFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\SearchDialog.xaml">
+    <Page Include="Common\Dialogs\SearchDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -196,6 +218,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\Mods\ModsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FFX\EditorPanels\MonsterArena\MonsterArenaPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -249,15 +275,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\BitHelper.cs" />
-    <Compile Include="Common\ButtonGrid.xaml.cs">
+    <Compile Include="Common\Controls\ButtonGrid.xaml.cs">
       <DependentUpon>ButtonGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ConfigFlyout.xaml.cs">
+    <Compile Include="Common\Controls\ConfigFlyout.xaml.cs">
       <DependentUpon>ConfigFlyout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\DataTextSerializer.cs" />
+    <Compile Include="Common\StructHelper.cs" />
     <Compile Include="Common\Error.cs" />
-    <Compile Include="Common\SearchDialog.xaml.cs">
+    <Compile Include="Common\Dialogs\SearchDialog.xaml.cs">
       <DependentUpon>SearchDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\StringConverter.cs" />
@@ -322,6 +348,8 @@
     <Compile Include="FFX2\Offsets.cs" />
     <Compile Include="FFX2\Values\Accessories.cs" />
     <Compile Include="FFX\Cheats.cs" />
+    <Compile Include="FarplaneMod\ModLoader.cs" />
+    <Compile Include="FFX\Data\Party.cs" />
     <Compile Include="FFX\EditorPanels\Aeons\AeonsPanel.xaml.cs">
       <DependentUpon>AeonsPanel.xaml</DependentUpon>
     </Compile>
@@ -410,17 +438,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Common\ProcessSelectWindow.xaml">
+    <Page Include="Common\Dialogs\ProcessSelectWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MemoryReader\MemoryReader.cs" />
+    <Compile Include="MemoryReader\Memory.cs" />
     <Compile Include="MemoryReader\WinAPI.cs" />
-    <Compile Include="Common\ProcessSelectWindow.xaml.cs">
+    <Compile Include="Common\Dialogs\ProcessSelectWindow.xaml.cs">
       <DependentUpon>ProcessSelectWindow.xaml</DependentUpon>
     </Compile>
+    <None Include="Mods\FFX-BreakHPLimit.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Mods\FFX-BreakDamageLimit.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -475,13 +509,16 @@
     <Resource Include="Resources\Images\reload.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\rollup.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Farplane_Splash.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\shrink.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\expand.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

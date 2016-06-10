@@ -35,7 +35,9 @@ namespace Farplane.FFX
             {OffsetType.BlitzballTeamSizes, 0xD2d704 },
             {OffsetType.RemoveHPCheck, 0x38D389 },
             {OffsetType.RemoveMPCheck, 0x38E5FE },
-            {OffsetType.TidusOverdrive, 0xD3083C }
+            {OffsetType.TidusOverdrive, 0xD3083C },
+            {OffsetType.PartyList, 0xD307E8 },
+            {OffsetType.CurrentRoom, 0xD2CA90 }
         };
 
         public static int[] AeonNames => new int[]
@@ -85,7 +87,9 @@ namespace Farplane.FFX
         BlitzballTeamSizes,
         RemoveMPCheck,
         RemoveHPCheck,
-        TidusOverdrive
+        TidusOverdrive,
+        PartyList,
+        CurrentRoom,
     }
 
     public enum EquipmentOffset
@@ -100,67 +104,6 @@ namespace Farplane.FFX
         Ability1 = 0x10,
         Ability2 = 0x12,
         Ability3 = 0x14
-    }
-
-    public enum PartyStatOffset
-    {
-        BaseHp = 0x00,
-        BaseMp = 0x04,
-        BaseStrength = 0x08,
-        BaseDefense = 0x09,
-        BaseMagic = 0x0A,
-        BaseMagicDefense = 0x0B,
-        BaseAgility = 0x0C,
-        BaseLuck = 0x0D,
-        BaseEvasion = 0x0E,
-        BaseAccuracy = 0x0F,
-        ApTotal = 0x10,
-        ApCurrent = 0x14,
-        CurrentHp = 0x18,
-        CurrentMp = 0x1C,
-        MaxHp = 0x20,
-        MaxMp = 0x24,
-        InParty = 0x28,
-        EquippedWeapon = 0x29,
-        EquippedArmor = 0x2a,
-        CurrentStrength = 0x2b,
-        CurrentDefense = 0x2c,
-        CurrentMagic = 0x2d,
-        CurrentMagicDefense = 0x2e,
-        CurrentAgility = 0x2f,
-        CurrentLuck = 0x30,
-        CurrentEvasion = 0x31,
-        CurrentAccuracy = 0x32,
-        PoisonDamage = 0x33,
-        OverdriveMode = 0x34,
-        OverdriveLevel = 0x35,
-        OverdriveMax = 0x36,
-        SphereLevelCurrent = 0x37,
-        SphereLevelTotal = 0x38,
-        SkillFlags = 0x39,
-        TotalBattles = 0x4c,
-        TotalKills = 0x50,
-        OverdriveWarrior = 0x5c,
-        OverdriveComrade = 0x5e,
-        OverdriveStoic = 0x60,
-        OverdriveHealer = 0x62,
-        OverdriveTactician = 0x64,
-        OverdriveVictim = 0x66,
-        OverdriveDancer = 0x68,
-        OverdriveAvenger = 0x6a,
-        OverdriveSlayer = 0x6c,
-        OverdriveHero = 0x6e,
-        OverdriveRook = 0x70,
-        OverdriveVictor = 0x72,
-        OverdriveCoward = 0x74,
-        OverdriveAlly = 0x76,
-        OverdriveSufferer = 0x78,
-        OverdriveDaredevil = 0x7a,
-        OverdriveLoner = 0x7c,
-        OverdriveBlank1 = 0x7e,
-        OverdriveBlank2 = 0x80,
-        OverdriveAeonsOnly = 0x82,
-        OverdriveModes = 0x84
     }
 
     public enum BlitzballDataOffset
@@ -209,13 +152,12 @@ namespace Farplane.FFX
         UnknownHangGame,
     }
 
-
     public enum BlockLength
     {
-        PartyStats = 0x94,
         SphereGridNode = 0x28,
         BattleEntity = 0xF90,
         MonsterArenaCount = 0x8B,
-        EquipmentItem = 0x16
+        EquipmentItem = 0x16,
+        SkillFlags = 0xD
     }
 }

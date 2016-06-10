@@ -16,7 +16,7 @@ namespace Farplane.FFX.Data
         {
             // Read an item from the game's memory into struct
             var offset = _offsetEquipment + itemIndex*_blockLength;
-            var bytes = MemoryReader.ReadBytes(offset, _blockLength);
+            var bytes = Memory.ReadBytes(offset, _blockLength);
 
             IntPtr ptrEquipmentItem = Marshal.AllocHGlobal(_blockLength);
             try
@@ -45,7 +45,7 @@ namespace Farplane.FFX.Data
 
             // Write to game's memory
             var offset = _offsetEquipment + itemIndex * _blockLength;
-            return MemoryReader.WriteBytes(offset, itemBytes);
+            return Memory.WriteBytes(offset, itemBytes);
         }
     }
 

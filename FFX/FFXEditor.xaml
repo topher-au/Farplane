@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Farplane.FFX"
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Farplane Editor - Final Fantasy X" Height="540" Width="640" BorderThickness="0" GlowBrush="Black" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/Farplane;component/Resources/Farplane_Icon.ico">
+        Title="Farplane Editor - Final Fantasy X" Height="540" Width="640" BorderThickness="0" GlowBrush="Black" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Icon="/Farplane;component/Resources/Farplane_Icon.ico" ShowSystemMenuOnRightClick="False" Closing="FFXEditor_OnClosing">
     <metro:MetroWindow.RightWindowCommands>
         <metro:WindowCommands>
             <Button Click="RefreshAll_Click" ToolTip="Refresh all data">
@@ -16,7 +16,7 @@
                 <Image Source="../Resources/Images/pin.png" Width="16" Height="16"/>
             </ToggleButton>
             <ToggleButton Name="ButtonRollUp" Click="ButtonRollUp_Click" ToolTip="Shrink Farplane">
-                <Image Source="../Resources/Images/rollup.png" Width="16" Height="16"/>
+                <Image Source="../Resources/Images/shrink.png" Width="16" Height="16"/>
             </ToggleButton>
         </metro:WindowCommands>
     </metro:MetroWindow.RightWindowCommands>
@@ -37,6 +37,7 @@
             <TreeViewItem Name="BlitzballEditor" Header="Blitzball" />
             <TreeViewItem Name="DebugEditor" Header="Debug Options" />
             <TreeViewItem Name="Boosters" Header="Boosters" />
+            <TreeViewItem Name="Mods" Header="Mods" />
         </TreeView>
         <ContentControl Name="EditorContent"  Grid.Column="1" Padding="0" Margin="0"/>
     </Grid>

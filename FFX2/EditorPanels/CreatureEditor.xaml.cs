@@ -51,10 +51,10 @@ namespace Farplane.FFX2.EditorPanels
         public void Refresh()
         {
             _refreshing = true;
-            var nameBytes = MemoryReader.ReadBytes(_offsetCreatureName + (_creatureIndex * 40), 18);
+            var nameBytes = Memory.ReadBytes(_offsetCreatureName + (_creatureIndex * 40), 18);
             var name = StringConverter.ToString(nameBytes);
             CreatureName.Text = name;
-            CreatureSize.SelectedIndex = MemoryReader.ReadByte(_statsOffset + (int)Offsets.StatOffsets.Size) -1;
+            CreatureSize.SelectedIndex = Memory.ReadByte(_statsOffset + (int)Offsets.StatOffsets.Size) -1;
             _statsPanel.Refresh();
             _creatureAbilities.Refresh();
             _refreshing = false;
@@ -67,25 +67,15 @@ namespace Farplane.FFX2.EditorPanels
             var nameBytes = StringConverter.ToFFXBytes(CreatureName.Text);
             var writeBytes = new byte[18];
             nameBytes.CopyTo(writeBytes, 0);
-            MemoryReader.WriteBytes(_offsetCreatureName + _creatureIndex * 40, writeBytes);
+            Memory.WriteBytes(_offsetCreatureName + _creatureIndex * 40, writeBytes);
             CreaturePanel.Update();
         }
 
         private void CreatureSize_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_refreshing) return;
-            MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.Size,
+            Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.Size,
                 new byte[] {(byte) (CreatureSize.SelectedIndex+1)});
-        }
-
-        private void ButtonExport_Click(object sender, RoutedEventArgs e)
-        {
-            var xString = "Welcome to the land of INXS, am I gonna fit in?";
-            var stringBytes = Encoding.ASCII.GetBytes(xString);
-
-            var dataString = DataTextSerializer.Serialize(stringBytes);
-            var data = DataTextSerializer.Deserialize(dataString);
-            var originalString = Encoding.ASCII.GetString(data);
         }
     }
 }

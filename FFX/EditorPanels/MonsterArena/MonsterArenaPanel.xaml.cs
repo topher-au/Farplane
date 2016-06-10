@@ -39,7 +39,7 @@ namespace Farplane.FFX.EditorPanels.MonsterArena
         {
             GridMonsterArenaMonsters.Children.Clear();
 
-            var arenaBytes = MemoryReader.ReadBytes(_offsetArena, (int) BlockLength.MonsterArenaCount);
+            var arenaBytes = Memory.ReadBytes(_offsetArena, (int) BlockLength.MonsterArenaCount);
 
             var selectedArea = ListMonsterArenaAreas.Items.IndexOf(ListMonsterArenaAreas.SelectedItem);
             var monsters = MonsterArenaData.MonsterArenaAreas[selectedArea].Monsters;
@@ -95,7 +95,7 @@ namespace Farplane.FFX.EditorPanels.MonsterArena
 
         private void WriteMonster(int offset, byte count)
         {
-            MemoryReader.WriteByte(_offsetArena + offset, count);
+            Memory.WriteByte(_offsetArena + offset, count);
         }
 
         private void ListMonsterArenaAreas_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -111,7 +111,7 @@ namespace Farplane.FFX.EditorPanels.MonsterArena
 
             for(int i=0; i<MonsterArenaData.MonsterArenaAreas.Length; i++)
                 for (int j = 0; j < MonsterArenaData.MonsterArenaAreas[i].Monsters.Length; j++)
-                    MemoryReader.WriteByte(_offsetArena + MonsterArenaData.MonsterArenaAreas[i].Monsters[j].Index, (i > 12 ? (byte)1 : (byte)10));
+                    Memory.WriteByte(_offsetArena + MonsterArenaData.MonsterArenaAreas[i].Monsters[j].Index, (i > 12 ? (byte)1 : (byte)10));
             Refresh();
         }
 
@@ -119,7 +119,7 @@ namespace Farplane.FFX.EditorPanels.MonsterArena
         {
             for (int i = 0; i < MonsterArenaData.MonsterArenaAreas.Length; i++)
                 for (int j = 0; j < MonsterArenaData.MonsterArenaAreas[i].Monsters.Length; j++)
-                    MemoryReader.WriteByte(_offsetArena + MonsterArenaData.MonsterArenaAreas[i].Monsters[j].Index, 0);
+                    Memory.WriteByte(_offsetArena + MonsterArenaData.MonsterArenaAreas[i].Monsters[j].Index, 0);
             Refresh();
         }
     }

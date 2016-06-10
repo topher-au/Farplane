@@ -45,47 +45,47 @@ namespace Farplane.FFX2.EditorPanels
                 switch (senderTextBox.Name)
                 {
                     case "TextCurrentExperience":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.CurrentExperience,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.CurrentExperience,
                             BitConverter.GetBytes(uint.Parse(senderTextBox.Text)));
                         break;
                     case "ModHP":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.HPModifier,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.HPModifier,
                             BitConverter.GetBytes(uint.Parse(senderTextBox.Text)));
                         break;
                     case "ModMP":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.MPModifier,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.MPModifier,
                             BitConverter.GetBytes(uint.Parse(senderTextBox.Text)));
                         break;
                     case "TextStrength":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModStrength,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModStrength,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextDefense":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModDefense,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModDefense,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextMagic":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModMagic,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModMagic,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextMagicDefense":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModMagicDefense,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModMagicDefense,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextAgility":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModAgility,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModAgility,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextAccuracy":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModAccuracy,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModAccuracy,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextEvasion":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModEvasion,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModEvasion,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextLuck":
-                        MemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModLuck,
+                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModLuck,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextName":
@@ -101,7 +101,7 @@ namespace Farplane.FFX2.EditorPanels
 
         public void Refresh()
         {
-            var statsBytes = MemoryReader.ReadBytes(_statsOffset, 0x80);
+            var statsBytes = Memory.ReadBytes(_statsOffset, 0x80);
 
             TextCurrentExperience.Text = BitConverter.ToUInt32(statsBytes, (int)Offsets.StatOffsets.CurrentExperience).ToString();
 

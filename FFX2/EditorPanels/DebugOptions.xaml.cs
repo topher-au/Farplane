@@ -32,25 +32,25 @@ namespace Farplane.FFX2.EditorPanels
         {
             refreshing = true;
 
-            CheckAllyInvincible.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.AllyInvincible);
-            CheckEnemyInvincible.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.EnemyInvincible);
-            CheckControlEnemies.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.ControlEnemies);
-            CheckControlMonsters.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.ControlMonsters);
-            CheckZeroMP.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.MPZero);
-            CheckInfoOutput.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.InfoOutput);
-            CheckAlwaysCritical.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.AlwaysCritical);
-            CheckCritical.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.Critical);
-            CheckProbability.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.Probability100);
-            CheckDamageRandom.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.DamageRandom);
-            CheckDamage1.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.Damage1);
-            CheckDamage9999.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.Damage9999);
-            CheckDamage99999.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.Damage99999);
-            CheckRareDrop.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.RareDrop100);
-            CheckEXP100x.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.EXP100x);
-            CheckGil100x.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.Gil100x);
-            CheckAlwaysOversoul.IsChecked = MemoryReader.ReadByteFlag((int)Offsets.DebugFlags.AlwaysOversoul);
+            CheckAllyInvincible.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.AllyInvincible);
+            CheckEnemyInvincible.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.EnemyInvincible);
+            CheckControlEnemies.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.ControlEnemies);
+            CheckControlMonsters.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.ControlMonsters);
+            CheckZeroMP.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.MPZero);
+            CheckInfoOutput.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.InfoOutput);
+            CheckAlwaysCritical.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.AlwaysCritical);
+            CheckCritical.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.Critical);
+            CheckProbability.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.Probability100);
+            CheckDamageRandom.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.DamageRandom);
+            CheckDamage1.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.Damage1);
+            CheckDamage9999.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.Damage9999);
+            CheckDamage99999.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.Damage99999);
+            CheckRareDrop.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.RareDrop100);
+            CheckEXP100x.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.EXP100x);
+            CheckGil100x.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.Gil100x);
+            CheckAlwaysOversoul.IsChecked = Memory.ReadByteFlag((int)Offsets.DebugFlags.AlwaysOversoul);
 
-            var firstAttack = MemoryReader.ReadByte((int)Offsets.DebugFlags.FirstAttack);
+            var firstAttack = Memory.ReadByte((int)Offsets.DebugFlags.FirstAttack);
             CheckAttackFirst.IsChecked = firstAttack != 0xFF;
 
             refreshing = false;
@@ -69,7 +69,7 @@ namespace Farplane.FFX2.EditorPanels
             try
             {
                 var offset = Enum.Parse(typeof (Offsets.DebugFlags), (string) checkBox.Tag);
-                MemoryReader.WriteBytes((int)offset, checkedBytes);
+                Memory.WriteBytes((int)offset, checkedBytes);
             }
             catch { }
             

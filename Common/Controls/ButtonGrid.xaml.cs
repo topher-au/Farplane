@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Farplane.Common
+namespace Farplane.Common.Controls
 {
     /// <summary>
     /// Interaction logic for ButtonGrid.xaml

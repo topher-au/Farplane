@@ -57,7 +57,7 @@ namespace Farplane.FFX.EditorPanels.SphereGrid
             if (_refreshing) return;
             var byteOffset = Offsets.GetOffset(OffsetType.SphereGridNodes) + currentNode*40 + NodeOffset.NodeType;
 
-            MemoryReader.WriteByte((int) byteOffset, (byte) SphereGridNode.NodeTypes[ComboNodeType.SelectedIndex].ID);
+            Memory.WriteByte((int) byteOffset, (byte) SphereGridNode.NodeTypes[ComboNodeType.SelectedIndex].ID);
 
         }
 
@@ -68,17 +68,17 @@ namespace Farplane.FFX.EditorPanels.SphereGrid
             var senderIndex = PanelNodeActivatedBy.Children.IndexOf(senderBox);
 
             var byteOffset = Offsets.GetOffset(OffsetType.SphereGridNodes) + currentNode * 40 + NodeOffset.ActivatedBy;
-            var actBytes = MemoryReader.ReadByte((int) byteOffset);
+            var actBytes = Memory.ReadByte((int) byteOffset);
 
             actBytes = BitHelper.ToggleBit(actBytes, senderIndex);
 
-            MemoryReader.WriteByte((int)byteOffset, actBytes);
+            Memory.WriteByte((int)byteOffset, actBytes);
             Refresh();
         }
 
         private void ButtonSelectNode_Click(object sender, RoutedEventArgs e)
         {
-            var selectedNode = BitConverter.ToUInt16(MemoryReader.ReadBytes(Offsets.GetOffset(OffsetType.SphereGridCursor), 2),0);
+            var selectedNode = BitConverter.ToUInt16(Memory.ReadBytes(Offsets.GetOffset(OffsetType.SphereGridCursor), 2),0);
             currentNode = selectedNode;
             
             Refresh();

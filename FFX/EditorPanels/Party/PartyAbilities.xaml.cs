@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
+using Farplane.Common.Controls;
+using Farplane.FFX.Data;
 using Farplane.FFX.Values;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
@@ -24,6 +27,7 @@ namespace Farplane.FFX.EditorPanels.Party
     /// </summary>
     public partial class PartyAbilities : UserControl
     {
+        private readonly int _baseOffset = Offsets.GetOffset(OffsetType.PartyStatsBase);
         private ButtonGrid _gridSkill = new ButtonGrid(2, 22);
         private ButtonGrid _gridSpecial = new ButtonGrid(2, 22);
         private ButtonGrid _gridWhiteMagic = new ButtonGrid(2, 22);
@@ -109,25 +113,26 @@ namespace Farplane.FFX.EditorPanels.Party
              
             var byteIndex = skill.BitOffset / 8;
             var bitIndex = skill.BitOffset % 8;
-            var offset = Offsets.GetOffset(OffsetType.PartyStatsBase) + 0x94 * _characterIndex +
-                         (int)PartyStatOffset.SkillFlags;
+            var offset = StructHelper.GetFieldOffset<PartyMember>("SkillFlags",
+                _baseOffset + _characterIndex*Marshal.SizeOf<PartyMember>());
             var skillBytes =
-                MemoryReader.ReadBytes(offset, 0x0D);
+                Memory.ReadBytes(offset, 0x0D);
 
             var newByte = BitHelper.ToggleBit(skillBytes[byteIndex], bitIndex);
             skillBytes[byteIndex] = newByte;
 
-            MemoryReader.WriteBytes(offset, skillBytes);
+            Memory.WriteBytes(offset, skillBytes);
         }
 
         public void Refresh(int characterIndex)
         {
             _characterIndex = characterIndex;
+
             if (_characterIndex == -1) return;
-            var skillBytes =
-                MemoryReader.ReadBytes(Offsets.GetOffset(OffsetType.PartyStatsBase) + 0x94*characterIndex + (int) PartyStatOffset.SkillFlags,
-                    0x0D);
-            var skillArray = BitHelper.GetBitArray(skillBytes);
+
+            var party = Data.Party.ReadPartyMember(_characterIndex);
+
+            var skillArray = BitHelper.GetBitArray(party.SkillFlags);
 
             for (int i = 0; i < _skills.Length; i++)
             {

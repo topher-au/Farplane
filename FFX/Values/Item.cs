@@ -140,8 +140,8 @@ namespace Farplane.FFX.Values
         {
 
 
-            var itemData = MemoryReader.ReadBytes(ItemOffset, TotalItems * 2);
-            var countData = MemoryReader.ReadBytes(CountOffset, TotalItems);
+            var itemData = Memory.ReadBytes(ItemOffset, TotalItems * 2);
+            var countData = Memory.ReadBytes(CountOffset, TotalItems);
 
             var itemList = new List<Item>();
 
@@ -163,8 +163,8 @@ namespace Farplane.FFX.Values
 
         public static void WriteItem(int itemSlot, int itemId, byte itemCount)
         {
-            MemoryReader.WriteBytes(ItemOffset + itemSlot*2, BitConverter.GetBytes((ushort) itemId));
-            MemoryReader.WriteByte(CountOffset + itemSlot, itemCount);
+            Memory.WriteBytes(ItemOffset + itemSlot*2, BitConverter.GetBytes((ushort) itemId));
+            Memory.WriteByte(CountOffset + itemSlot, itemCount);
         }
 
         public int ID { get; set; }

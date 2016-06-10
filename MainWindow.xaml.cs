@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
+using Farplane.Common.Controls;
+using Farplane.Common.Dialogs;
 using Farplane.FFX;
 using Farplane.FFX2;
 using Farplane.Properties;

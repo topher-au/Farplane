@@ -82,5 +82,17 @@ namespace Farplane.Properties {
                 this["SettingsVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableMods {
+            get {
+                return ((bool)(this["EnableMods"]));
+            }
+            set {
+                this["EnableMods"] = value;
+            }
+        }
     }
 }

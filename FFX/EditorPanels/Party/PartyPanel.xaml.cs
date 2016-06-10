@@ -43,7 +43,7 @@ namespace Farplane.FFX.EditorPanels.Party
                 _selectedIndex = 0;
             }
             
-            PartyEditor.Load((Characters)_selectedIndex);
+            PartyEditor.Load((Character)_selectedIndex);
             PartyEditor.Refresh();
 
             _refreshing = false;
@@ -54,7 +54,7 @@ namespace Farplane.FFX.EditorPanels.Party
             if (_refreshing) return;
 
             _selectedIndex = TabPartySelect.SelectedIndex;
-            PartyEditor.Load((Characters)_selectedIndex);
+            PartyEditor.Load((Character)_selectedIndex);
             PartyEditor.Refresh();
         }
     }

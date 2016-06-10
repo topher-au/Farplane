@@ -20,7 +20,7 @@ using Farplane.FFX2;
 using Farplane.Properties;
 using MahApps.Metro.Controls;
 
-namespace Farplane.Common
+namespace Farplane.Common.Dialogs
 {
     /// <summary>
     /// Interaction logic for ProcessSelectWindow.xaml
@@ -91,7 +91,7 @@ namespace Farplane.Common
             if (!_ready || ProcessList.SelectedItems.Count != 1) return;
 
             var selectedProcess = ((ProcessListItem) ProcessList.SelectedItem).Process;
-            MemoryReader.Attach(selectedProcess);
+            Memory.Attach(selectedProcess);
             DialogResult = true;
             Close();
         }

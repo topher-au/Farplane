@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -24,9 +25,13 @@ using Farplane.FFX.EditorPanels.Items;
 using Farplane.FFX.EditorPanels.Party;
 using Farplane.FFX.EditorPanels.Boosters;
 using Farplane.FFX.EditorPanels.General;
+using Farplane.FFX.EditorPanels.Mods;
 using Farplane.FFX.EditorPanels.MonsterArena;
 using Farplane.FFX.EditorPanels.SphereGrid;
+using Farplane.FarplaneMod;
+using Farplane.Properties;
 using MahApps.Metro.Controls;
+using ThreadState = System.Threading.ThreadState;
 using TreeView = System.Windows.Controls.TreeView;
 
 namespace Farplane.FFX
@@ -47,6 +52,7 @@ namespace Farplane.FFX
         private DebugPanel _debugPanel = new DebugPanel();
         private BattlePanel _battlePanel = new BattlePanel();
         private BoostersPanel _boostersPanel = new BoostersPanel();
+        private ModsPanel _modsPanel = new ModsPanel();
 
         private NotImplementedPanel _notImplementedPanel = new NotImplementedPanel();
 
@@ -54,32 +60,57 @@ namespace Farplane.FFX
         private int _defaultWidth = 640;
         private bool _rolledUp = false;
         private bool _windowPinned = false;
+        private BitmapImage _iconShrink = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/shrink.png"));
+        private BitmapImage _iconExpand = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/expand.png"));
+
+        private readonly Thread _gameThread;
+        private bool _processMods = false;
             
         public FFXEditor()
         {
             InitializeComponent();
-            var watcherThread = new Thread(ProcessChecker) { IsBackground = true };
-            watcherThread.Start();
+
+            _gameThread = new Thread(ProcessChecker) { IsBackground = true };
+            _gameThread.Start();
+
+            if (Settings.Default.EnableMods)
+            {
+                ModLoader.LoadAllMods(GameType.FFX);
+                ModUpdateThread.Start();
+                ModUpdateThread.ProcessMods = true;
+            }
+
             (EditorTree.Items[0] as TreeViewItem).IsSelected = true;
+        }
+
+        public void CloseEditor()
+        {
+            if (Settings.Default.EnableMods)
+            {
+                ModUpdateThread.ProcessMods = false;
+                ModUpdateThread.Stop();
+                ModLoader.UnloadAllMods();
+            }
+            try
+            {
+                Close(); 
+                
+            } catch { }
         }
 
         public void ProcessChecker()
         {
-            while (true)
+            while (_gameThread.ThreadState == ThreadState.Background)
             {
-                if (!MemoryReader.CheckProcess())
+                if (!Memory.CheckProcess())
                 {
-                    Dispatcher.Invoke((MethodInvoker)delegate
-                    {
-                        Close();
-                        
-                    });
-
+                    Dispatcher.Invoke(CloseEditor);
                     return;
                 }
                 Thread.Sleep(100);
             }
         }
+
 
         private void EditorTree_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
@@ -133,6 +164,10 @@ namespace Farplane.FFX
                     _boostersPanel.Refresh();
                     EditorContent.Content = _boostersPanel;
                     break;
+                case "Mods":
+                    _modsPanel.Refresh();
+                    EditorContent.Content = _modsPanel;
+                    break;
                 default: // Panel not implemented
                     EditorContent.Content = _notImplementedPanel;
                     break;
@@ -153,6 +188,7 @@ namespace Farplane.FFX
             _battlePanel.Refresh();
             _debugPanel.Refresh();
             _boostersPanel.Refresh();
+            _modsPanel.Refresh();
         }
 
         private void RefreshAll_Click(object sender, RoutedEventArgs e)
@@ -172,23 +208,31 @@ namespace Farplane.FFX
         {
             if (_rolledUp)
             {
-                Left -= _defaultWidth - 170;
+                Left -= _defaultWidth - 210;
 
                 GridContent.Visibility = Visibility.Visible;
 
                 Width = _defaultWidth;
                 Height = _defaultHeight;
+
+                ButtonRollUp.Content = new Image() { Source = _iconShrink, Width = 16, Height = 16 };
             }
             else
             {
-                Width = 170;
+                Width = 210;
                 Left += _defaultWidth - Width;
-                
+
                 Height = 30;
                 GridContent.Visibility = Visibility.Hidden;
+                ButtonRollUp.Content = new Image() { Source = _iconExpand, Width = 16, Height = 16 };
             }
             _rolledUp = !_rolledUp;
-            
+
+        }
+
+        private void FFXEditor_OnClosing(object sender, CancelEventArgs e)
+        {
+            CloseEditor();
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
+using Farplane.Common.Dialogs;
 using Farplane.FFX.Values;
 using MahApps.Metro.Controls;
 
@@ -50,10 +51,10 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             var selectedTeam = TabTeam.SelectedIndex;
 
             // refresh all roster info
-            _teamData = MemoryReader.ReadBytes(_dataOffset + (int) BlitzballDataOffset.TeamData, 48, true);
-            var contractData = MemoryReader.ReadBytes(_dataOffset + (int) BlitzballDataOffset.ContractLength, 60, true);
+            _teamData = Memory.ReadBytes(_dataOffset + (int) BlitzballDataOffset.TeamData, 48, true);
+            var contractData = Memory.ReadBytes(_dataOffset + (int) BlitzballDataOffset.ContractLength, 60, true);
 
-            var teamSize = MemoryReader.ReadByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + selectedTeam);
+            var teamSize = Memory.ReadByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + selectedTeam);
 
             if (teamSize < 6)
                 ComboRosterSize.SelectedIndex = 0;
@@ -145,7 +146,7 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
                     }
                 }
 
-                MemoryReader.WriteByte(offset, (byte) player.Index, true);
+                Memory.WriteByte(offset, (byte) player.Index, true);
             }
             else
             {
@@ -166,7 +167,7 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             if (!_canWriteData) return;
             var selectedTeam = TabTeam.SelectedIndex;
 
-            MemoryReader.WriteByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + selectedTeam,
+            Memory.WriteByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + selectedTeam,
                 (byte) (ComboRosterSize.SelectedIndex + 6));
             Refresh();
         }
@@ -174,11 +175,11 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
         private bool RemovePlayer(int team, int player)
         {
             // read team data
-            var count = MemoryReader.ReadByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + team);
+            var count = Memory.ReadByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + team);
 
 
             var offset = _dataOffset + (int) BlitzballDataOffset.TeamData + (team*8);
-            var data = MemoryReader.ReadBytes(offset, 8, true);
+            var data = Memory.ReadBytes(offset, 8, true);
 
             var actualPlayers = data.Where(d => d != 0x3C).Count();
 
@@ -200,8 +201,8 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             count--;
 
             // write data
-            MemoryReader.WriteBytes(offset, data, true);
-            MemoryReader.WriteByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + team, count);
+            Memory.WriteBytes(offset, data, true);
+            Memory.WriteByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + team, count);
 
             return true;
         }
@@ -216,7 +217,7 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
                 var teamIndex = TabTeam.SelectedIndex;
 
                 var playerIndex = _teamData[teamIndex*8 + buttonIndex-1];
-                MemoryReader.WriteByte(_dataOffset + (int) BlitzballDataOffset.ContractLength + playerIndex,
+                Memory.WriteByte(_dataOffset + (int) BlitzballDataOffset.ContractLength + playerIndex,
                     byte.Parse(textBox.Text), true);
 
                 textBox.SelectAll();

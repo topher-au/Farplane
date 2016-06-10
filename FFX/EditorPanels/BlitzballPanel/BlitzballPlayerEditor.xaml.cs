@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
+using Farplane.Common.Dialogs;
 using Farplane.FFX.Values;
 using MahApps.Metro.Controls;
 
@@ -45,21 +46,21 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             // Refresh player data
             var playerIndex = TreeBlitzPlayers.Items.IndexOf(TreeBlitzPlayers.SelectedItem);
 
-            var playerLevel = MemoryReader.ReadByte(_dataOffset + (int) BlitzballDataOffset.PlayerLevels + playerIndex,
+            var playerLevel = Memory.ReadByte(_dataOffset + (int) BlitzballDataOffset.PlayerLevels + playerIndex,
                 true);
             TextLevel.Text = playerLevel.ToString();
 
-            var playerExp = MemoryReader.ReadUInt16(_dataOffset + (int) BlitzballDataOffset.PlayerEXP + playerIndex*2,
+            var playerExp = Memory.ReadUInt16(_dataOffset + (int) BlitzballDataOffset.PlayerEXP + playerIndex*2,
                 true);
             TextEXP.Text = playerExp.ToString();
 
             // Refresh equipped techs
 
-            var techCount = MemoryReader.ReadByte(_dataOffset + (int) BlitzballDataOffset.TechCount + playerIndex, true);
+            var techCount = Memory.ReadByte(_dataOffset + (int) BlitzballDataOffset.TechCount + playerIndex, true);
 
             ComboTechCount.SelectedIndex = techCount;
 
-            var techData = MemoryReader.ReadBytes(_dataOffset + (int) BlitzballDataOffset.EquippedTechs + playerIndex*5, 5,
+            var techData = Memory.ReadBytes(_dataOffset + (int) BlitzballDataOffset.EquippedTechs + playerIndex*5, 5,
                 true);
             
             for (int i = 0; i < 5; i++)
@@ -91,7 +92,7 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             var newCount = ComboTechCount.SelectedIndex;
             var playerIndex = TreeBlitzPlayers.Items.IndexOf(TreeBlitzPlayers.SelectedItem);
 
-            MemoryReader.WriteByte(_dataOffset + (int) BlitzballDataOffset.TechCount + playerIndex, (byte) newCount,
+            Memory.WriteByte(_dataOffset + (int) BlitzballDataOffset.TechCount + playerIndex, (byte) newCount,
                 true);
 
             Refresh();
@@ -110,14 +111,14 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             if (searchDialog.ResultIndex == -1)
             {
                 // clear slot
-                MemoryReader.WriteByte(_dataOffset + (int)BlitzballDataOffset.EquippedTechs + techIndex + playerIndex, (byte)0,
+                Memory.WriteByte(_dataOffset + (int)BlitzballDataOffset.EquippedTechs + techIndex + playerIndex, (byte)0,
                     true);
             }
             else
             {
                 // equip tech
                 var tech = Blitzball.Techs[searchDialog.ResultIndex];
-                MemoryReader.WriteByte(_dataOffset + (int)BlitzballDataOffset.EquippedTechs + techIndex + (playerIndex * 5), (byte)tech.Index,
+                Memory.WriteByte(_dataOffset + (int)BlitzballDataOffset.EquippedTechs + techIndex + (playerIndex * 5), (byte)tech.Index,
                     true);
             }
             Refresh();
@@ -131,7 +132,7 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             {
                 var playerIndex = TreeBlitzPlayers.Items.IndexOf(TreeBlitzPlayers.SelectedItem);
                 var level = byte.Parse(TextLevel.Text);
-                MemoryReader.WriteByte(_dataOffset + (int)BlitzballDataOffset.PlayerLevels + playerIndex, level,
+                Memory.WriteByte(_dataOffset + (int)BlitzballDataOffset.PlayerLevels + playerIndex, level,
                     true);
                 TextLevel.SelectionStart = 0;
                 TextLevel.SelectionLength = TextLevel.Text.Length;
@@ -152,7 +153,7 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             {
                 var playerIndex = TreeBlitzPlayers.Items.IndexOf(TreeBlitzPlayers.SelectedItem);
                 var exp = ushort.Parse(TextEXP.Text);
-                MemoryReader.WriteBytes(_dataOffset + (int)BlitzballDataOffset.PlayerEXP + playerIndex, BitConverter.GetBytes(exp),
+                Memory.WriteBytes(_dataOffset + (int)BlitzballDataOffset.PlayerEXP + playerIndex, BitConverter.GetBytes(exp),
                     true);
                 TextEXP.SelectionStart = 0;
                 TextEXP.SelectionLength = TextEXP.Text.Length;

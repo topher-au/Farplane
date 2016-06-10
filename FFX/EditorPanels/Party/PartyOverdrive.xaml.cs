@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
+using Farplane.FFX.Data;
 using Farplane.FFX.Values;
 
 namespace Farplane.FFX.EditorPanels.Party
@@ -26,6 +28,7 @@ namespace Farplane.FFX.EditorPanels.Party
         private readonly int _partyOffset = Offsets.GetOffset(OffsetType.PartyStatsBase);
         private int _characterIndex = -1;
         private bool _refreshing = false;
+        private int _blockSize = Marshal.SizeOf<PartyMember>();
 
         public PartyOverdrive()
         {
@@ -76,21 +79,21 @@ namespace Farplane.FFX.EditorPanels.Party
         private void OverdriveTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Enter || _refreshing) return;
-
+            
             try
             {
+                var charOffset = _partyOffset + _characterIndex * Marshal.SizeOf<PartyMember>();
+                var writeOffset = 0;
                 switch ((sender as TextBox).Name)
                 {
                     case "TextOverdriveCurrent":
-                        MemoryReader.WriteByte(
-                            _partyOffset + (_characterIndex*0x94) + (int) PartyStatOffset.OverdriveLevel,
-                            byte.Parse(TextOverdriveCurrent.Text));
+                        writeOffset = StructHelper.GetFieldOffset<PartyMember>("OverdriveCurrent", charOffset);
+                        Memory.WriteByte(writeOffset, byte.Parse(TextOverdriveCurrent.Text));
                         TextOverdriveCurrent.SelectAll();
                         break;
                     case "TextOverdriveMax":
-                        MemoryReader.WriteByte(
-                            _partyOffset + (_characterIndex*0x94) + (int) PartyStatOffset.OverdriveMax,
-                            byte.Parse(TextOverdriveMax.Text));
+                        writeOffset = StructHelper.GetFieldOffset<PartyMember>("OverdriveMax", charOffset);
+                        Memory.WriteByte(writeOffset, byte.Parse(TextOverdriveMax.Text));
                         TextOverdriveMax.SelectAll();
                         break;
                     default:
@@ -150,21 +153,25 @@ namespace Farplane.FFX.EditorPanels.Party
             _refreshing = true;
             _characterIndex = characterIndex;
 
-            var overdriveInfo =
-                MemoryReader.ReadBytes(_partyOffset + (_characterIndex*0x94) + (int) PartyStatOffset.OverdriveMode, 3);
+            var totalOverdrives = OverdriveMode.OverdriveModes.Length;
 
-            ComboCurrentOverdrive.SelectedIndex = overdriveInfo[0];
-            TextOverdriveCurrent.Text = overdriveInfo[1].ToString();
-            TextOverdriveMax.Text = overdriveInfo[2].ToString();
+            var charOffset = _partyOffset + _characterIndex*Marshal.SizeOf<PartyMember>();
 
-            var totalOverdrives = GridOverdrive.Children.Count;
+            var offsetLevels = StructHelper.GetFieldOffset<PartyMember>("OverdriveMode", charOffset);
+            var offsetFlags = StructHelper.GetFieldOffset<PartyMember>("OverdriveModes", charOffset);
+            var offsetCounters = StructHelper.GetFieldOffset<PartyMember>("OverdriveWarrior", charOffset);
+            
+            var odLevels = Memory.ReadBytes(offsetLevels, 3);
 
             _odBytes =
-                MemoryReader.ReadBytes(_partyOffset + (_characterIndex*0x94) + (int) PartyStatOffset.OverdriveModes, 0x3);
+                Memory.ReadBytes(offsetFlags, 0x3);
             _odCounters =
-                MemoryReader.ReadBytes(_partyOffset + (_characterIndex*0x94) + (int) PartyStatOffset.OverdriveWarrior,
-                    totalOverdrives*2);
+                Memory.ReadBytes(offsetCounters, totalOverdrives * 2);
 
+            ComboCurrentOverdrive.SelectedIndex = odLevels[0];
+            TextOverdriveCurrent.Text = odLevels[1].ToString();
+            TextOverdriveMax.Text = odLevels[2].ToString();
+            
             var learnedOverdrives = BitHelper.GetBitArray(_odBytes, totalOverdrives);
 
             for (int i = 0; i < totalOverdrives; i++)
@@ -183,19 +190,19 @@ namespace Farplane.FFX.EditorPanels.Party
 
         private void ButtonMax_Click(object sender, RoutedEventArgs e)
         {
-            var currentMax = MemoryReader.ReadByte(
-                            _partyOffset + (_characterIndex * 0x94) + (int)PartyStatOffset.OverdriveMax);
-            MemoryReader.WriteByte(
-                            _partyOffset + (_characterIndex * 0x94) + (int)PartyStatOffset.OverdriveLevel,
-                            currentMax);
+            var charOffset = _partyOffset + _characterIndex * _blockSize;
+            var levelOffset = StructHelper.GetFieldOffset<PartyMember>("OverdriveLevel", charOffset);
+            var currentMax = Memory.ReadBytes(levelOffset, 2);
+            Memory.WriteByte(levelOffset, currentMax[1]);
             Refresh(_characterIndex);
         }
 
         private void ComboCurrentOverdrive_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_refreshing) return;
-            MemoryReader.WriteByte(_partyOffset + (_characterIndex*0x94) + (int) PartyStatOffset.OverdriveMode,
-                (byte) OverdriveMode.OverdriveModes[ComboCurrentOverdrive.SelectedIndex].BitIndex);
+            var charOffset = _partyOffset + _characterIndex * _blockSize;
+            var offset = StructHelper.GetFieldOffset<PartyMember>("OverdriveMode", charOffset);
+            Memory.WriteByte(offset, (byte) OverdriveMode.OverdriveModes[ComboCurrentOverdrive.SelectedIndex].BitIndex);
         }
     }
 }

@@ -30,13 +30,13 @@ namespace Farplane.FFX2
             var countOffset = (int)OffsetType.ItemCount + slot;
             if (item == -1) // No item selected
             {
-                MemoryReader.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)0xFF));
-                MemoryReader.WriteBytes(countOffset, new byte[] { (byte)0 });
+                Memory.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)0xFF));
+                Memory.WriteBytes(countOffset, new byte[] { (byte)0 });
             }
             else
             {
-                MemoryReader.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)(item + 0x2000)));
-                MemoryReader.WriteBytes(countOffset, new byte[] { (byte)count });
+                Memory.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)(item + 0x2000)));
+                Memory.WriteBytes(countOffset, new byte[] { (byte)count });
             }
         }
 
@@ -46,20 +46,20 @@ namespace Farplane.FFX2
             var countOffset = (int)OffsetType.AccessoryCount + slot;
             if (item == -1) // No item selected
             {
-                MemoryReader.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)0xFF));
-                MemoryReader.WriteBytes(countOffset, new byte[] { (byte)0 });
+                Memory.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)0xFF));
+                Memory.WriteBytes(countOffset, new byte[] { (byte)0 });
             }
             else
             {
-                MemoryReader.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)(item + 0x9000)));
-                MemoryReader.WriteBytes(countOffset, new byte[] { (byte)count });
+                Memory.WriteBytes(typeOffset, BitConverter.GetBytes((ushort)(item + 0x9000)));
+                Memory.WriteBytes(countOffset, new byte[] { (byte)count });
             }
         }
 
         public static void GiveAllGrids()
         {
             var allGridBytes = new byte[8].Select(gb => gb = (byte) 0xFF).ToArray();
-            MemoryReader.WriteBytes((int)OffsetType.KnownGarmentGrids, allGridBytes);
+            Memory.WriteBytes((int)OffsetType.KnownGarmentGrids, allGridBytes);
         }
     }
 }

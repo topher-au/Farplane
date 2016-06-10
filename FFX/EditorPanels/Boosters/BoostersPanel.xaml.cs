@@ -47,7 +47,7 @@ namespace Farplane.FFX.EditorPanels.Boosters
                 ShareBoxes.Children.Add(new CheckBox()
                 {
                     Name = "CheckBoxAPShare" + i,
-                    Content = (Characters) i,
+                    Content = (Character) i,
                     Margin = new Thickness(5),
                     IsChecked = i != 7
                 });
@@ -61,7 +61,7 @@ namespace Farplane.FFX.EditorPanels.Boosters
                 // Shared AP mod
                 if (_sharedApEnabled)
                 {
-                    if (!MemoryReader.CheckProcess()) break;
+                    if (!Memory.CheckProcess()) break;
                     try
                     {
                         Dispatcher.Invoke(UpdateSharedAPState);
@@ -77,8 +77,8 @@ namespace Farplane.FFX.EditorPanels.Boosters
                         writeBuffer[i] = _sharedApState[i];
                     }
 
-                    MemoryReader.WriteBytes(_offsetInBattle, writeBuffer);
-                    MemoryReader.WriteBytes(_offsetGainedAp, writeBuffer);
+                    Memory.WriteBytes(_offsetInBattle, writeBuffer);
+                    Memory.WriteBytes(_offsetGainedAp, writeBuffer);
                 }
 
                 Thread.Sleep(10);
@@ -87,7 +87,7 @@ namespace Farplane.FFX.EditorPanels.Boosters
 
         private void UpdateSharedAPState()
         {
-            var gainedAp = MemoryReader.ReadBytes(_offsetGainedAp, 8);
+            var gainedAp = Memory.ReadBytes(_offsetGainedAp, 8);
 
             for (int i = 0; i < 8; i++)
             {
@@ -126,17 +126,6 @@ namespace Farplane.FFX.EditorPanels.Boosters
         private void LearnAllAbilities_Click(object sender, RoutedEventArgs e)
         {
             Cheats.LearnAllAbilities();
-        }
-
-        private void ButtonRemoveStatLimit_Click(object sender, RoutedEventArgs e)
-        {
-            Cheats.RemoveHPLimit();
-            Cheats.RemoveMPLimit();
-        }
-
-        private void ButtonRemoveDamageLimit_Click(object sender, RoutedEventArgs e)
-        {
-            Cheats.RemoveDamageLimit();
         }
     }
 }

@@ -7,7 +7,7 @@
                       xmlns:panels="clr-namespace:Farplane.FFX2.EditorPanels"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Farplane Editor - Final Fantasy X-2" Height="540" Width="640" WindowStartupLocation="CenterScreen" BorderThickness="0" GlowBrush="Black" ResizeMode="NoResize" Icon="/Farplane;component/Resources/Farplane_Icon.ico">
+        Title="Farplane Editor - Final Fantasy X-2" Height="540" Width="640" WindowStartupLocation="CenterScreen" BorderThickness="0" GlowBrush="Black" ResizeMode="CanMinimize" Icon="/Farplane;component/Resources/Farplane_Icon.ico" ShowSystemMenuOnRightClick="False">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Click="RefreshAll_Click" ToolTip="Refresh all data">
@@ -16,9 +16,12 @@
             <ToggleButton Name="ButtonPin" Click="ButtonPin_Click" ToolTip="Always on top">
                 <Image Source="../Resources/Images/pin.png" Width="16" Height="16"/>
             </ToggleButton>
+            <ToggleButton Name="ButtonRollUp" Click="ButtonRollUp_Click" ToolTip="Shrink Farplane">
+                <Image Source="../Resources/Images/shrink.png" Width="16" Height="16"/>
+            </ToggleButton>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    <Grid>
+    <Grid Name="GridContent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160" />
             <ColumnDefinition />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -15,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Farplane.FFX2.EditorPanels;
 using MahApps.Metro.Controls;
+using Image = System.Windows.Controls.Image;
 
 namespace Farplane.FFX2
 {
@@ -35,7 +37,12 @@ namespace Farplane.FFX2
         private GarmentGridEditor mGarmentGridEditor = new GarmentGridEditor();
         private DebugOptions mDebugOptions = new DebugOptions();
 
+        private int _defaultHeight = 540;
+        private int _defaultWidth = 640;
+        private bool _rolledUp = false;
         private bool _windowPinned = false;
+        private BitmapImage _iconShrink = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/shrink.png"));
+        private BitmapImage _iconExpand = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/expand.png"));
 
         public FFX2Editor()
         {
@@ -48,7 +55,7 @@ namespace Farplane.FFX2
         {
             while (true)
             {
-                if (!MemoryReader.CheckProcess())
+                if (!Memory.CheckProcess())
                 {
                     Dispatcher.Invoke((MethodInvoker) delegate
                     {
@@ -142,6 +149,32 @@ namespace Farplane.FFX2
             ButtonPin.IsChecked = _windowPinned;
 
             this.Topmost = _windowPinned;
+        }
+
+        private void ButtonRollUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (_rolledUp)
+            {
+                Left -= _defaultWidth - 210;
+
+                GridContent.Visibility = Visibility.Visible;
+
+                Width = _defaultWidth;
+                Height = _defaultHeight;
+
+                ButtonRollUp.Content = new Image() {Source = _iconShrink, Width = 16, Height = 16 };
+            }
+            else
+            {
+                Width = 210;
+                Left += _defaultWidth - Width;
+
+                Height = 30;
+                GridContent.Visibility = Visibility.Hidden;
+                ButtonRollUp.Content = new Image() { Source = _iconExpand, Width=16, Height=16 };
+            }
+            _rolledUp = !_rolledUp;
+
         }
     }
 }

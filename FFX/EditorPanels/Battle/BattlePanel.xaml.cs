@@ -117,7 +117,7 @@ namespace Farplane.FFX.EditorPanels.Battle
 
                 var entityTab = TabEntity.Items[i] as TabItem;
                 entityTab.Visibility = Visibility.Visible;
-                entityTab.Header = ((Characters) i).ToString();
+                entityTab.Header = ((Character) i).ToString();
                 _partyCount++;
             }
         }

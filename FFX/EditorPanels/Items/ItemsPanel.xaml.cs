@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
+using Farplane.Common.Controls;
 using Farplane.FFX.Values;
 using MahApps.Metro;
 
@@ -69,13 +70,13 @@ namespace Farplane.FFX.EditorPanels.Items
 
         private void KeyItemButtonsOnButtonClicked(int buttonIndex)
         {
-            var keyItemData = MemoryReader.ReadBytes(_offsetKeyItem, 8);
+            var keyItemData = Memory.ReadBytes(_offsetKeyItem, 8);
             var bitIndex = KeyItem.KeyItems[buttonIndex].BitIndex;
             var keyByteIndex = bitIndex / 8;
             var keyBitIndex = bitIndex % 8;
 
             keyItemData[keyByteIndex] = BitHelper.ToggleBit(keyItemData[keyByteIndex], keyBitIndex);
-            MemoryReader.WriteBytes(_offsetKeyItem, keyItemData);
+            Memory.WriteBytes(_offsetKeyItem, keyItemData);
             Refresh();
         }
 
@@ -146,8 +147,8 @@ namespace Farplane.FFX.EditorPanels.Items
             }
 
             // Refresh key items and al bhed dictionaries
-            var keyItemData = MemoryReader.ReadBytes(_offsetKeyItem, 8);
-            var alBhedData = MemoryReader.ReadBytes(_offsetAlBhed, 4);
+            var keyItemData = Memory.ReadBytes(_offsetKeyItem, 8);
+            var alBhedData = Memory.ReadBytes(_offsetAlBhed, 4);
             _keyItemState = BitHelper.GetBitArray(keyItemData, 58);
             _alBhedState = BitHelper.GetBitArray(alBhedData, 26);
 
@@ -180,7 +181,7 @@ namespace Farplane.FFX.EditorPanels.Items
         {
             if (_refreshing) return;
             var checkBox = sender as CheckBox;
-            var alBhedData = MemoryReader.ReadBytes(_offsetAlBhed, 4);
+            var alBhedData = Memory.ReadBytes(_offsetAlBhed, 4);
 
             var boxIndex = PanelAlBhed.Children.IndexOf(checkBox);
 
@@ -188,7 +189,7 @@ namespace Farplane.FFX.EditorPanels.Items
             var bitIndex = boxIndex%8;
 
             alBhedData[byteIndex] = BitHelper.ToggleBit(alBhedData[byteIndex], bitIndex);
-            MemoryReader.WriteBytes(_offsetAlBhed, alBhedData);
+            Memory.WriteBytes(_offsetAlBhed, alBhedData);
             Refresh();
         }
     }

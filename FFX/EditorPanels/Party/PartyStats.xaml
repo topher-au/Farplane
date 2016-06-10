@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Party"
              mc:Ignorable="d"
-             d:DesignHeight="400" d:DesignWidth="360">
+             d:DesignHeight="400" d:DesignWidth="460">
     <GroupBox Header="Stats">
         <StackPanel>
             <TextBlock HorizontalAlignment="Center" Margin="0,0,0,5">Open the items menu to recalculate current stats</TextBlock>
@@ -72,6 +72,14 @@
                     </DockPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
+                    <DockPanel Margin="2,2,2,12">
+                        <TextBlock Text="In Party" Margin="5" />
+                        <ComboBox Name="ComboInParty" Width="120" HorizontalAlignment="Right" SelectionChanged="ComboInParty_OnSelectionChanged">
+                            <ComboBoxItem Content="In Party" />
+                            <ComboBoxItem Content="Not in Party" />
+                            <ComboBoxItem Content="Disabled" />
+                        </ComboBox>
+                    </DockPanel>
                     <DockPanel Margin="2">
                         <TextBlock Text="Base Strength" Margin="5" />
                         <TextBox Name="TextBaseStrength" Text="255" Width="40" HorizontalAlignment="Right"

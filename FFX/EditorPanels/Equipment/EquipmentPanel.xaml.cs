@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Farplane.Common;
+using Farplane.Common.Dialogs;
 using Farplane.FFX.Data;
 using Farplane.FFX.Values;
 using MahApps.Metro.Controls;
@@ -21,21 +14,13 @@ using MahApps.Metro.Controls;
 namespace Farplane.FFX.EditorPanels.Equipment
 {
     /// <summary>
-    /// Interaction logic for EquipmentPanel.xaml
+    ///     Interaction logic for EquipmentPanel.xaml
     /// </summary>
     public partial class EquipmentPanel : UserControl
     {
         private const string NameUnknown = "????";
         private const string NameEmpty = "< Empty >";
         private const int TotalSlots = 0xB2;
-
-        private int currentItem = -1;
-        private byte[] _allEquipBytes;
-        private EquipmentItem _currentItem;
-
-
-        private int _selectedItem = -1;
-        private bool _refreshing = false;
 
         private readonly BitmapImage[] _icons =
         {
@@ -52,8 +37,17 @@ namespace Farplane.FFX.EditorPanels.Equipment
             new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_5_0.png")),
             new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_5_1.png")),
             new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_6_0.png")),
-            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_6_1.png")),
+            new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_6_1.png"))
         };
+
+        private byte[] _allEquipBytes;
+        private EquipmentItem _currentItem;
+        private bool _refreshing;
+
+
+        private int _selectedItem = -1;
+
+        private int currentItem = -1;
 
 
         public EquipmentPanel()
@@ -62,7 +56,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
 
             // Initialize equipment item view
             for (var charaIndex = 0; charaIndex < 18; charaIndex++)
-                ComboEquipmentCharacter.Items.Add((Characters) charaIndex);
+                ComboEquipmentCharacter.Items.Add((Character) charaIndex);
 
             for (var formulaIndex = 0; formulaIndex < DamageFormula.DamageFormulas.Length; formulaIndex++)
                 ComboDamageFormula.Items.Add(DamageFormula.DamageFormulas[formulaIndex].Name);
@@ -70,7 +64,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
 
         public void ReadEquipmentBytes()
         {
-            _allEquipBytes = MemoryReader.ReadBytes(Offsets.GetOffset(OffsetType.EquipmentBase),
+            _allEquipBytes = Memory.ReadBytes(Offsets.GetOffset(OffsetType.EquipmentBase),
                 TotalSlots*(int) BlockLength.EquipmentItem);
         }
 
@@ -82,20 +76,20 @@ namespace Farplane.FFX.EditorPanels.Equipment
 
             ReadEquipmentBytes();
 
-            for (int equipmentSlot = 0; equipmentSlot < TotalSlots; equipmentSlot++)
+            for (var equipmentSlot = 0; equipmentSlot < TotalSlots; equipmentSlot++)
             {
                 var imageIcon = new Image {Width = 24, Height = 24, Name = "ImageIcon"};
-                var textName = new TextBlock() {VerticalAlignment = VerticalAlignment.Center, Name = "TextName"};
+                var textName = new TextBlock {VerticalAlignment = VerticalAlignment.Center, Name = "TextName"};
 
-                var panelItem = new DockPanel() {Children = {imageIcon, textName}, Margin = new Thickness(0)};
-                var listItem = new ListViewItem() {Content = panelItem};
+                var panelItem = new DockPanel {Children = {imageIcon, textName}, Margin = new Thickness(0)};
+                var listItem = new ListViewItem {Content = panelItem};
 
                 var currentItem = Data.Equipment.ReadItem(equipmentSlot);
 
                 if (currentItem.Character > 6)
                 {
                     // Aeon or Seymour, no name available
-                    var charaName = ((Characters) currentItem.Character).ToString();
+                    var charaName = ((Character) currentItem.Character).ToString();
                     textName.Text = $"{NameUnknown} [{charaName}]";
                 }
                 else if (currentItem.SlotOccupied == 0)
@@ -144,6 +138,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
                 ContentEditItem.Visibility = Visibility.Collapsed;
 
                 listText.Text = NameEmpty;
+                imageIcon.Source = null;
                 _refreshing = false;
                 return;
             }
@@ -161,7 +156,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
             }
             else
             {
-                var nameString = ((Characters) _currentItem.Character).ToString();
+                var nameString = ((Character) _currentItem.Character).ToString();
 
                 listText.Text = $"{NameUnknown} [{nameString}]";
                 imageIcon.Source = null;
@@ -191,7 +186,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
 
             ComboEquipmentSlots.SelectedIndex = _currentItem.AbilityCount;
 
-            for (int slot = 0; slot < 4; slot++)
+            for (var slot = 0; slot < 4; slot++)
             {
                 var button = (Button) FindName("Ability" + slot.ToString().Trim());
 
@@ -232,7 +227,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
             var newSlots = (sender as ComboBox).SelectedIndex;
             for (var i = 0; i < 4; i++)
             {
-                var abilityButton = (AbilityPanel.Children[i] as Button);
+                var abilityButton = AbilityPanel.Children[i] as Button;
                 if (abilityButton == null) continue;
 
                 if (i >= newSlots)
@@ -245,8 +240,8 @@ namespace Farplane.FFX.EditorPanels.Equipment
                     abilityButton.Visibility = Visibility.Visible;
                 }
             }
-            var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + (_selectedItem*(int) BlockLength.EquipmentItem);
-            MemoryReader.WriteBytes(offset + (int) EquipmentOffset.AbilityCount, new byte[] {(byte) newSlots});
+            var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem*(int) BlockLength.EquipmentItem;
+            Memory.WriteBytes(offset + (int) EquipmentOffset.AbilityCount, new[] {(byte) newSlots});
 
             RefreshSelectedItem();
         }
@@ -294,7 +289,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
             if (currentChara > 6) currentChara = 0;
 
             var searchList = new List<string>();
-            for (int n = 0; n < EquipName.EquipNames[currentChara].Length; n++)
+            for (var n = 0; n < EquipName.EquipNames[currentChara].Length; n++)
                 searchList.Add($"{n.ToString("X2")} {EquipName.EquipNames[currentChara][n]}");
 
             var currentName =
@@ -312,7 +307,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
             if (!searchComplete.Value) return;
             var searchIndex = searchDialog.ResultIndex;
 
-            MemoryReader.WriteByte(
+            Memory.WriteByte(
                 Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem*(int) BlockLength.EquipmentItem,
                 (byte) searchIndex);
 
@@ -325,7 +320,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
 
             var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem*(int) BlockLength.EquipmentItem +
                          (int) EquipmentOffset.Character;
-            MemoryReader.WriteBytes(offset, new byte[] {(byte) ComboEquipmentCharacter.SelectedIndex});
+            Memory.WriteBytes(offset, new[] {(byte) ComboEquipmentCharacter.SelectedIndex});
 
             RefreshSelectedItem();
         }
@@ -336,7 +331,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
 
             var offset = Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem*(int) BlockLength.EquipmentItem +
                          (int) EquipmentOffset.Type;
-            MemoryReader.WriteBytes(offset, new byte[] {(byte) ComboEquipmentType.SelectedIndex});
+            Memory.WriteBytes(offset, new[] {(byte) ComboEquipmentType.SelectedIndex});
 
             RefreshSelectedItem();
         }
@@ -349,7 +344,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
             if (currentChara > 6) currentChara = 0;
 
             var searchList = new List<string>();
-            for (int n = 0; n < EquipAppearance.EquipAppearances.Length; n++)
+            for (var n = 0; n < EquipAppearance.EquipAppearances.Length; n++)
                 searchList.Add(
                     $"{EquipAppearance.EquipAppearances[n].ID.ToString("X2")} {EquipAppearance.EquipAppearances[n].Name}");
 
@@ -363,7 +358,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
             var searchIndex = searchDialog.ResultIndex;
             var searchItem = EquipAppearance.EquipAppearances[searchIndex];
 
-            MemoryReader.WriteBytes(
+            Memory.WriteBytes(
                 Offsets.GetOffset(OffsetType.EquipmentBase) + _selectedItem*(int) BlockLength.EquipmentItem +
                 (int) EquipmentOffset.Appearance, BitConverter.GetBytes((ushort) searchItem.ID));
             RefreshSelectedItem();
@@ -390,14 +385,14 @@ namespace Farplane.FFX.EditorPanels.Equipment
                     "Confirm item deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (confirm != MessageBoxResult.Yes) return;
 
-            var itemEmpty = new EquipmentItem() {Abilities = new ushort[4]};
+            var itemEmpty = new EquipmentItem {Abilities = new ushort[4]};
             Data.Equipment.WriteItem(_selectedItem, itemEmpty);
             RefreshSelectedItem();
         }
 
         private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
         {
-            var itemEmpty = new EquipmentItem()
+            var itemEmpty = new EquipmentItem
             {
                 SlotOccupied = 0x01,
                 Appearance = 0x4002,
@@ -418,7 +413,7 @@ namespace Farplane.FFX.EditorPanels.Equipment
             if (_refreshing) return;
 
             var formula = DamageFormula.DamageFormulas[ComboDamageFormula.SelectedIndex];
-            _currentItem.DamageFormula = (byte)formula.ID;
+            _currentItem.DamageFormula = (byte) formula.ID;
             Data.Equipment.WriteItem(_selectedItem, _currentItem);
             RefreshSelectedItem();
         }
@@ -436,7 +431,6 @@ namespace Farplane.FFX.EditorPanels.Equipment
             {
                 Error.Show("Please enter a number between 0 and 255.");
             }
-            
         }
 
         private void TextCritChance_OnKeyDown(object sender, KeyEventArgs e)

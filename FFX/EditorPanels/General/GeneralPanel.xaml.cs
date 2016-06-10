@@ -31,8 +31,8 @@ namespace Farplane.FFX.EditorPanels.General
 
         public void Refresh()
         {
-            var currentGil = MemoryReader.ReadInt32(_offsetGil);
-            var tidusOverdrive = MemoryReader.ReadInt32(_offsetTidusOverdrive);
+            var currentGil = Memory.ReadInt32(_offsetGil);
+            var tidusOverdrive = Memory.ReadInt32(_offsetTidusOverdrive);
             TextGil.Text = currentGil.ToString();
             TextTidusOverdrive.Text = tidusOverdrive.ToString();
         }
@@ -44,7 +44,7 @@ namespace Farplane.FFX.EditorPanels.General
             try
             {
                 var currentGil = int.Parse(TextGil.Text);
-                MemoryReader.WriteBytes(_offsetGil, BitConverter.GetBytes(currentGil));
+                Memory.WriteBytes(_offsetGil, BitConverter.GetBytes(currentGil));
                 TextGil.SelectAll();
             }
             catch
@@ -60,7 +60,7 @@ namespace Farplane.FFX.EditorPanels.General
             try
             {
                 var tidusOverdrive = int.Parse(TextTidusOverdrive.Text);
-                MemoryReader.WriteBytes(_offsetTidusOverdrive, BitConverter.GetBytes(tidusOverdrive));
+                Memory.WriteBytes(_offsetTidusOverdrive, BitConverter.GetBytes(tidusOverdrive));
                 TextTidusOverdrive.SelectAll();
             }
             catch

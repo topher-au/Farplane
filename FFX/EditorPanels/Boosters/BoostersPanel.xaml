@@ -19,19 +19,6 @@
                 </GroupBox>
                 <GroupBox Header="Temporary Boosters">
                     <StackPanel>
-                        <GroupBox Header="Limit Break">
-                            <StackPanel>
-                                <TextBlock HorizontalAlignment="Center">Limit breaks will active until the game is closed</TextBlock>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Button Content="Remove HP/MP limit" Margin="5" Click="ButtonRemoveStatLimit_Click"/>
-                                    <Button Grid.Column="1" Content="Remove damage limit" Margin="5" Click="ButtonRemoveDamageLimit_Click"/>
-                                </Grid>
-                            </StackPanel>
-                        </GroupBox>
                         <GroupBox Header="AP Sharing" >
                             <StackPanel>
                                 <StackPanel>

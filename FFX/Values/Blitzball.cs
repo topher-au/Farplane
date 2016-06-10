@@ -151,13 +151,13 @@ namespace Farplane.FFX.Values
 
         public static int GetDataOffset()
         {
-            var pointer = MemoryReader.ReadInt32(_dataPointer);
+            var pointer = Memory.ReadInt32(_dataPointer);
             return pointer;
         }
 
         public static int GetGameOffset()
         {
-            var pointer = MemoryReader.ReadInt32(_gamePointer);
+            var pointer = Memory.ReadInt32(_gamePointer);
             return pointer;
         }
 

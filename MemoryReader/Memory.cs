@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Farplane
 {
-    public static class MemoryReader
+    public static class Memory
     {
         private static IntPtr _memoryHandle;
         private static Process _memoryProcess;
@@ -16,7 +16,7 @@ namespace Farplane
         private static bool _isAttached
             => _memoryHandle != IntPtr.Zero && _memoryProcess != null && _memoryProcess.HasExited == false;
 
-        public static void Attach(Process process)
+        internal static void Attach(Process process)
         {
             Detach();
 
@@ -33,7 +33,7 @@ namespace Farplane
             _memoryHandle = openHandle;
         }
 
-        public static bool CheckProcess()
+        internal static bool CheckProcess()
         {
             if (_memoryProcess == null || _memoryProcess.HasExited)
             {
@@ -43,7 +43,7 @@ namespace Farplane
             return true;
         }
 
-        public static void Detach()
+        internal static void Detach()
         {
             _memoryProcess?.Dispose();
             _memoryProcess = null;

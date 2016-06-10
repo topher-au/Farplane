@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using Farplane.FFX2.Values;
 using MahApps.Metro.Controls;
 
-namespace Farplane.Common
+namespace Farplane.Common.Dialogs
 {
     /// <summary>
     /// Interaction logic for CommandSelectDialog.xaml

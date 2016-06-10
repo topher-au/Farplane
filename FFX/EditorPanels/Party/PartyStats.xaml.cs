@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Farplane.Common;
+using Farplane.FFX.Data;
 
 namespace Farplane.FFX.EditorPanels.Party
 {
@@ -23,6 +25,7 @@ namespace Farplane.FFX.EditorPanels.Party
         private const int StatsLength = 0x94;
         private int _statsBase;
         private int _characterIndex;
+        private bool _canWriteData;
 
         public PartyStats()
         {
@@ -31,33 +34,59 @@ namespace Farplane.FFX.EditorPanels.Party
 
         public void Refresh(int characterIndex)
         {
+            _canWriteData = false;
+            
             _characterIndex = characterIndex;
+
+            var partyMember = Data.Party.ReadPartyMember(_characterIndex);
+
             _statsBase = Offsets.GetOffset(OffsetType.PartyStatsBase) + StatsLength * _characterIndex;
 
-            var statBytes = MemoryReader.ReadBytes(_statsBase, StatsLength);
+            var statBytes = Memory.ReadBytes(_statsBase, StatsLength);
 
-            TextTotalAP.Text = BitConverter.ToUInt32(statBytes, (int)PartyStatOffset.ApTotal).ToString();
-            TextCurrentAP.Text = BitConverter.ToUInt32(statBytes, (int)PartyStatOffset.ApCurrent).ToString();
+            TextTotalAP.Text = partyMember.ApTotal.ToString();
+            TextCurrentAP.Text = partyMember.ApCurrent.ToString();
 
-            TextCurrentHP.Text = BitConverter.ToUInt32(statBytes, (int)PartyStatOffset.CurrentHp).ToString();
-            TextCurrentMP.Text = BitConverter.ToUInt32(statBytes, (int)PartyStatOffset.CurrentMp).ToString();
-            TextMaxHP.Text = BitConverter.ToUInt32(statBytes, (int)PartyStatOffset.MaxHp).ToString();
-            TextMaxMP.Text = BitConverter.ToUInt32(statBytes, (int)PartyStatOffset.MaxMp).ToString();
+            TextCurrentHP.Text = BitConverter.ToUInt32(statBytes, StructHelper.GetFieldOffset<PartyMember>("CurrentHp")).ToString();
+            TextCurrentMP.Text = BitConverter.ToUInt32(statBytes, StructHelper.GetFieldOffset<PartyMember>("CurrentMp")).ToString();
+            TextMaxHP.Text = BitConverter.ToUInt32(statBytes, StructHelper.GetFieldOffset<PartyMember>("CurrentHpMax")).ToString();
+            TextMaxMP.Text = BitConverter.ToUInt32(statBytes, StructHelper.GetFieldOffset<PartyMember>("CurrentMpMax")).ToString();
 
-            TextBaseHP.Text = BitConverter.ToUInt32(statBytes, (int) PartyStatOffset.BaseHp).ToString();
-            TextBaseMP.Text = BitConverter.ToUInt32(statBytes, (int)PartyStatOffset.BaseMp).ToString();
+            TextBaseHP.Text = BitConverter.ToUInt32(statBytes, StructHelper.GetFieldOffset<PartyMember>("BaseHp")).ToString();
+            TextBaseMP.Text = BitConverter.ToUInt32(statBytes, StructHelper.GetFieldOffset<PartyMember>("BaseMp")).ToString();
 
-            TextSphereLevelCurrent.Text = statBytes[(int)PartyStatOffset.SphereLevelCurrent].ToString();
-            TextSphereLevelTotal.Text = BitConverter.ToUInt16(statBytes, (int)PartyStatOffset.SphereLevelTotal).ToString();
+            TextSphereLevelCurrent.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("SphereLevelCurrent")].ToString();
+            TextSphereLevelTotal.Text = BitConverter.ToUInt16(statBytes, StructHelper.GetFieldOffset<PartyMember>("SphereLevelTotal")).ToString();
 
-            TextBaseStrength.Text = statBytes[(int)PartyStatOffset.BaseStrength].ToString();
-            TextBaseDefense.Text = statBytes[(int)PartyStatOffset.BaseDefense].ToString();
-            TextBaseMagic.Text = statBytes[(int)PartyStatOffset.BaseMagic].ToString();
-            TextBaseMagicDef.Text = statBytes[(int)PartyStatOffset.BaseMagicDefense].ToString();
-            TextBaseAgility.Text = statBytes[(int)PartyStatOffset.BaseAgility].ToString();
-            TextBaseLuck.Text = statBytes[(int)PartyStatOffset.BaseLuck].ToString();
-            TextBaseEvasion.Text = statBytes[(int)PartyStatOffset.BaseEvasion].ToString();
-            TextBaseAccuracy.Text = statBytes[(int)PartyStatOffset.BaseAccuracy].ToString();
+            var inParty = statBytes[StructHelper.GetFieldOffset<PartyMember>("InParty")];
+
+            var partyComboIndex = 0;
+
+            switch (inParty)
+            {
+                case 0:
+                    partyComboIndex = 2;
+                    break;
+                case 16:
+                    partyComboIndex = 1;
+                    break;
+                case 17:
+                    partyComboIndex = 0;
+                    break;
+            }
+
+            ComboInParty.SelectedIndex = partyComboIndex;
+
+            TextBaseStrength.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseStrength")].ToString();
+            TextBaseDefense.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseDefense")].ToString();
+            TextBaseMagic.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseMagic")].ToString();
+            TextBaseMagicDef.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseMagicDefense")].ToString();
+            TextBaseAgility.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseAgility")].ToString();
+            TextBaseLuck.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseLuck")].ToString();
+            TextBaseEvasion.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseEvasion")].ToString();
+            TextBaseAccuracy.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseAccuracy")].ToString();
+
+            _canWriteData = true;
         }
 
         private void TextBox_OnKeyDown(object sender, KeyEventArgs e)
@@ -66,71 +95,81 @@ namespace Farplane.FFX.EditorPanels.Party
 
             try
             {
+                int offset = 0;
                 var textBox = (sender as TextBox);
                 switch (textBox.Name)
                 {
                     case "TextTotalAP":
-                        MemoryReader.WriteBytes(_statsBase + (int)PartyStatOffset.ApTotal,
-                            BitConverter.GetBytes(uint.Parse(TextTotalAP.Text)));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("ApTotal", _statsBase);
+                        Memory.WriteBytes(offset, BitConverter.GetBytes(uint.Parse(TextTotalAP.Text)));
                         break;
                     case "TextCurrentAP":
-                        MemoryReader.WriteBytes(_statsBase + (int)PartyStatOffset.ApCurrent,
-                            BitConverter.GetBytes(uint.Parse(TextCurrentAP.Text)));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("ApCurrent", _statsBase);
+                        Memory.WriteBytes(offset, BitConverter.GetBytes(uint.Parse(TextCurrentAP.Text)));
                         break;
                     case "TextMaxHP":
-                        MemoryReader.WriteBytes(_statsBase + (int)PartyStatOffset.MaxHp,
-                            BitConverter.GetBytes(uint.Parse(TextMaxHP.Text)));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("CurrentHpMax", _statsBase);
+                        Memory.WriteBytes(offset, BitConverter.GetBytes(uint.Parse(TextMaxHP.Text)));
                         break;
                     case "TextMaxMP":
-                        MemoryReader.WriteBytes(_statsBase + (int)PartyStatOffset.MaxMp,
-                            BitConverter.GetBytes(uint.Parse(TextMaxMP.Text)));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("CurrentMpMax", _statsBase);
+                        Memory.WriteBytes(offset, BitConverter.GetBytes(uint.Parse(TextMaxMP.Text)));
                         break;
                     case "TextCurrentHP":
-                        MemoryReader.WriteBytes(_statsBase + (int)PartyStatOffset.CurrentHp,
-                            BitConverter.GetBytes(uint.Parse(TextCurrentHP.Text)));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("CurrentHp", _statsBase);
+                        Memory.WriteBytes(offset, BitConverter.GetBytes(uint.Parse(TextCurrentHP.Text)));
                         break;
                     case "TextCurrentMP":
-                        MemoryReader.WriteBytes(_statsBase + (int)PartyStatOffset.CurrentMp,
-                            BitConverter.GetBytes(uint.Parse(TextCurrentMP.Text)));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("CurrentMp", _statsBase);
+                        Memory.WriteBytes(offset, BitConverter.GetBytes(uint.Parse(TextCurrentMP.Text)));
                         break;
                     case "TextBaseHP":
-                        MemoryReader.WriteBytes(_statsBase + (int) PartyStatOffset.BaseHp,
-                            BitConverter.GetBytes(uint.Parse(TextBaseHP.Text)));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("BaseHp", _statsBase);
+                        Memory.WriteBytes(offset, BitConverter.GetBytes(uint.Parse(TextBaseHP.Text)));
                         break;
                     case "TextBaseMP":
-                        MemoryReader.WriteBytes(_statsBase + (int)PartyStatOffset.BaseMp,
-                            BitConverter.GetBytes(uint.Parse(TextBaseMP.Text)));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("BaseMp", _statsBase);
+                        Memory.WriteBytes(offset, BitConverter.GetBytes(uint.Parse(TextBaseMP.Text)));
                         break;
                     case "TextSphereLevelCurrent":
-                        MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.SphereLevelCurrent, byte.Parse(TextSphereLevelCurrent.Text));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("SphereLevelCurrent", _statsBase);
+                        Memory.WriteByte(offset, byte.Parse(TextSphereLevelCurrent.Text));
                         break;
                     case "TextSphereLevelTotal":
-                        MemoryReader.WriteBytes(_statsBase + (int)PartyStatOffset.SphereLevelTotal,
-                            BitConverter.GetBytes(ushort.Parse(TextSphereLevelTotal.Text)));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("SphereLevelTotal", _statsBase);
+                        Memory.WriteByte(offset, byte.Parse(TextSphereLevelCurrent.Text));
                         break;
                     case "TextBaseStrength":
-                        MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.BaseStrength, byte.Parse(TextBaseStrength.Text));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("BaseStrength", _statsBase);
+                        Memory.WriteByte(offset, byte.Parse(TextBaseStrength.Text));
                         break;
                     case "TextBaseDefense":
-                        MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.BaseDefense, byte.Parse(TextBaseDefense.Text));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("BaseDefense", _statsBase);
+                        Memory.WriteByte(offset, byte.Parse(TextBaseDefense.Text));
                         break;
                     case "TextBaseMagic":
-                        MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.BaseMagic, byte.Parse(TextBaseMagic.Text));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("BaseMagic", _statsBase);
+                        Memory.WriteByte(offset, byte.Parse(TextBaseMagic.Text));
                         break;
                     case "TextBaseMagicDef":
-                        MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.BaseMagicDefense, byte.Parse(TextBaseMagicDef.Text));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("BaseMagicDefense", _statsBase);
+                        Memory.WriteByte(offset, byte.Parse(TextBaseMagicDef.Text));
                         break;
                     case "TextBaseAgility":
-                        MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.BaseAgility, byte.Parse(TextBaseAgility.Text));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("BaseAgility", _statsBase);
+                        Memory.WriteByte(offset, byte.Parse(TextBaseAgility.Text));
                         break;
                     case "TextBaseLuck":
-                        MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.BaseLuck, byte.Parse(TextBaseLuck.Text));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("BaseLuck", _statsBase);
+                        Memory.WriteByte(offset, byte.Parse(TextBaseLuck.Text));
                         break;
                     case "TextBaseEvasion":
-                        MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.BaseEvasion, byte.Parse(TextBaseEvasion.Text));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("BaseEvasion", _statsBase);
+                        Memory.WriteByte(offset, byte.Parse(TextBaseEvasion.Text));
                         break;
                     case "TextBaseAccuracy":
-                        MemoryReader.WriteByte(_statsBase + (int)PartyStatOffset.BaseAccuracy, byte.Parse(TextBaseAccuracy.Text));
+                        offset = StructHelper.GetFieldOffset<PartyMember>("BaseAccuracy", _statsBase);
+                        Memory.WriteByte(offset, byte.Parse(TextBaseAccuracy.Text));
                         break;
                 }
                 textBox.SelectAll();
@@ -141,6 +180,32 @@ namespace Farplane.FFX.EditorPanels.Party
                     MessageBoxImage.Error);
                 return;
             }
+        }
+
+        private void ComboInParty_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!_canWriteData) return;
+
+            byte partyState = 0;
+
+            switch (ComboInParty.SelectedIndex)
+            {
+                case 0:
+                    partyState = 17;
+                    break;
+                case 1:
+                    partyState = 16;
+                    break;
+                case 2:
+                    partyState = 0;
+                    break;
+            }
+
+            var offset = StructHelper.GetFieldOffset<PartyMember>("InParty", _statsBase);
+
+            Memory.WriteByte(offset, partyState);
+
+            Refresh(_characterIndex);
         }
     }
 }

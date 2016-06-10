@@ -55,7 +55,7 @@ namespace Farplane.FFX2.EditorPanels
         public void UpdateCreaturesMethod()
         {
             var tabs = TabCreatures.Items.SourceCollection.OfType<TabItem>().ToArray();
-            var creatureCount = MemoryReader.ReadByte(0x9FA6C1);
+            var creatureCount = Memory.ReadByte(0x9FA6C1);
 
             for (int i = 0; i < 8; i++)
             {
@@ -69,7 +69,7 @@ namespace Farplane.FFX2.EditorPanels
 
                 creatureTab.Visibility = Visibility.Visible;
 
-                var nameBytes = MemoryReader.ReadBytes(_offsetCreatureName + (i*40), 18);
+                var nameBytes = Memory.ReadBytes(_offsetCreatureName + (i*40), 18);
                 var name = StringConverter.ToString(nameBytes);
                 creatureTab.Header = name;
                 _editors[i].Refresh();

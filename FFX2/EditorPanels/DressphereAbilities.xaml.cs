@@ -58,7 +58,7 @@ namespace Farplane.FFX2.EditorPanels
                 int currentAP = 0;
 
                 if (abil.Offset != -1)
-                    currentAP = MemoryReader.ReadInt16(baseOffset + abil.Offset);
+                    currentAP = Memory.ReadInt16(baseOffset + abil.Offset);
 
                 values[a] = currentAP;
 
@@ -95,7 +95,7 @@ namespace Farplane.FFX2.EditorPanels
             if (!setAp.HasValue || setAp.Value != true) return;
             var newAp = apDialog.AP;
 
-            MemoryReader.WriteBytes(baseOffset + ability.Offset, BitConverter.GetBytes((ushort)newAp));
+            Memory.WriteBytes(baseOffset + ability.Offset, BitConverter.GetBytes((ushort)newAp));
 
             RefreshAbilities();
 
@@ -119,7 +119,7 @@ namespace Farplane.FFX2.EditorPanels
 
                 if (abil.Offset == -1 || abil.ReadOnly) continue;
 
-                MemoryReader.WriteBytes(baseOffset + abil.Offset, BitConverter.GetBytes((ushort)abil.MasteredAP));
+                Memory.WriteBytes(baseOffset + abil.Offset, BitConverter.GetBytes((ushort)abil.MasteredAP));
                 
             }
 

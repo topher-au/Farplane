@@ -19,7 +19,7 @@ namespace Farplane.FFX.Values
         {
             var offsetEntity = GetEntityOffset(entityType, entityIndex);
 
-            var entityData = MemoryReader.ReadBytes(offsetEntity, (int) BlockLength.BattleEntity, true);
+            var entityData = Memory.ReadBytes(offsetEntity, (int) BlockLength.BattleEntity, true);
 
             // Copy entity data
             IntPtr ptrEntityData = Marshal.AllocHGlobal(entityData.Length);
@@ -37,14 +37,14 @@ namespace Farplane.FFX.Values
 
         public static bool CheckBattleState()
         {
-            var ptrEntityList = MemoryReader.ReadInt32(_offsetPtrParty);
+            var ptrEntityList = Memory.ReadInt32(_offsetPtrParty);
             return ptrEntityList != 0;
         }
 
         public static int GetEntityOffset(EntityType entityType, int entityIndex)
         {
             var pointerOffset = entityType == EntityType.Party ? _offsetPtrParty : _offsetPtrEnemy;
-            var ptrEntityList = MemoryReader.ReadInt32(pointerOffset);
+            var ptrEntityList = Memory.ReadInt32(pointerOffset);
 
             if (ptrEntityList == 0)
                 return 0;
@@ -57,7 +57,7 @@ namespace Farplane.FFX.Values
             var entityOffset = GetEntityOffset(entityType, entityIndex);
             var dataOffset = entityOffset + (int) entityDataType;
 
-            MemoryReader.WriteBytes(dataOffset, dataToWrite, true);
+            Memory.WriteBytes(dataOffset, dataToWrite, true);
         }
 
         public static void WriteBytes(EntityType entityType, int entityIndex, EntityDataOffset entityDataType, byte dataToWrite)
@@ -65,7 +65,7 @@ namespace Farplane.FFX.Values
             var entityOffset = GetEntityOffset(entityType, entityIndex);
             var dataOffset = entityOffset + (int)entityDataType;
 
-            MemoryReader.WriteBytes(dataOffset, new [] { dataToWrite }, true);
+            Memory.WriteBytes(dataOffset, new [] { dataToWrite }, true);
         }
     }
 

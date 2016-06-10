@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Farplane
 {
-    class WinAPI
+    internal class WinAPI
     {
         [DllImport("kernel32.dll")]
         public static extern IntPtr OpenProcess(
