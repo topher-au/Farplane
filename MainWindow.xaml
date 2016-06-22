@@ -1,32 +1,58 @@
 ﻿<Controls:MetroWindow x:Class="Farplane.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Farplane"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:Farplane"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:p="clr-namespace:Farplane.Properties"
-        mc:Ignorable="d"
-        Title="Farplane v{0} - Final Fantasy X/X-2 HD Remaster Editor" Height="400" Width="540" TitleCaps ="False"  WindowStartupLocation="CenterScreen" EnableDWMDropShadow="True" IsMaxRestoreButtonEnabled="False" ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" ResizeMode="NoResize" Icon="Resources/Farplane_Icon.ico">
+                      Title="Farplane v{0} - Final Fantasy X/X-2 HD Remaster Editor"
+                      Width="540"
+                      Height="400"
+                      BorderThickness="0"
+                      GlowBrush="Black"
+                      Icon="Resources/Farplane_Icon.ico"
+                      IsMaxRestoreButtonEnabled="False"
+                      ResizeMode="NoResize"
+                      ShowIconOnTitleBar="False"
+                      ShowMaxRestoreButton="False"
+                      TitleCaps="False"
+                      WindowStartupLocation="CenterScreen"
+                      mc:Ignorable="d">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Name="ButtonConfig" Click="ButtonConfig_Click"><Image Source="Resources/Images/settings.png" Width="16" Height="16"/></Button>
+            <Button Name="ButtonConfig" Click="ButtonConfig_Click">
+                <Image Width="16"
+                       Height="16"
+                       Source="Resources/Images/settings.png" />
+            </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="280"/>
-            <RowDefinition />
+            <RowDefinition Height="280" />
+            <RowDefinition Height="90" />
         </Grid.RowDefinitions>
-        <Image Source="Resources/Farplane_Splash.png" Grid.Row="0" Margin="5" />
+        <Image Grid.Row="0"
+               Margin="5"
+               MouseDown="SplashLogo_MouseDown"
+               Source="Resources/Farplane_Splash.png" />
         <DockPanel Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button Content="Final Fantasy X" Click="FFX_Click" Grid.Column="0" Margin="5" FontSize="16"/>
-                <Button Content="Final Fantasy X-2" Click="FFX2_Click" Grid.Column="1" Margin="5" FontSize="16"/>
+                <Button Grid.Column="0"
+                        Margin="5"
+                        Click="FFX_Click"
+                        Content="Final Fantasy X"
+                        FontSize="16" />
+                <Button Grid.Column="1"
+                        Margin="5"
+                        Click="FFX2_Click"
+                        Content="Final Fantasy X-2"
+                        FontSize="16" />
             </Grid>
         </DockPanel>
     </Grid>

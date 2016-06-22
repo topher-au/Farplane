@@ -28,7 +28,7 @@ namespace Farplane.FFX2.EditorPanels
 
         public void Refresh()
         {
-            NumGil.Text = Memory.ReadUInt32(_offsetCurrentGil).ToString();
+            NumGil.Text = LegacyMemoryReader.ReadUInt32(_offsetCurrentGil).ToString();
         }
 
 
@@ -45,7 +45,7 @@ namespace Farplane.FFX2.EditorPanels
                 return;
             }
 
-            Memory.WriteBytes(_offsetCurrentGil, BitConverter.GetBytes((uint)gil));
+            LegacyMemoryReader.WriteBytes(_offsetCurrentGil, BitConverter.GetBytes((uint)gil));
         }
     }
 }

@@ -1,0 +1,206 @@
+﻿<UserControl x:Class="Farplane.FFX.EditorPanels.ItemsPanel.ItemsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="500"
+             d:DesignWidth="480"
+             mc:Ignorable="d">
+    <GroupBox Header="Items">
+        <TabControl>
+            <TabItem Header="Items">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center">
+                        Entering or exiting the items menu to refresh your items in game
+                    </TextBlock>
+                    <ContentControl Name="TabItems" Grid.Row="1" />
+                </Grid>
+
+            </TabItem>
+            <TabItem Name="TabKeyItems" Header="Key Items">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20" />
+                        <RowDefinition />
+                        <RowDefinition Height="62" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center">
+                        Exit the items menu to update the Key Items in game
+                    </TextBlock>
+                    <ContentControl Name="ContentKeyItems" Grid.Row="1" />
+                    <StackPanel Grid.Row="2" Margin="0">
+                        <TextBlock Margin="2" FontSize="14">Activated Al Bhed Primers (must be enabled to translate text)</TextBlock>
+                        <WrapPanel Name="PanelAlBhed"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="A"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="B"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="C"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="D"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="E"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="F"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="G"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="H"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="I"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="J"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="K"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="L"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="M"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="N"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="O"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="P"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="Q"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="R"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="S"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="T"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="U"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="V"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="W"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="X"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="Y"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                            <CheckBox Width="34"
+                                      Margin="0,1,0,1"
+                                      Checked="AlBhedDictionary_CheckedChanged"
+                                      Content="Z"
+                                      Padding="2,0,0,0"
+                                      Unchecked="AlBhedDictionary_CheckedChanged" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </GroupBox>
+</UserControl>

@@ -25,7 +25,7 @@ namespace Farplane.FFX.EditorPanels.Battle
     {
         private bool _canWriteData = false;
 
-        private BattleEntityData[] _partyEntities = new BattleEntityData[8];
+        private BattleEntityData[] _partyEntities = new BattleEntityData[18];
         private BattleEntityData[] _enemyEntities = new BattleEntityData[8];
 
         private int _enemyCount = 0;
@@ -103,7 +103,7 @@ namespace Farplane.FFX.EditorPanels.Battle
         public void RefreshParty()
         {
             _partyCount = 0;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < Enum.GetValues(typeof(Character)).Length-1; i++)
             {
                 BattleEntityData readEntity;
                 var success = BattleEntity.ReadEntity(EntityType.Party, i, out readEntity);
@@ -124,11 +124,11 @@ namespace Farplane.FFX.EditorPanels.Battle
 
         public void RefreshEntity()
         {
-            if (TabBattle.SelectedIndex == 0 && TabEntity.SelectedIndex >= _partyCount)
-                TabEntity.SelectedIndex = 0;
+            //if (TabBattle.SelectedIndex == 0 && TabEntity.SelectedIndex >= _partyCount)
+            //    TabEntity.SelectedIndex = 0;
 
-            if (TabBattle.SelectedIndex == 1 && TabEntity.SelectedIndex >= _enemyCount)
-                TabEntity.SelectedIndex = 0;
+            //if (TabBattle.SelectedIndex == 1 && TabEntity.SelectedIndex >= _enemyCount)
+            //    TabEntity.SelectedIndex = 0;
 
             BattleEntityData entityData;
             BattleEntity.ReadEntity((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
@@ -194,7 +194,7 @@ namespace Farplane.FFX.EditorPanels.Battle
             }
         }
 
-        private void SetPositiveStatus(EntityType entityType, int entityIndex, EntityDataOffset statusOffset, bool statusState)
+        private void SetPositiveStatus(EntityType entityType, int entityIndex, string statusOffset, bool statusState)
         {
             if (!_canWriteData) return;
             BattleEntity.WriteBytes(entityType, entityIndex, statusOffset, statusState ? (byte)0xFF : (byte)0);
@@ -225,76 +225,76 @@ namespace Farplane.FFX.EditorPanels.Battle
                 {
                     case "TextCurrentHP":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.hp_current, BitConverter.GetBytes(int.Parse(senderBox.Text)));
+                            "hp_current", BitConverter.GetBytes(int.Parse(senderBox.Text)));
                         break;
                     case "TextCurrentMP":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.mp_current, BitConverter.GetBytes(int.Parse(senderBox.Text)));
+                            "mp_current", BitConverter.GetBytes(int.Parse(senderBox.Text)));
                         break;
                     case "TextMaxHP":
                         BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.hp_max, BitConverter.GetBytes(int.Parse(senderBox.Text)));
+                            "hp_max", BitConverter.GetBytes(int.Parse(senderBox.Text)));
                         break;
                     
                     case "TextMaxMP":
                         BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.mp_max, BitConverter.GetBytes(int.Parse(senderBox.Text)));
+                            "mp_max", BitConverter.GetBytes(int.Parse(senderBox.Text)));
                         break;
                     case "TextOverdrive":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.overdrive_current, byte.Parse(senderBox.Text));
+                            "overdrive_current", byte.Parse(senderBox.Text));
                         break;
                     case "TextOverdriveMax":
                         BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.overdrive_max, byte.Parse(senderBox.Text));
+                            "overdrive_max", byte.Parse(senderBox.Text));
                         break;
                     case "TextStrength":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.strength, byte.Parse(senderBox.Text));
+                            "strength", byte.Parse(senderBox.Text));
                         break;
                     case "TextDefense":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.defense, byte.Parse(senderBox.Text));
+                            "defense", byte.Parse(senderBox.Text));
                         break;
                     case "TextMagic":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.magic, byte.Parse(senderBox.Text));
+                            "magic", byte.Parse(senderBox.Text));
                         break;
                     case "TextMagicDefense":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.magic_defense, byte.Parse(senderBox.Text));
+                            "magic_defense", byte.Parse(senderBox.Text));
                         break;
                     case "TextAgility":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.agility, byte.Parse(senderBox.Text));
+                            "agility", byte.Parse(senderBox.Text));
                         break;
                     case "TextLuck":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.luck, byte.Parse(senderBox.Text));
+                            "luck", byte.Parse(senderBox.Text));
                         break;
                     case "TextEvasion":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.evasion, byte.Parse(senderBox.Text));
+                            "evasion", byte.Parse(senderBox.Text));
                         break;
                     case "TextAccuracy":
                         BattleEntity.WriteBytes((EntityType) TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.accuracy, byte.Parse(senderBox.Text));
+                            "accuracy", byte.Parse(senderBox.Text));
                         break;
                     case "TextDoom":
                         BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.timer_doom, byte.Parse(TextDoom.Text));
+                            "timer_doom", byte.Parse(TextDoom.Text));
                         break;
                     case "TextSilence":
                         BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.status_turns_silence, byte.Parse(TextSilence.Text));
+                            "status_turns_silence", byte.Parse(TextSilence.Text));
                         break;
                     case "TextDarkness":
                         BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.status_turns_darkness, byte.Parse(TextDarkness.Text));
+                            "status_turns_darkness", byte.Parse(TextDarkness.Text));
                         break;
                     case "TextSleep":
                         BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex,
-                            EntityDataOffset.status_turns_sleep, byte.Parse(TextSleep.Text));
+                            "status_turns_sleep", byte.Parse(TextSleep.Text));
                         break;
                 }
             }
@@ -322,7 +322,7 @@ namespace Farplane.FFX.EditorPanels.Battle
                 if (statusTurns == 0) statusTurns = 3;
             }
             
-            BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_turns_sleep, statusTurns);
+            BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_turns_sleep", statusTurns);
 
             Refresh();
         }
@@ -346,7 +346,7 @@ namespace Farplane.FFX.EditorPanels.Battle
 
             
 
-            BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_turns_darkness, statusTurns);
+            BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_turns_darkness", statusTurns);
 
             Refresh();
         }
@@ -371,7 +371,7 @@ namespace Farplane.FFX.EditorPanels.Battle
 
             
 
-            BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_turns_silence, statusTurns);
+            BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_turns_silence", statusTurns);
             
             Refresh();
         }
@@ -390,62 +390,62 @@ namespace Farplane.FFX.EditorPanels.Battle
             var negativeFlags = readEntity.status_flags_negative;
             negativeFlags[byteIndex] = BitHelper.ToggleBit(negativeFlags[byteIndex], bitIndex);
 
-            BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_flags_negative, negativeFlags);
+            BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_flags_negative", negativeFlags);
         }
 
         private void CheckShell_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_shell, CheckShell.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_shell", CheckShell.IsChecked.Value);
         }
 
         private void CheckProtect_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_protect, CheckProtect.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_protect", CheckProtect.IsChecked.Value);
         }
 
         private void CheckReflect_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_reflect, CheckReflect.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_reflect", CheckReflect.IsChecked.Value);
         }
 
         private void CheckNulTide_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_nultide, CheckNulTide.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_nultide", CheckNulTide.IsChecked.Value);
         }
 
         private void CheckNulBlaze_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_nulblaze, CheckNulBlaze.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_nulblaze", CheckNulBlaze.IsChecked.Value);
         }
 
         private void CheckNulShock_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_nulshock, CheckNulShock.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_nulshock", CheckNulShock.IsChecked.Value);
         }
 
         private void CheckNulFrost_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_nulfrost, CheckNulFrost.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_nulfrost", CheckNulFrost.IsChecked.Value);
         }
 
         private void CheckRegen_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_regen, CheckRegen.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_regen", CheckRegen.IsChecked.Value);
         }
         
         private void CheckHaste_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_haste, CheckHaste.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_haste", CheckHaste.IsChecked.Value);
         }
 
         private void CheckSlow_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_slow, CheckSlow.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_slow", CheckSlow.IsChecked.Value);
         }
 
         private void CheckUnknown_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.status_unknown, CheckUnknown.IsChecked.Value);
+            SetPositiveStatus((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_unknown", CheckUnknown.IsChecked.Value);
         }
 
         private void CheckPositiveFlag_OnChecked(object sender, RoutedEventArgs e)
@@ -463,7 +463,7 @@ namespace Farplane.FFX.EditorPanels.Battle
             var positiveFlags = readEntity.status_flags_positive;
             positiveFlags[byteIndex] = BitHelper.ToggleBit(positiveFlags[byteIndex], bitIndex);
 
-            BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, EntityDataOffset.positive_status_flags, positiveFlags);
+            BattleEntity.WriteBytes((EntityType)TabBattle.SelectedIndex, TabEntity.SelectedIndex, "status_flags_positive", positiveFlags);
         }
     }
 }

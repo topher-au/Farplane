@@ -94,5 +94,40 @@ namespace Farplane.Properties {
                 this["EnableMods"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime DonationMessage {
+            get {
+                return ((global::System.DateTime)(this["DonationMessage"]));
+            }
+            set {
+                this["DonationMessage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool NeverShowDonation {
+            get {
+                return ((bool)(this["NeverShowDonation"]));
+            }
+            set {
+                this["NeverShowDonation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool NeverShowUnXWarning {
+            get {
+                return ((bool)(this["NeverShowUnXWarning"]));
+            }
+            set {
+                this["NeverShowUnXWarning"] = value;
+            }
+        }
     }
 }

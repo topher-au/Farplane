@@ -1,0 +1,54 @@
+﻿// Remove HP limit combat
+Original Opcodes
+FFX-2.exe+2365DE - and eax,00015F90
+FFX-2.exe+2365E3 - add eax,0000270F
+
+Modded Opcodes
+FFX-2.exe+2365DE - nop 
+FFX-2.exe+2365DF - nop 
+FFX-2.exe+2365E0 - nop 
+FFX-2.exe+2365E1 - nop 
+FFX-2.exe+2365E2 - nop 
+FFX-2.exe+2365E3 - mov eax,7FFFFFFF
+
+// Remove MP limit
+
+Original Opcodes
+FFX-2.exe+23662D - and eax,00002328
+FFX-2.exe+236632 - add eax,000003E7
+
+Modded Opcodes
+FFX-2.exe+23662D - nop 
+FFX-2.exe+23662E - nop 
+FFX-2.exe+23662F - nop 
+FFX-2.exe+236630 - nop 
+FFX-2.exe+236631 - nop 
+FFX-2.exe+236632 - mov eax,7FFFFFFF
+
+// Break HP limit out of combat
+FFX-2.exe+20E73D - mov eax,0001869F { [0] }
+FFX-2.exe+20E742 - jne FFX-2.exe+20E749
+FFX-2.exe+20E744 - mov eax,0000270F { 9999 }
+
+FFX-2.exe+20E73D - nop 
+FFX-2.exe+20E73E - nop 
+FFX-2.exe+20E73F - nop 
+FFX-2.exe+20E740 - nop 
+FFX-2.exe+20E741 - nop 
+FFX-2.exe+20E742 - nop 
+FFX-2.exe+20E743 - nop 
+FFX-2.exe+20E744 - mov eax,7FFFFFFF { 2147483647 }
+
+// Remove MP limit out of combat
+FFX-2.exe+20E774 - mov eax,0000270F { 9999 }
+FFX-2.exe+20E779 - jne FFX-2.exe+20E780
+FFX-2.exe+20E77B - mov eax,000003E7 { 999 }
+
+FFX-2.exe+20E774 - nop 
+FFX-2.exe+20E775 - nop 
+FFX-2.exe+20E776 - nop 
+FFX-2.exe+20E777 - nop 
+FFX-2.exe+20E778 - nop 
+FFX-2.exe+20E779 - nop 
+FFX-2.exe+20E77A - nop 
+FFX-2.exe+20E77B - mov eax,7FFFFFFF { 2147483647 }

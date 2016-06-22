@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CSScriptLibrary;
 using Farplane.Properties;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
@@ -41,7 +42,9 @@ namespace Farplane.Common.Controls
             ComboAccent.SelectedIndex =
                 ThemeManager.Accents.ToList().IndexOf(currentAccent);
 
-            CheckExitFarplane.IsChecked = Settings.Default.CloseWithGame;
+            CheckNeverShowUnXWarning.IsChecked = Settings.Default.NeverShowUnXWarning;
+            CheckNeverShowDonation.IsChecked = Settings.Default.NeverShowDonation;
+            CheckCloseWithGame.IsChecked = Settings.Default.CloseWithGame;
             CheckShowAllProcesses.IsChecked = Settings.Default.ShowAllProcesses;
 
             CheckEnableMods.IsChecked = Settings.Default.EnableMods;
@@ -59,7 +62,9 @@ namespace Farplane.Common.Controls
         private void SettingUpdated(object sender, RoutedEventArgs e)
         {
             if (!canSetTheme) return;
-            Settings.Default.CloseWithGame = CheckExitFarplane.IsChecked.Value;
+            Settings.Default.NeverShowDonation = CheckNeverShowDonation.IsChecked.Value;
+            Settings.Default.NeverShowUnXWarning = CheckNeverShowUnXWarning.IsChecked.Value;
+            Settings.Default.CloseWithGame = CheckCloseWithGame.IsChecked.Value;
             Settings.Default.ShowAllProcesses = CheckShowAllProcesses.IsChecked.Value;
             Settings.Default.AppAccent = (ComboAccent.SelectedItem as Accent).Name;
             Settings.Default.AppTheme = (ComboTheme.SelectedItem as AppTheme).Name;

@@ -9,18 +9,18 @@ using Farplane.FarplaneMod;
 using Farplane.FFX;
 using Farplane.FFX.Data;
 using Farplane.FFX.Values;
+using Farplane.Memory;
 
 public class FFXBreakDamageLimit : IFarplaneMod
 {
     private bool _modActive = false;
     private static int _offsetDamageLimit = 0x38ED3D;
-
-    byte[] _ModDamageLimit = new byte[]
+    public void Configure(object parentWindow)
     {
-        0x90, 0x90, 0x90, 0x90,         // db 90 90 90 90
-        0xBB, 0xFF, 0xFF, 0xFF, 0x7F    // mov ebx, 0x7FFFFFFF
-    };
 
+    }
+    public string ConfigButton { get { return null; } }
+    public bool AutoActivate { get { return true; } }
     public string Name
     {
         get { return "Break Damage Limit"; }
@@ -41,18 +41,27 @@ public class FFXBreakDamageLimit : IFarplaneMod
         get { return GameType.FFX; }
     }
 
-    public bool Activated
+    public ModState GetState()
     {
-        get { return _modActive; }
+        if (_modActive) return ModState.Activated;
+        return ModState.Deactivated;
     }
-	
+
     public void Activate()
     {
         if (_modActive) return;
         ModLogger.WriteLine("Activating Break Damage Limit");
+        
+        var assembly = new []
+        {
+            "nop",
+            "nop",
+            "nop",
+            "nop",
+            "mov ebx,0x7FFFFFFF"
+        };
 
-        // No check (yet)
-        Memory.WriteBytes(_offsetDamageLimit, _ModDamageLimit);
+        GameMemory.Assembly.Inject(_offsetDamageLimit, assembly);
 
         _modActive = true;
     }

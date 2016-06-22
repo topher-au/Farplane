@@ -1,13 +1,14 @@
 ﻿<UserControl x:Class="Farplane.FFX2.EditorPanels.CreaturePanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Farplane.FFX2.EditorPanels"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <GroupBox Header="Creatures" Margin="0">
-        <Controls:MetroTabControl Name="TabCreatures" Margin="0"/>
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Farplane.FFX2.EditorPanels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <GroupBox Header="Creatures">
+        <Controls:MetroTabControl Name="TabCreatures" Margin="0" />
     </GroupBox>
 </UserControl>

@@ -39,6 +39,8 @@ namespace Farplane.Common.Controls
             }
         }
 
+        public Button this[int buttonIndex] => GridBase.Children[buttonIndex] as Button;
+
         public bool ShowScrollBar
         {
             get { return ScrollViewer.VerticalScrollBarVisibility == ScrollBarVisibility.Visible ? true : false; }

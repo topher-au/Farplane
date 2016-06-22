@@ -9,6 +9,7 @@ using Farplane.FarplaneMod;
 using Farplane.FFX;
 using Farplane.FFX.Data;
 using Farplane.FFX.Values;
+using Farplane.Memory;
 
 public class AutoCameraMod : IFarplaneMod
 {
@@ -18,6 +19,13 @@ public class AutoCameraMod : IFarplaneMod
     private static int offsetCameraFlag = Offsets.GetOffset(OffsetType.DebugFlags) + (int)DebugFlags.FreeCamera;
     private static int updateTicks = 0;
     private static int lastRoom = 0;
+
+    public void Configure(object parentWindow)
+    {
+        
+    }
+    public string ConfigButton { get { return null; } }
+    public bool AutoActivate { get { return true; } }
 
     private static ushort[] bannedRooms =
     {           // A list of known rooms which should not use auto camera
@@ -48,9 +56,10 @@ public class AutoCameraMod : IFarplaneMod
         get { return GameType.FFX; }
     }
 
-    public bool Activated
+    public ModState GetState()
     {
-        get { return _modActive; }
+        if(_modActive) return ModState.Activated;
+        return ModState.Deactivated;
     }
 	
     public void Activate()
@@ -65,7 +74,7 @@ public class AutoCameraMod : IFarplaneMod
     {
         if (!_modActive) return;
         ModLogger.WriteLine("Deactivating free camera mod");
-        Memory.WriteByte(offsetCameraFlag, 0);
+        GameMemory.Write<byte>(offsetCameraFlag, 0);
         _modActive = false;
     }
 
@@ -77,17 +86,17 @@ public class AutoCameraMod : IFarplaneMod
         if (updateTicks < 50) return; // tick every ~400ms, faster and the game misses the flag on room change
         updateTicks = 0;
 
-        var battlePointer = Memory.ReadUInt32(offsetBattlePointer);
+        var battlePointer = GameMemory.Read<int>(offsetBattlePointer);
 
         if (battlePointer == 0) // Not in battle, enable camera
         {
             // Check current room
-            var currentRoom = Memory.ReadUInt16(offsetCurrentRoom);
+            var currentRoom = GameMemory.Read<ushort>(offsetCurrentRoom);
 
             // Check if room is on banned rooms list
             if (Array.IndexOf(bannedRooms, currentRoom) != -1)
             {
-                Memory.WriteByte(offsetCameraFlag, 0);
+                GameMemory.Write<byte>(offsetCameraFlag, 0);
                 lastRoom = currentRoom;
                 return;
             }
@@ -96,17 +105,17 @@ public class AutoCameraMod : IFarplaneMod
             if (currentRoom != lastRoom)
             {
                 ModLogger.WriteLine("Room change detected: {0}", currentRoom.ToString("X2"));
-                Memory.WriteByte(offsetCameraFlag, 0);
+                GameMemory.Write<byte>(offsetCameraFlag, 0);
                 lastRoom = currentRoom;
                 return;
             }
 
             // Enable camera flag
-            Memory.WriteByte(offsetCameraFlag, 1);
+            GameMemory.Write<byte>(offsetCameraFlag, 1);
         }
         else // In battle, disable camera
         {
-            Memory.WriteByte(offsetCameraFlag, 0);
+            GameMemory.Write<byte>(offsetCameraFlag, 0);
         }
     }
 }

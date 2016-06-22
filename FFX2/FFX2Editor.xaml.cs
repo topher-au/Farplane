@@ -14,7 +14,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Farplane.FarplaneMod;
 using Farplane.FFX2.EditorPanels;
+using Farplane.FFX2.EditorPanels.Party;
+using Farplane.Memory;
 using MahApps.Metro.Controls;
 using Image = System.Windows.Controls.Image;
 
@@ -25,17 +28,16 @@ namespace Farplane.FFX2
     /// </summary>
     public partial class FFX2Editor : MetroWindow
     {
-        private General mGeneral = new General();
-        private PartyEditor mPartyEditorYuna = new PartyEditor((int)Offsets.Party.Yuna, "Yuna");
-        private PartyEditor mPartyEditorRikku = new PartyEditor((int)Offsets.Party.Rikku, "Rikku");
-        private PartyEditor mPartyEditorPaine = new PartyEditor((int)Offsets.Party.Paine, "Paine");
-        private CreaturePanel mCreaturePanel = new CreaturePanel();
-        private CreatureTrapping mCreatureTrapping = new CreatureTrapping();
-        private ItemsEditor mItemsEditor = new ItemsEditor();
-        private DressphereEditor mDressphereEditor = new DressphereEditor();
-        private AccessoriesEditor mAccessoriesEditor = new AccessoriesEditor();
-        private GarmentGridEditor mGarmentGridEditor = new GarmentGridEditor();
-        private DebugOptions mDebugOptions = new DebugOptions();
+        private General _generalPanel = new General();
+        private PartyPanel _partyPanel = new PartyPanel();
+        private CreaturePanel _creaturePanel = new CreaturePanel();
+        private CreatureTrapping _trappingPanel = new CreatureTrapping();
+        private ItemsEditor _itemsPanel = new ItemsEditor();
+        private DressphereEditor _dresspheresPanel = new DressphereEditor();
+        private AccessoriesEditor _accessoriesPanel = new AccessoriesEditor();
+        private GarmentGridEditor _garmentGridsPanel = new GarmentGridEditor();
+        private DebugOptions _debugOptionsPanel = new DebugOptions();
+        private ModPanel _modPanel = new ModPanel();
 
         private int _defaultHeight = 540;
         private int _defaultWidth = 640;
@@ -47,78 +49,54 @@ namespace Farplane.FFX2
         public FFX2Editor()
         {
             InitializeComponent();
-            var watcherThread = new Thread(ProcessChecker) {IsBackground = true};
-            watcherThread.Start();
-        }
-
-        public void ProcessChecker()
-        {
-            while (true)
-            {
-                if (!Memory.CheckProcess())
-                {
-                    Dispatcher.Invoke((MethodInvoker) delegate
-                    {
-                        DialogResult = true;
-                        Close();
-                    });
-                    
-                    return;
-                }
-                Thread.Sleep(100);
-            }
+            GameMemory.ProcessExited += Close;
         }
 
         private void TreeView_SelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var item = (TreeViewItem) e.NewValue;
-            switch ((string)item.Tag)
+            switch ((string)item.Name)
             {
-                case "General":
-                    mGeneral.Refresh();
-                    EditorPanel.Content = mGeneral;
+                case "GeneralPanel":
+                    _generalPanel.Refresh();
+                    EditorPanel.Content = _generalPanel;
                     break;
-                case "PartyEditorYuna":
-                    mPartyEditorYuna.Refresh();
-                    EditorPanel.Content = mPartyEditorYuna;
-                    break;
-                case "PartyEditorRikku":
-                    mPartyEditorRikku.Refresh();
-                    EditorPanel.Content = mPartyEditorRikku;
-                    break;
-                case "PartyEditorPaine":
-                    mPartyEditorPaine.Refresh();
-                    EditorPanel.Content = mPartyEditorPaine;
+                case "PartyPanel":
+                    _partyPanel.Refresh();
+                    EditorPanel.Content = _partyPanel;
                     break;
                 case "CreaturePanel":
-                    CreaturePanel.Update();
-                    EditorPanel.Content = mCreaturePanel;
+                    _creaturePanel.Refresh();
+                    EditorPanel.Content = _creaturePanel;
                     break;
-                case "CreatureTrapping":
-                    mCreatureTrapping.Refresh();
-                    EditorPanel.Content = mCreatureTrapping;
+                case "TrappingPanel":
+                    _trappingPanel.Refresh();
+                    EditorPanel.Content = _trappingPanel;
                     break;
-                case "ItemEditor":
-                    mItemsEditor.Refresh();
-                    EditorPanel.Content = mItemsEditor;
+                case "ItemsPanel":
+                    _itemsPanel.Refresh();
+                    EditorPanel.Content = _itemsPanel;
                     break;
-                case "AccessoriesEditor":
-                    mAccessoriesEditor.Refresh();
-                    EditorPanel.Content = mAccessoriesEditor;
+                case "AccessoriesPanel":
+                    _accessoriesPanel.Refresh();
+                    EditorPanel.Content = _accessoriesPanel;
                     break;
-                case "DressphereEditor":
-                    mDressphereEditor.Refresh();
-                    EditorPanel.Content = mDressphereEditor;
+                case "DresspheresPanel":
+                    _dresspheresPanel.Refresh();
+                    EditorPanel.Content = _dresspheresPanel;
                     break;
-                case "GarmentGridEditor":
-                    mGarmentGridEditor.Refresh();
-                    EditorPanel.Content = mGarmentGridEditor;
+                case "GarmentGridsPanel":
+                    _garmentGridsPanel.Refresh();
+                    EditorPanel.Content = _garmentGridsPanel;
                     break;
-                case "DebugOptions":
-                    mDebugOptions.Refresh();
-                    EditorPanel.Content = mDebugOptions;
+                case "DebugOptionsPanel":
+                    _debugOptionsPanel.Refresh();
+                    EditorPanel.Content = _debugOptionsPanel;
                     break;
-
+                case "ModsPanel":
+                    _modPanel.Refresh();
+                    EditorPanel.Content = _modPanel;
+                    break;
                 default:
                     break;
             }
@@ -126,16 +104,14 @@ namespace Farplane.FFX2
 
         private void RefreshAll()
         {
-            mGeneral.Refresh();
-            mPartyEditorYuna.Refresh();
-            mPartyEditorRikku.Refresh();
-            mPartyEditorPaine.Refresh();
-            CreaturePanel.Update();
-            mCreatureTrapping.Refresh();
-            mItemsEditor.Refresh();
-            mAccessoriesEditor.Refresh();
-            mDressphereEditor.Refresh();
-            mDebugOptions.Refresh();
+            _generalPanel.Refresh();
+            _partyPanel.Refresh();
+            _creaturePanel.Refresh();
+            _trappingPanel.Refresh();
+            _itemsPanel.Refresh();
+            _accessoriesPanel.Refresh();
+            _dresspheresPanel.Refresh();
+            _debugOptionsPanel.Refresh();
         }
 
         private void RefreshAll_Click(object sender, RoutedEventArgs e)

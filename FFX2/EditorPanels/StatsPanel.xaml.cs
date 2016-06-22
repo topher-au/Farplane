@@ -23,14 +23,12 @@ namespace Farplane.FFX2.EditorPanels
     {
         public delegate void WriteData(object sender);
         public event WriteData WriteDataEvent;
+        private int _partyIndex;
+        private int _statsOffset;
 
-        public int _statsOffset;
-
-        public StatsPanel(int statsOffset)
+        public StatsPanel()
         {
             InitializeComponent();
-            _statsOffset = statsOffset;
-            
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -45,47 +43,47 @@ namespace Farplane.FFX2.EditorPanels
                 switch (senderTextBox.Name)
                 {
                     case "TextCurrentExperience":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.CurrentExperience,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.CurrentExperience,
                             BitConverter.GetBytes(uint.Parse(senderTextBox.Text)));
                         break;
                     case "ModHP":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.HPModifier,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.HPModifier,
                             BitConverter.GetBytes(uint.Parse(senderTextBox.Text)));
                         break;
                     case "ModMP":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.MPModifier,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.MPModifier,
                             BitConverter.GetBytes(uint.Parse(senderTextBox.Text)));
                         break;
                     case "TextStrength":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModStrength,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModStrength,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextDefense":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModDefense,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModDefense,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextMagic":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModMagic,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModMagic,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextMagicDefense":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModMagicDefense,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModMagicDefense,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextAgility":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModAgility,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModAgility,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextAccuracy":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModAccuracy,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModAccuracy,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextEvasion":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModEvasion,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModEvasion,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextLuck":
-                        Memory.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModLuck,
+                        LegacyMemoryReader.WriteBytes(_statsOffset + (int)Offsets.StatOffsets.ModLuck,
                             new byte[] { byte.Parse(senderTextBox.Text) });
                         break;
                     case "TextName":
@@ -96,12 +94,13 @@ namespace Farplane.FFX2.EditorPanels
             {
                 MessageBox.Show($"An error occurred:\n{ex.Message}", "Error updating value", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            Refresh();
+            Refresh(_partyIndex);
         }
 
-        public void Refresh()
+        public void Refresh(int partyIndex)
         {
-            var statsBytes = Memory.ReadBytes(_statsOffset, 0x80);
+            _statsOffset = (int) OffsetType.PartyStatBase + 0x80*partyIndex;
+            var statsBytes = LegacyMemoryReader.ReadBytes(_statsOffset, 0x80);
 
             TextCurrentExperience.Text = BitConverter.ToUInt32(statsBytes, (int)Offsets.StatOffsets.CurrentExperience).ToString();
 

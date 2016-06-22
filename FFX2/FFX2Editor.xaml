@@ -1,23 +1,41 @@
 ﻿<Controls:MetroWindow x:Class="Farplane.FFX2.FFX2Editor"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Farplane.FFX2"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:Farplane.FFX2"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:panels="clr-namespace:Farplane.FFX2.EditorPanels"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        mc:Ignorable="d"
-        Title="Farplane Editor - Final Fantasy X-2" Height="540" Width="640" WindowStartupLocation="CenterScreen" BorderThickness="0" GlowBrush="Black" ResizeMode="CanMinimize" Icon="/Farplane;component/Resources/Farplane_Icon.ico" ShowSystemMenuOnRightClick="False">
+                      Title="Farplane Editor - Final Fantasy X-2"
+                      Width="640"
+                      Height="540"
+                      BorderThickness="0"
+                      GlowBrush="Black"
+                      Icon="/Farplane;component/Resources/Farplane_Icon.ico"
+                      ResizeMode="CanMinimize"
+                      ShowSystemMenuOnRightClick="False"
+                      WindowStartupLocation="CenterScreen"
+                      mc:Ignorable="d">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Click="RefreshAll_Click" ToolTip="Refresh all data">
-                <Image Source="../Resources/Images/reload.png" Width="16" Height="16"/>
+                <Image Width="16"
+                       Height="16"
+                       Source="../Resources/Images/reload.png" />
             </Button>
-            <ToggleButton Name="ButtonPin" Click="ButtonPin_Click" ToolTip="Always on top">
-                <Image Source="../Resources/Images/pin.png" Width="16" Height="16"/>
+            <ToggleButton Name="ButtonPin"
+                          Click="ButtonPin_Click"
+                          ToolTip="Always on top">
+                <Image Width="16"
+                       Height="16"
+                       Source="../Resources/Images/pin.png" />
             </ToggleButton>
-            <ToggleButton Name="ButtonRollUp" Click="ButtonRollUp_Click" ToolTip="Shrink Farplane">
-                <Image Source="../Resources/Images/shrink.png" Width="16" Height="16"/>
+            <ToggleButton Name="ButtonRollUp"
+                          Click="ButtonRollUp_Click"
+                          ToolTip="Shrink Farplane">
+                <Image Width="16"
+                       Height="16"
+                       Source="../Resources/Images/shrink.png" />
             </ToggleButton>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
@@ -27,21 +45,36 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <TreeView Grid.Column="0" SelectedItemChanged="TreeView_SelectionChanged">
-            <TreeViewItem Header="General" Tag="General"/>
-            <TreeViewItem Header="Party" IsExpanded="True">
-                <TreeViewItem Header="Yuna" Tag="PartyEditorYuna"/>
-                <TreeViewItem Header="Rikku" Tag="PartyEditorRikku"/>
-                <TreeViewItem Header="Paine" Tag="PartyEditorPaine"/>
-            </TreeViewItem>
-            <TreeViewItem Header="Creatures" Tag="CreaturePanel"/>
-            <TreeViewItem Header="Creature Trapping" Tag="CreatureTrapping" />
-            <TreeViewItem Header="Items" Tag="ItemEditor"/>
-            <TreeViewItem Header="Accessories" Tag="AccessoriesEditor"/>
-            <TreeViewItem Header="Dresspheres" Tag="DressphereEditor"/>
-            <TreeViewItem Header="Garment Grids" Tag="GarmentGridEditor"/>
-            <TreeViewItem Header="Debug Options" Tag="DebugOptions"/>
+            <TreeViewItem Name="GeneralPanel"
+                          Header="General"
+                          Tag="General" />
+            <TreeViewItem Name="PartyPanel" Header="Party" />
+            <TreeViewItem Name="CreaturePanel"
+                          Header="Creatures"
+                          Tag="CreaturePanel" />
+            <TreeViewItem Name="TrappingPanel"
+                          Header="Creature Trapping"
+                          Tag="CreatureTrapping" />
+            <TreeViewItem Name="ItemsPanel"
+                          Header="Items"
+                          Tag="ItemEditor" />
+            <TreeViewItem Name="AccessoriesPanel"
+                          Header="Accessories"
+                          Tag="AccessoriesEditor" />
+            <TreeViewItem Name="DresspheresPanel"
+                          Header="Dresspheres"
+                          Tag="DressphereEditor" />
+            <TreeViewItem Name="GarmentGridsPanel"
+                          Header="Garment Grids"
+                          Tag="GarmentGridEditor" />
+            <TreeViewItem Name="DebugOptionsPanel"
+                          Header="Debug Options"
+                          Tag="DebugOptions" />
+            <TreeViewItem Name="ModsPanel"
+                          Header="Mods"
+                          Tag="Mods" />
         </TreeView>
-        <ContentControl Grid.Column="1" Name="EditorPanel" Margin="5" VerticalAlignment="Top"/>
-        
+        <ContentControl Name="EditorPanel" Grid.Column="1" />
+
     </Grid>
 </Controls:MetroWindow>

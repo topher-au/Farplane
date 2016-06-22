@@ -1,98 +1,229 @@
 ﻿<UserControl x:Class="Farplane.FFX2.EditorPanels.CreatureTrapping"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Farplane.FFX2.EditorPanels"
-             mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="420">
-    <GroupBox Header="Creature Trapping" Margin="0">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="600"
+             d:DesignWidth="420"
+             mc:Ignorable="d">
+    <GroupBox Header="Creature Trapping">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
                 <RowDefinition />
-                <RowDefinition Height="45"/>
+                <RowDefinition Height="45" />
             </Grid.RowDefinitions>
             <Label HorizontalAlignment="Center">
                 Set a trap, click Refresh and edit traps, then click Round Up.
             </Label>
-            <Button Grid.Row="1" Content="Refresh Trapped Monsters" Margin="2" Click="Refresh_Click"/>
-            <StackPanel Name="TrapPanel"  Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label Content="Traps" Margin="0,0,5,0" VerticalAlignment="Center"/>
-                <Button Name="TrapItem0" Margin="2" Width="38" Height="38" Padding="0" Content="+" Click="TrapItem_Click"/>
-                <Button Name="TrapItem1" Margin="2" Width="38" Height="38" Padding="0" Content="+" Click="TrapItem_Click"/>
-                <Button Name="TrapItem2" Margin="2" Width="38" Height="38" Padding="0" Content="+" Click="TrapItem_Click"/>
-                <Button Name="TrapItem3" Margin="2" Width="38" Height="38" Padding="0" Content="+" Click="TrapItem_Click"/>
-                <Button Name="TrapItem4" Margin="2" Width="38" Height="38" Padding="0" Content="+" Click="TrapItem_Click"/>
-                <Button Name="TrapItem5" Margin="2" Width="38" Height="38" Padding="0" Content="+" Click="TrapItem_Click"/>
-                <Button Name="TrapItem6" Margin="2" Width="38" Height="38" Padding="0" Content="+" Click="TrapItem_Click"/>
-                <Button Name="TrapItem7" Margin="2" Width="38" Height="38" Padding="0" Content="+" Click="TrapItem_Click"/>
-            </StackPanel>
+            <Button Grid.Row="1"
+                    Margin="2"
+                    Click="Refresh_Click"
+                    Content="Refresh Trapped Monsters" />
             <ScrollViewer Grid.Row="2">
                 <StackPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Besaid" VerticalAlignment="Center" />
-                        <Button Name="Trap0" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click"/>
+                        <Label VerticalAlignment="Center" Content="Besaid" />
+                        <Button Name="Trap0"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Kilika" VerticalAlignment="Center" />
-                        <Button Name="Trap1" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Kilika" />
+                        <Button Name="Trap1"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Luca" VerticalAlignment="Center" />
-                        <Button Name="Trap2" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Luca" />
+                        <Button Name="Trap2"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Mi'ihen Highroad" VerticalAlignment="Center" />
-                        <Button Name="Trap3" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Mi'ihen Highroad" />
+                        <Button Name="Trap3"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Mushroom Rock Road" VerticalAlignment="Center" />
-                        <Button Name="Trap4" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Mushroom Rock Road" />
+                        <Button Name="Trap4"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Djose Temple" VerticalAlignment="Center" />
-                        <Button Name="Trap5" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Djose Temple" />
+                        <Button Name="Trap5"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Moonflow" VerticalAlignment="Center" />
-                        <Button Name="Trap6" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Moonflow" />
+                        <Button Name="Trap6"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Guadosalam" VerticalAlignment="Center" />
-                        <Button Name="Trap7" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Guadosalam" />
+                        <Button Name="Trap7"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Thunder Plains" VerticalAlignment="Center" />
-                        <Button Name="Trap8" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Thunder Plains" />
+                        <Button Name="Trap8"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Macalania Woods" VerticalAlignment="Center" />
-                        <Button Name="Trap9" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Macalania Woods" />
+                        <Button Name="Trap9"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Bikanel Desert" VerticalAlignment="Center" />
-                        <Button Name="Trap10" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Bikanel Desert" />
+                        <Button Name="Trap10"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Bevelle" VerticalAlignment="Center" />
-                        <Button Name="Trap11" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Bevelle" />
+                        <Button Name="Trap11"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Calm Lands" VerticalAlignment="Center" />
-                        <Button Name="Trap12" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" Click="TrapButton_Click" />
+                        <Label VerticalAlignment="Center" Content="Calm Lands" />
+                        <Button Name="Trap12"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                Click="TrapButton_Click"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Mt. Gagazet" VerticalAlignment="Center" />
-                        <Button Name="Trap13" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" FontSize="11"/>
+                        <Label VerticalAlignment="Center" Content="Mt. Gagazet" />
+                        <Button Name="Trap13"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                FontSize="11"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                     <DockPanel Height="30" Margin="2">
-                        <Label Content="Zanarkand Ruins" VerticalAlignment="Center" />
-                        <Button Name="Trap14" Width="240" HorizontalAlignment="Right" MouseRightButtonDown="TrapButton_RightMouse" Padding="0" />
+                        <Label VerticalAlignment="Center" Content="Zanarkand Ruins" />
+                        <Button Name="Trap14"
+                                Width="240"
+                                HorizontalAlignment="Right"
+                                MouseRightButtonDown="TrapButton_RightMouse"
+                                Padding="0" />
                     </DockPanel>
                 </StackPanel>
             </ScrollViewer>
+            <StackPanel Name="TrapPanel"
+                        Grid.Row="3"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <Label Margin="0,0,5,0"
+                       VerticalAlignment="Center"
+                       Content="Traps" />
+                <Button Name="TrapItem0"
+                        Width="38"
+                        Height="38"
+                        Margin="2"
+                        Click="TrapItem_Click"
+                        Content="+"
+                        Padding="0" />
+                <Button Name="TrapItem1"
+                        Width="38"
+                        Height="38"
+                        Margin="2"
+                        Click="TrapItem_Click"
+                        Content="+"
+                        Padding="0" />
+                <Button Name="TrapItem2"
+                        Width="38"
+                        Height="38"
+                        Margin="2"
+                        Click="TrapItem_Click"
+                        Content="+"
+                        Padding="0" />
+                <Button Name="TrapItem3"
+                        Width="38"
+                        Height="38"
+                        Margin="2"
+                        Click="TrapItem_Click"
+                        Content="+"
+                        Padding="0" />
+                <Button Name="TrapItem4"
+                        Width="38"
+                        Height="38"
+                        Margin="2"
+                        Click="TrapItem_Click"
+                        Content="+"
+                        Padding="0" />
+                <Button Name="TrapItem5"
+                        Width="38"
+                        Height="38"
+                        Margin="2"
+                        Click="TrapItem_Click"
+                        Content="+"
+                        Padding="0" />
+                <Button Name="TrapItem6"
+                        Width="38"
+                        Height="38"
+                        Margin="2"
+                        Click="TrapItem_Click"
+                        Content="+"
+                        Padding="0" />
+                <Button Name="TrapItem7"
+                        Width="38"
+                        Height="38"
+                        Margin="2"
+                        Click="TrapItem_Click"
+                        Content="+"
+                        Padding="0" />
+            </StackPanel>
         </Grid>
     </GroupBox>
 </UserControl>

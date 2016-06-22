@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Farplane.Common;
 using Farplane.FFX.Data;
 using Farplane.FFX.Values;
+using Farplane.Memory;
 
 namespace Farplane.FFX
 {
@@ -22,49 +23,51 @@ namespace Farplane.FFX
 
         public static void MaxAllStats()
         {
-            var partyOffset = Offsets.GetOffset(OffsetType.PartyStatsBase);
+            var partyOffset = OffsetScanner.GetOffset(GameOffset.FFX_PartyStatBase);
 
             for (int i = 0; i < 18; i++)
             {
                 int characterOffset = partyOffset + 0x94*i;
                 var overdriveLevel = i > 7 ? 20 : 100;
-                Memory.WriteBytes(StructHelper.GetFieldOffset<PartyMember>("CurrentHp", characterOffset), BitConverter.GetBytes((uint) 99999));
-                Memory.WriteBytes(StructHelper.GetFieldOffset<PartyMember>("MaxHp", characterOffset), BitConverter.GetBytes((uint)99999));
-                Memory.WriteBytes(StructHelper.GetFieldOffset<PartyMember>("BaseHp", characterOffset), BitConverter.GetBytes((uint)99999));
-                Memory.WriteBytes(StructHelper.GetFieldOffset<PartyMember>("CurrentMp", characterOffset), BitConverter.GetBytes((uint)9999));
-                Memory.WriteBytes(StructHelper.GetFieldOffset<PartyMember>("MaxMp", characterOffset), BitConverter.GetBytes((uint)9999));
-                Memory.WriteBytes(StructHelper.GetFieldOffset<PartyMember>("BaseMp", characterOffset), BitConverter.GetBytes((uint)9999));
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("BaseStrength", characterOffset), (byte)255);
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("BaseDefense", characterOffset), (byte)255);
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("BaseMagic", characterOffset), (byte)255);
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("BaseMagicDefense", characterOffset), (byte)255);
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("BaseAgility", characterOffset), (byte)255);
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("BaseLuck", characterOffset), (byte)255);
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("BaseEvasion", characterOffset), (byte)255);
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("BaseAccuracy", characterOffset), (byte)255);
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("OverdriveLevel", characterOffset), (byte)overdriveLevel);
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("OverdriveMax", characterOffset), (byte)overdriveLevel);
+
+                Party.SetPartyMemberAttribute<uint>(i, "CurrentHp",  99999);
+                Party.SetPartyMemberAttribute<uint>(i, "MaxHp", 99999);
+                Party.SetPartyMemberAttribute<uint>(i, "BaseHp", 99999);
+                Party.SetPartyMemberAttribute<uint>(i, "CurrentMp", 9999);
+                Party.SetPartyMemberAttribute<uint>(i, "MaxMp", 9999);
+                Party.SetPartyMemberAttribute<uint>(i, "BaseMp", 9999);
+
+                Party.SetPartyMemberAttribute<byte>(i, "BaseStrength", 255);
+                Party.SetPartyMemberAttribute<byte>(i, "BaseDefense", 255);
+                Party.SetPartyMemberAttribute<byte>(i, "BaseMagic", 255);
+                Party.SetPartyMemberAttribute<byte>(i, "BaseMagicDefense", 255);
+                Party.SetPartyMemberAttribute<byte>(i, "BaseAgility", 255);
+                Party.SetPartyMemberAttribute<byte>(i, "BaseLuck", 255);
+                Party.SetPartyMemberAttribute<byte>(i, "BaseEvasion", 255);
+                Party.SetPartyMemberAttribute<byte>(i, "BaseAccuracy", 255);
+                Party.SetPartyMemberAttribute<byte>(i, "OverdriveLevel", (byte)overdriveLevel);
+                Party.SetPartyMemberAttribute<byte>(i, "OverdriveMax", (byte)overdriveLevel);
             }
         }
 
         public static void MaxSphereLevels()
         {
-            var partyOffset = Offsets.GetOffset(OffsetType.PartyStatsBase);
+            var partyOffset = OffsetScanner.GetOffset(GameOffset.FFX_PartyStatBase);
             for (var i = 0; i < 8; i++)
             {
                 int characterOffset = partyOffset + 0x94 * i;
-                Memory.WriteByte(StructHelper.GetFieldOffset<PartyMember>("SphereLevelCurrent", characterOffset), 255);
+                LegacyMemoryReader.WriteByte(StructHelper.GetFieldOffset<PartyMember>("SphereLevelCurrent", characterOffset), 255);
             }
         }
 
         public static void LearnAllAbilities()
         {
-            var partyOffset = Offsets.GetOffset(OffsetType.PartyStatsBase);
+            var partyOffset = OffsetScanner.GetOffset(GameOffset.FFX_PartyStatBase);
             for (var i = 0; i < 18; i++)
             {
                 
                 int characterAbilityOffset = partyOffset + Marshal.SizeOf<PartyMember>() * i + StructHelper.GetFieldOffset<PartyMember>("SkillFlags"); ;
-                var currentAbilities = Memory.ReadBytes(characterAbilityOffset, 13);
+                var currentAbilities = LegacyMemoryReader.ReadBytes(characterAbilityOffset, 13);
 
                 // Flip all normal ability bits
                 currentAbilities[1] |= 0xF0;
@@ -73,7 +76,7 @@ namespace Farplane.FFX
                 currentAbilities[11] |= 0x0F;
                 currentAbilities[12] |= 0xFF;
 
-                Memory.WriteBytes(characterAbilityOffset, currentAbilities);
+                LegacyMemoryReader.WriteBytes(characterAbilityOffset, currentAbilities);
             }
         }
     }

@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,13 +38,28 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\Farplane_Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSScriptLibrary, Version=3.12.2.0, Culture=neutral, PublicKeyToken=70fcc3d18c749033, processorArchitecture=MSIL">
       <HintPath>..\packages\CS-Script.bin.3.12.2.1\lib\net45\CSScriptLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Fasm.NET, Version=1.0.4939.27955, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Fasm.NET.1.70.03\lib\Fasm.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MemorySharp, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MemorySharp.1.1.0\lib\MemorySharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
@@ -53,6 +69,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -76,14 +93,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\Controls\DonateFlyout.xaml.cs">
+      <DependentUpon>DonateFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Dialogs\CreditsWindow.xaml.cs">
+      <DependentUpon>CreditsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FarplaneMod\ModLoader.cs" />
+    <Compile Include="FarplaneMod\ModLoadWindow.xaml.cs">
+      <DependentUpon>ModLoadWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FarplaneMod\ModPanel.xaml.cs">
+      <DependentUpon>ModPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX2\EditorPanels\Party\PartyPanel.xaml.cs">
+      <DependentUpon>PartyPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\Data\AeonName.cs" />
+    <Compile Include="FFX\Data\Blitzball.cs" />
+    <Compile Include="FFX\Data\General.cs" />
+    <Compile Include="FFX\Data\MonsterArena.cs" />
+    <Compile Include="FFX\EditorPanels\BlitzballPanel\BlitzballLeagueEditor.xaml.cs">
+      <DependentUpon>BlitzballLeagueEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\BlitzballPanel\BlitzballTournamentEditor.xaml.cs">
+      <DependentUpon>BlitzballTournamentEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Memory\Assembly.cs" />
+    <Compile Include="Memory\GameMemory.cs" />
     <Compile Include="FarplaneMod\ModLogger.cs" />
     <Compile Include="FarplaneMod\ModSettings.cs" />
-    <Compile Include="FarplaneMod\ModThread.cs" />
-    <Compile Include="FFX\EditorPanels\Mods\ModsPanel.xaml.cs">
-      <DependentUpon>ModsPanel.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="FFX\Data\Battle.cs" />
     <Compile Include="FarplaneMod\IFarplaneMod.cs" />
-    <Compile Include="FarplaneMod\ModUpdateThread.cs" />
+    <Compile Include="FarplaneMod\ModThread.cs" />
     <None Include="Mods\FFX-SeymourInParty.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -98,15 +140,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Common\Controls\DonateFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Dialogs\CreditsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\Dialogs\SearchDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="FFX2\AbilitySlider.xaml">
+    <Page Include="FarplaneMod\ModLoadWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX2\EditorPanels\BlueBulletPanel.xaml">
+    <Page Include="FarplaneMod\ModPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX2\AbilitySlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -130,15 +184,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX2\EditorPanels\DressphereAbilities.xaml">
+    <Page Include="FFX2\EditorPanels\Party\DressphereAbilities.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FFX2\EditorPanels\DressphereEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FFX2\EditorPanels\EquipmentPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -158,7 +208,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX2\EditorPanels\PartyEditor.xaml">
+    <Page Include="FFX2\EditorPanels\Party\PartyPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,6 +236,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FFX\EditorPanels\BlitzballPanel\BlitzballLeagueEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FFX\EditorPanels\BlitzballPanel\BlitzballTournamentEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FFX\EditorPanels\BlitzballPanel\BlitzballMatchPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -206,23 +264,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\Equipment\EquipmentPanel.xaml">
+    <Page Include="FFX\EditorPanels\EquipmentPanel\EquipmentPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\General\GeneralPanel.xaml">
+    <Page Include="FFX\EditorPanels\GeneralPanel\GeneralPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\Items\ItemsPanel.xaml">
+    <Page Include="FFX\EditorPanels\ItemsPanel\ItemsPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\Mods\ModsPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FFX\EditorPanels\MonsterArena\MonsterArenaPanel.xaml">
+    <Page Include="FFX\EditorPanels\MonsterArenaPanel\MonsterArenaPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -230,23 +284,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\Party\PartyAbilities.xaml">
+    <Page Include="FFX\EditorPanels\PartyPanel\PartyAbilities.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\Party\PartyEditor.xaml">
+    <Page Include="FFX\EditorPanels\PartyPanel\PartyEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\Party\PartyOverdrive.xaml">
+    <Page Include="FFX\EditorPanels\PartyPanel\PartyOverdrive.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\Party\PartyPanel.xaml">
+    <Page Include="FFX\EditorPanels\PartyPanel\PartyPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\Party\PartyStats.xaml">
+    <Page Include="FFX\EditorPanels\PartyPanel\PartyStats.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -254,11 +308,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\SphereGrid\SphereGridEditor.xaml">
+    <Page Include="FFX\EditorPanels\SphereGridPanel\SphereGridEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\SphereGrid\SphereGridPanel.xaml">
+    <Page Include="FFX\EditorPanels\SphereGridPanel\SphereGridPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -291,9 +345,6 @@
       <DependentUpon>AbilitySlider.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX2\Cheats.cs" />
-    <Compile Include="FFX2\EditorPanels\BlueBulletPanel.xaml.cs">
-      <DependentUpon>BlueBulletPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FFX2\EditorPanels\CreatureAbilities.xaml.cs">
       <DependentUpon>CreatureAbilities.xaml</DependentUpon>
     </Compile>
@@ -327,17 +378,11 @@
     <Compile Include="FFX2\EditorPanels\DebugOptions.xaml.cs">
       <DependentUpon>DebugOptions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX2\EditorPanels\DressphereAbilities.xaml.cs">
+    <Compile Include="FFX2\EditorPanels\Party\DressphereAbilities.xaml.cs">
       <DependentUpon>DressphereAbilities.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FFX2\EditorPanels\EquipmentPanel.xaml.cs">
-      <DependentUpon>EquipmentPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX2\EditorPanels\General.xaml.cs">
       <DependentUpon>General.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FFX2\EditorPanels\PartyEditor.xaml.cs">
-      <DependentUpon>PartyEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX2\EditorPanels\StatsPanel.xaml.cs">
       <DependentUpon>StatsPanel.xaml</DependentUpon>
@@ -348,7 +393,6 @@
     <Compile Include="FFX2\Offsets.cs" />
     <Compile Include="FFX2\Values\Accessories.cs" />
     <Compile Include="FFX\Cheats.cs" />
-    <Compile Include="FarplaneMod\ModLoader.cs" />
     <Compile Include="FFX\Data\Party.cs" />
     <Compile Include="FFX\EditorPanels\Aeons\AeonsPanel.xaml.cs">
       <DependentUpon>AeonsPanel.xaml</DependentUpon>
@@ -377,43 +421,43 @@
     <Compile Include="FFX\EditorPanels\Debug\DebugPanel.xaml.cs">
       <DependentUpon>DebugPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\Equipment\EquipmentPanel.xaml.cs">
+    <Compile Include="FFX\EditorPanels\EquipmentPanel\EquipmentPanel.xaml.cs">
       <DependentUpon>EquipmentPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\General\GeneralPanel.xaml.cs">
+    <Compile Include="FFX\EditorPanels\GeneralPanel\GeneralPanel.xaml.cs">
       <DependentUpon>GeneralPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\Items\ItemsPanel.xaml.cs">
+    <Compile Include="FFX\EditorPanels\ItemsPanel\ItemsPanel.xaml.cs">
       <DependentUpon>ItemsPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\MonsterArena\MonsterArenaPanel.xaml.cs">
+    <Compile Include="FFX\EditorPanels\MonsterArenaPanel\MonsterArenaPanel.xaml.cs">
       <DependentUpon>MonsterArenaPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\EditorPanels\NotImplementedPanel.xaml.cs">
       <DependentUpon>NotImplementedPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\Party\PartyAbilities.xaml.cs">
+    <Compile Include="FFX\EditorPanels\PartyPanel\PartyAbilities.xaml.cs">
       <DependentUpon>PartyAbilities.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\Party\PartyEditor.xaml.cs">
+    <Compile Include="FFX\EditorPanels\PartyPanel\PartyEditor.xaml.cs">
       <DependentUpon>PartyEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\Party\PartyOverdrive.xaml.cs">
+    <Compile Include="FFX\EditorPanels\PartyPanel\PartyOverdrive.xaml.cs">
       <DependentUpon>PartyOverdrive.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\Party\PartyPanel.xaml.cs">
+    <Compile Include="FFX\EditorPanels\PartyPanel\PartyPanel.xaml.cs">
       <DependentUpon>PartyPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\Party\PartyStats.xaml.cs">
+    <Compile Include="FFX\EditorPanels\PartyPanel\PartyStats.xaml.cs">
       <DependentUpon>PartyStats.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\EditorPanels\Boosters\BoostersPanel.xaml.cs">
       <DependentUpon>BoostersPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\SphereGrid\SphereGridEditor.xaml.cs">
+    <Compile Include="FFX\EditorPanels\SphereGridPanel\SphereGridEditor.xaml.cs">
       <DependentUpon>SphereGridEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\SphereGrid\SphereGridPanel.xaml.cs">
+    <Compile Include="FFX\EditorPanels\SphereGridPanel\SphereGridPanel.xaml.cs">
       <DependentUpon>SphereGridPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\FFXEditor.xaml.cs">
@@ -423,17 +467,17 @@
     <Compile Include="FFX\Values\Ability.cs" />
     <Compile Include="FFX\Values\AutoAbility.cs" />
     <Compile Include="FFX\Values\BattleEntity.cs" />
-    <Compile Include="FFX\Values\Blitzball.cs" />
+    <Compile Include="FFX\Values\BlitzballValues.cs" />
     <Compile Include="FFX\Values\DamageFormula.cs" />
     <Compile Include="FFX\Values\Enums.cs" />
     <Compile Include="FFX\Values\EquipAppearances.cs" />
     <Compile Include="FFX\Data\Equipment.cs" />
     <Compile Include="FFX\Values\EquipName.cs" />
-    <Compile Include="FFX\Values\Item.cs" />
+    <Compile Include="FFX\Data\Item.cs" />
     <Compile Include="FFX\Values\KeyItem.cs" />
     <Compile Include="FFX\Values\MonsterArenaData.cs" />
     <Compile Include="FFX\Values\OverdriveMode.cs" />
-    <Compile Include="FFX\Values\SphereGridNode.cs" />
+    <Compile Include="FFX\Data\SphereGrid.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -444,7 +488,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MemoryReader\Memory.cs" />
+    <Compile Include="MemoryReader\LegacyMemoryReader.cs" />
     <Compile Include="MemoryReader\WinAPI.cs" />
     <Compile Include="Common\Dialogs\ProcessSelectWindow.xaml.cs">
       <DependentUpon>ProcessSelectWindow.xaml</DependentUpon>
@@ -455,6 +499,14 @@
     <None Include="Mods\FFX-BreakDamageLimit.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Mods\FFX-HardBattle.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Mods\FFX2-BreakHPLimit.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Compile Include="Memory\OffsetScanner.cs" />
+    <Compile Include="Memory\SigScan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -519,6 +571,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\expand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Fasm.NET.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Farplane.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Mods\FFX2-LimitBreak.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Credits.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\showall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

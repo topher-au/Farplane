@@ -29,7 +29,7 @@ namespace Farplane.FFX2.EditorPanels
 
         public void Refresh()
         {
-            var dressBytes = Memory.ReadBytes(_offsetDresspheres, 30);
+            var dressBytes = LegacyMemoryReader.ReadBytes(_offsetDresspheres, 30);
             for(int d=1; d<=29; d++)
             {
                 var dressBox = (TextBox)FindName("Dressphere" + d);
@@ -51,7 +51,7 @@ namespace Farplane.FFX2.EditorPanels
                     var parsed = int.TryParse(dressBox.Text, out quantity);
                     if (parsed && quantity <= 127 && quantity >= 0)
                     {
-                        Memory.WriteBytes(_offsetDresspheres + dressIndex,
+                        LegacyMemoryReader.WriteBytes(_offsetDresspheres + dressIndex,
                             new byte[] {(byte) quantity});
                         Refresh();
                     }

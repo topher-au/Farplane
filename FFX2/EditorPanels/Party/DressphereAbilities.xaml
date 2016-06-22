@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Farplane.FFX2.EditorPanels.DressphereAbilities"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Farplane.FFX2.EditorPanels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:offsets="clr-namespace:Farplane.FFX2.Values"
+             d:DesignHeight="340"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+    <StackPanel>
+        <GroupBox Header="Dressphere">
+            <ComboBox Name="Dressphere" SelectionChanged="Dressphere_OnSelectionChanged" />
+        </GroupBox>
+        <GroupBox Header="Abilities">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Button Name="Ability0" Click="AbilityButton_Click" />
+                    <Button Name="Ability2" Click="AbilityButton_Click" />
+                    <Button Name="Ability4" Click="AbilityButton_Click" />
+                    <Button Name="Ability6" Click="AbilityButton_Click" />
+                    <Button Name="Ability8" Click="AbilityButton_Click" />
+                    <Button Name="Ability10" Click="AbilityButton_Click" />
+                    <Button Name="Ability12" Click="AbilityButton_Click" />
+                    <Button Name="Ability14" Click="AbilityButton_Click" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Button Name="Ability1" Click="AbilityButton_Click" />
+                    <Button Name="Ability3" Click="AbilityButton_Click" />
+                    <Button Name="Ability5" Click="AbilityButton_Click" />
+                    <Button Name="Ability7" Click="AbilityButton_Click" />
+                    <Button Name="Ability9" Click="AbilityButton_Click" />
+                    <Button Name="Ability11" Click="AbilityButton_Click" />
+                    <Button Name="Ability13" Click="AbilityButton_Click" />
+                    <Button Name="Ability15" Click="AbilityButton_Click" />
+                </StackPanel>
+                <Button Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Click="MasterAll_Click"
+                        Content="Master All Abilities" />
+            </Grid>
+        </GroupBox>
+    </StackPanel>
+</UserControl>

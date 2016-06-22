@@ -1,22 +1,25 @@
 ﻿<UserControl x:Class="Farplane.FFX2.EditorPanels.AccessoriesEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Farplane.FFX2.EditorPanels"
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <GroupBox Header="Accessories" Margin="0">
+             mc:Ignorable="d">
+    <GroupBox Header="Accessories">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="30" />
             </Grid.RowDefinitions>
             <ScrollViewer Grid.Row="0" Padding="2">
                 <Grid Name="ItemsGrid" />
             </ScrollViewer>
-            <Button Content="Give 99 of all accessories" Grid.Row="1" Click="GiveAllItems_Click"/>
+            <Button Grid.Row="1"
+                    Click="GiveAllItems_Click"
+                    Content="Give 99 of all accessories" />
         </Grid>
     </GroupBox>
 </UserControl>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Farplane.FFX.Data;
 using MahApps.Metro.Controls;
 
 namespace Farplane.FFX.EditorPanels.Aeons
@@ -23,8 +24,6 @@ namespace Farplane.FFX.EditorPanels.Aeons
     {
         public delegate void UpdateTabsDelegate();
         public static event UpdateTabsDelegate UpdateTabsEvent;
-
-        private readonly int _offsetAeonName = Offsets.GetOffset(OffsetType.AeonNames);
         private int _currentAeon = 8;
         AeonStats _aeonStats = new AeonStats();
         AeonAbilities _aeonAbilities = new AeonAbilities();
@@ -48,9 +47,7 @@ namespace Farplane.FFX.EditorPanels.Aeons
             for (int i = 0; i < 10; i++)
             {
                 var aeonTab = (TabItem)TabAeon.Items[i];
-                var aeonNameBytes = Memory.ReadBytes(_offsetAeonName + Offsets.AeonNames[i], 8);
-                var aeonName = Common.StringConverter.ToString(aeonNameBytes);
-                aeonTab.Header = aeonName;
+                aeonTab.Header = AeonName.GetName(i+8);
             }
             _aeonStats.Refresh(_currentAeon);
             _aeonAbilities.Refresh(_currentAeon);

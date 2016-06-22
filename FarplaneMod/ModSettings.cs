@@ -2,57 +2,130 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Farplane.FarplaneMod
 {
-    internal class ModSettings
+    public static class ModSettings
     {
         private const string ModSettingsFile = "FarplaneMods.xml";
-        public static List<ModSetting> ReadSettings()
+
+        public static T ReadSetting<T>(string settingName)
         {
+            var scriptName = Assembly.GetCallingAssembly().GetName().Name;
+            return ReadSetting<T>(scriptName, settingName);
+        }
+
+        public static void WriteSetting(string settingName, object value)
+        {
+            var scriptName = Assembly.GetCallingAssembly().GetName().Name;
+            WriteSetting(scriptName, settingName, value);
+        }
+
+        internal static T ReadSetting<T>(string scriptName, string settingName)
+        {
+            if (!File.Exists(ModSettingsFile)) return default(T);
             try
             {
-                using (var xmlStream = new FileStream(ModSettingsFile, FileMode.Open))
+                using (var settingsStream = new FileStream(ModSettingsFile, FileMode.Open))
                 {
-                    var xmlSerializer = new XmlSerializer(typeof(List<ModSetting>));
-
-                    var settingsList = (List<ModSetting>) xmlSerializer.Deserialize(xmlStream);
-                    return settingsList;
+                    var xmlSerializer = new XmlSerializer(typeof (SettingsFile));
+                    var settingsObject = (SettingsFile) xmlSerializer.Deserialize(settingsStream);
+                    var modSettings =
+                        settingsObject.ModSettings.First(
+                            mod => string.Equals(mod.ScriptName, scriptName, StringComparison.CurrentCultureIgnoreCase));
+                    var setting =
+                        modSettings.Settings.First(
+                            set => string.Equals(set.Name, settingName, StringComparison.CurrentCultureIgnoreCase));
+                    return (T) setting.Value;
                 }
             }
             catch (Exception ex)
             {
-                ModLogger.WriteLine("An attempt to read the settings failed, no settings have been loaded.");
-                ModLogger.WriteLine(ex.Message);
-                return new List<ModSetting>();
+                return default(T);
             }
         }
 
-        public static void WriteSettings(List<ModSetting> settings)
+        internal static void WriteSetting(string scriptName, string settingName, object value)
         {
-            try
+            using (var settingsStream = new FileStream(ModSettingsFile, FileMode.OpenOrCreate))
             {
-                using (var xmlStream = new FileStream(ModSettingsFile, FileMode.Create))
+                var xmlSerializer = new XmlSerializer(typeof (SettingsFile));
+                SettingsFile settingsObject;
+                try
                 {
-                    var xmlSerializer = new XmlSerializer(typeof(List<ModSetting>));
-
-                    xmlSerializer.Serialize(xmlStream, settings);
+                    settingsObject = (SettingsFile) xmlSerializer.Deserialize(settingsStream);
                 }
-            }
-            catch (Exception ex)
-            {
-                ModLogger.WriteLine("An attempt to write the settings failed:");
-                ModLogger.WriteLine(ex.Message);
+                catch
+                {
+                    settingsObject = new SettingsFile();
+                }
+
+                if (settingsObject.ModSettings == null)
+                    settingsObject.ModSettings = new List<ModSetting>();
+                var modSettings =
+                    settingsObject.ModSettings.FirstOrDefault(
+                        mod => string.Equals(mod.ScriptName, scriptName, StringComparison.CurrentCultureIgnoreCase));
+
+                if (modSettings == null)
+                {
+                    settingsObject.ModSettings.Add(new ModSetting()
+                    {
+                        ScriptName = scriptName,
+                        Settings = new List<Setting>()
+                    });
+                    modSettings = settingsObject.ModSettings.Last();
+                }
+
+
+                var setting =
+                    modSettings.Settings.FirstOrDefault(
+                        set => string.Equals(set.Name, settingName, StringComparison.CurrentCultureIgnoreCase));
+
+                if (setting == null)
+                {
+                    modSettings.Settings.Add(new Setting() {Name = settingName, Value = value});
+                    setting = modSettings.Settings.Last();
+                }
+
+
+                setting.Value = value;
+                settingsStream.Position = 0;
+                settingsStream.SetLength(0);
+                xmlSerializer.Serialize(settingsStream, settingsObject);
             }
         }
     }
 
+    [XmlType("SettingsFile")]
+    public class SettingsFile
+    {
+        [XmlElement("ModSettings")] public List<ModSetting> ModSettings;
+    }
+
+    [XmlType("Settings")]
     public class ModSetting
     {
-        public string ClassName { get; set; }
+        [XmlAttribute("Mod")]
+        public string ScriptName { get; set; }
+
+        [XmlAttribute("Activated")]
         public bool Activated { get; set; }
+
+        [XmlElement("Settings")]
+        public List<Setting> Settings { get; set; }
+    }
+
+    [XmlType("Setting")]
+    public class Setting
+    {
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
+
+        [XmlElement("Value")]
+        public object Value { get; set; }
     }
 }

@@ -26,16 +26,24 @@ namespace Farplane.FFX2.EditorPanels
         public GarmentGridEditor()
         {
             InitializeComponent();
-            foreach (var gg in GarmentGrids.GarmentGridList)
+            for (int i = 0; i < GarmentGrids.GarmentGridList.Length; i++)
             {
+                var gg = GarmentGrids.GarmentGridList[i];
+
                 var ggCheckBox = new CheckBox()
                 {
                     Name = "Grid" + gg.ID,
-                    Content = gg.Name
+                    Content = gg.Name,
+                    Margin=new Thickness(2)
                 };
                 ggCheckBox.Checked += GarmentGridChanged;
                 ggCheckBox.Unchecked += GarmentGridChanged;
-                GarmentGridList.Children.Add(ggCheckBox);
+
+                if(i < GarmentGrids.GarmentGridList.Length / 2)
+                    GarmentGridList.Children.Add(ggCheckBox);
+                else
+                    GarmentGridList2.Children.Add(ggCheckBox);
+                
             }
             Refresh();
         }
@@ -52,13 +60,13 @@ namespace Farplane.FFX2.EditorPanels
             var byteIndex = gridIndex/8;
             var bitIndex = gridIndex%8;
 
-            var garmentGridBytes = Memory.ReadBytes(_offsetGarmentGrids, 8);
+            var garmentGridBytes = LegacyMemoryReader.ReadBytes(_offsetGarmentGrids, 8);
             var gByte = garmentGridBytes[byteIndex];
 
             var mask = (1 << bitIndex);
             var newByte = gByte ^ (byte) mask;
 
-            Memory.WriteBytes(_offsetGarmentGrids + byteIndex, new byte[] {(byte)newByte});
+            LegacyMemoryReader.WriteBytes(_offsetGarmentGrids + byteIndex, new byte[] {(byte)newByte});
             Refresh();
         }
 
@@ -67,16 +75,19 @@ namespace Farplane.FFX2.EditorPanels
         public void Refresh()
         {
             _refreshing = true;
-            var garmentGridBytes = Memory.ReadBytes(_offsetGarmentGrids, 8);
-            var gridsRem = GarmentGrids.GarmentGridList.Length % 8;
+            var garmentGridBytes = LegacyMemoryReader.ReadBytes(_offsetGarmentGrids, 8);
+            var ggLen = GarmentGrids.GarmentGridList.Length;
             for (int i = 0; i < GarmentGrids.GarmentGridList.Length; i++)
             {
-                var checkBox = (CheckBox) GarmentGridList.Children[i];
+                
+                CheckBox checkBox = null;
+                if(i < ggLen / 2)
+                    checkBox = (CheckBox) GarmentGridList.Children[i];
+                else
+                    checkBox = (CheckBox)GarmentGridList2.Children[i - ggLen/2];
+
                 if (checkBox == null) continue;
-
-                var numBytes = GarmentGrids.GarmentGridList.Length - gridsRem;
-
-
+                
                 var byteIndex = i/8;
                 var bitIndex = i%8;
 

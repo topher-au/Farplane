@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +20,13 @@ using System.Windows.Shapes;
 using Farplane.Common;
 using Farplane.Common.Controls;
 using Farplane.Common.Dialogs;
+using Farplane.FarplaneMod;
 using Farplane.FFX;
 using Farplane.FFX2;
 using Farplane.Properties;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
+using Farplane.Memory;
 
 namespace Farplane
 {
@@ -32,6 +36,9 @@ namespace Farplane
     public partial class MainWindow : MetroWindow
     {
         private ConfigFlyout _configFlyout = new ConfigFlyout();
+        
+
+        private int _splashCounter = 10;
 
         public MainWindow()
         {
@@ -68,22 +75,36 @@ namespace Farplane
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             Title = string.Format(Title, $"{version.Major}.{version.Minor}.{version.Build}");
 
+
             Flyouts = new FlyoutsControl();
             Flyouts.Items.Add(_configFlyout);
+
+            // Only show the donation message once every 3 days
+            if (!Settings.Default.NeverShowDonation && (Settings.Default.DonationMessage < (DateTime.Now - new TimeSpan(3,0,0,0)) || Debugger.IsAttached))
+            {
+                // Show donation message
+                var _donateFlyout = new DonateFlyout();
+                Flyouts.Items.Add(_donateFlyout);
+                _donateFlyout.IsOpen = true;
+                Settings.Default.DonationMessage = DateTime.Now;
+                Settings.Default.Save();
+            }
+            
         }
 
         private void FFX2_Click(object sender, RoutedEventArgs e)
         {
+            _configFlyout.IsOpen = false;
             var processSelect = new ProcessSelectWindow("FFX-2") {Owner=this};
             processSelect.ShowDialog();
 
             if (processSelect.DialogResult == true)
             {
                 Hide();
-
+                ModLoader.LoadScripts(GameType.FFX2);
                 var FFX2Editor = new FFX2Editor();
                 FFX2Editor.ShowDialog();
-
+                GameMemory.Detach();
                 if(Settings.Default.CloseWithGame) Environment.Exit(0);
 
                 Show();
@@ -92,20 +113,20 @@ namespace Farplane
             }
         }
 
-        private void FFX_Click(object sender, RoutedEventArgs e)
+        private async void FFX_Click(object sender, RoutedEventArgs e)
         {
+            _configFlyout.IsOpen = false;
             var processSelect = new ProcessSelectWindow("FFX") {Owner=this};
             processSelect.ShowDialog();
 
             if (processSelect.DialogResult == true)
             {
                 Hide();
-
+                ModLoader.LoadScripts(GameType.FFX);
                 var FFXEditor = new FFXEditor();
                 FFXEditor.ShowDialog();
-
+                GameMemory.Detach();
                 if (Settings.Default.CloseWithGame) Environment.Exit(0);
-
                 Show();
                 Topmost = true;
                 Topmost = false;
@@ -115,6 +136,16 @@ namespace Farplane
         private void ButtonConfig_Click(object sender, RoutedEventArgs e)
         {
             _configFlyout.IsOpen = !_configFlyout.IsOpen;
+        }
+
+        private void SplashLogo_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _splashCounter--;
+            if (_splashCounter > 0) return;
+
+            _splashCounter = 10;
+            var credits = new CreditsWindow() {Owner=this, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterOwner};
+            credits.ShowDialog();
         }
     }
 }

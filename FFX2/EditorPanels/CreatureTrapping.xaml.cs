@@ -38,7 +38,7 @@ namespace Farplane.FFX2.EditorPanels
 
         public void Refresh()
         {
-            _trapBytes = Memory.ReadBytes(_offsetCreatureTrap, 60);
+            _trapBytes = LegacyMemoryReader.ReadBytes(_offsetCreatureTrap, 60);
 
             for (int i = 0; i < 15; i++)
             {
@@ -62,7 +62,7 @@ namespace Farplane.FFX2.EditorPanels
                 }
             }
 
-            _podBytes = Memory.ReadBytes(_offsetCreaturePods, 9);
+            _podBytes = LegacyMemoryReader.ReadBytes(_offsetCreaturePods, 9);
             var trapCount = _podBytes[0];
             for (int t = 0; t < 8; t++)
             {
@@ -120,7 +120,7 @@ namespace Farplane.FFX2.EditorPanels
                 if(i+1 < 9) outBytes[i] = _podBytes[i+1];
             count--;
             outBytes[0] = count;
-            Memory.WriteBytes(_offsetCreaturePods, outBytes);
+            LegacyMemoryReader.WriteBytes(_offsetCreaturePods, outBytes);
         }
 
         private void TrapButton_RightMouse(object sender, MouseButtonEventArgs e)
@@ -137,7 +137,7 @@ namespace Farplane.FFX2.EditorPanels
 
         private void SetTrap(int trapIndex, int creatureId)
         {
-            Memory.WriteBytes(_offsetCreatureTrap + (trapIndex*4),
+            LegacyMemoryReader.WriteBytes(_offsetCreatureTrap + (trapIndex*4),
                 BitConverter.GetBytes((ushort) creatureId));
             Refresh();
         }
@@ -262,7 +262,7 @@ namespace Farplane.FFX2.EditorPanels
                             }
                             _podBytes[_podBytes[0] + 1] = (byte)trapID;
                             _podBytes[0]++;
-                            Memory.WriteBytes(_offsetCreaturePods, _podBytes);
+                            LegacyMemoryReader.WriteBytes(_offsetCreaturePods, _podBytes);
                         }
                         Refresh();
                         var nextButtonIndex = TrapPanel.Children.IndexOf(button) + 1;

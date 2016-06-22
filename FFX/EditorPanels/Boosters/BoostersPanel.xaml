@@ -1,33 +1,29 @@
 ﻿<UserControl x:Class="Farplane.FFX.EditorPanels.Boosters.BoostersPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.Boosters"
-             mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="400">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="500"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
     <GroupBox Header="Boosters">
         <ScrollViewer>
             <StackPanel>
                 <GroupBox Header="Permanent Boosters">
                     <StackPanel>
-                        <Button Content="Give 99 of all items" Margin="2" Click="GiveAllItems_Click"/>
-                        <Button Content="Max all stats" Margin="2" Click="MaxAllStats_Click"/>
-                        <Button Content="Max all sphere levels" Margin="2" Click="MaxSphereLevels_Click"/>
-                        <Button Content="Learn all abilities" Margin="2" Click="LearnAllAbilities_Click"/>
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Header="Temporary Boosters">
-                    <StackPanel>
-                        <GroupBox Header="AP Sharing" >
-                            <StackPanel>
-                                <StackPanel>
-                                    <TextBlock Text="While enabled, selected characters will always receive AP after battle, regardless of participation" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
-                                    <Button Name="ButtonSharedAP" Content="DISABLED" Click="SharedAP_Click" Margin="5" />
-                                </StackPanel>
-                                <WrapPanel Name="ShareBoxes" Margin="5" />
-                            </StackPanel>
-                        </GroupBox>
+                        <Button Margin="2"
+                                Click="GiveAllItems_Click"
+                                Content="Give 99 of all items" />
+                        <Button Margin="2"
+                                Click="MaxAllStats_Click"
+                                Content="Max all stats" />
+                        <Button Margin="2"
+                                Click="MaxSphereLevels_Click"
+                                Content="Max all sphere levels" />
+                        <Button Margin="2"
+                                Click="LearnAllAbilities_Click"
+                                Content="Learn all abilities" />
                     </StackPanel>
                 </GroupBox>
             </StackPanel>

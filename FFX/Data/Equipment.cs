@@ -4,34 +4,36 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Farplane.Memory;
 
 namespace Farplane.FFX.Data
 {
     public static class Equipment
     {
-        private static readonly int _offsetEquipment = Offsets.GetOffset(OffsetType.EquipmentBase);
-        private static readonly int _blockLength = (int) BlockLength.EquipmentItem;
+        public static readonly int Offset = OffsetScanner.GetOffset(GameOffset.FFX_EquipmentBase);
+        public const int BlockLength = 0x16;
+        public const int MaxItems = 0xB2;
 
         public static EquipmentItem ReadItem(int itemIndex)
         {
             // Read an item from the game's memory into struct
-            var offset = _offsetEquipment + itemIndex*_blockLength;
-            var bytes = Memory.ReadBytes(offset, _blockLength);
+            var offset = Offset + itemIndex*BlockLength;
+            var bytes = GameMemory.Read<byte>(offset, BlockLength, false);
 
-            IntPtr ptrEquipmentItem = Marshal.AllocHGlobal(_blockLength);
+            IntPtr ptrEquipmentItem = Marshal.AllocHGlobal(BlockLength);
             try
             {
                 // Attempt to copy memory bytes into struct and return
-                Marshal.Copy(bytes, 0, ptrEquipmentItem, _blockLength);
+                Marshal.Copy(bytes, 0, ptrEquipmentItem, BlockLength);
                 return (EquipmentItem) Marshal.PtrToStructure(ptrEquipmentItem, typeof (EquipmentItem));
             }
-            finally 
+            finally
             {
                 Marshal.FreeHGlobal(ptrEquipmentItem);
             }
         }
 
-        public static bool WriteItem(int itemIndex, EquipmentItem item)
+        public static void WriteItem(int itemIndex, EquipmentItem item)
         {
             // Convert data struct to byte array
             var size = Marshal.SizeOf(item);
@@ -44,12 +46,30 @@ namespace Farplane.FFX.Data
             Marshal.FreeHGlobal(ptrByteArray);
 
             // Write to game's memory
-            var offset = _offsetEquipment + itemIndex * _blockLength;
-            return Memory.WriteBytes(offset, itemBytes);
+            var offset = Offset + itemIndex*BlockLength;
+            GameMemory.Write(offset, itemBytes, false);
+        }
+
+        public static EquipmentItem[] ReadItems()
+        {
+            var dataLength = MaxItems*BlockLength;
+            var dataBytes = GameMemory.Read<byte>(Offset, dataLength, false);
+
+            var readItems = new EquipmentItem[MaxItems];
+
+            for (int i = 0; i < MaxItems; i++)
+            {
+                IntPtr ptrEquipmentData = Marshal.AllocHGlobal(dataLength);
+                Marshal.Copy(dataBytes, i * BlockLength, ptrEquipmentData, BlockLength);
+                readItems[i] = (EquipmentItem)Marshal.PtrToStructure(ptrEquipmentData, typeof(EquipmentItem));
+                Marshal.FreeHGlobal(ptrEquipmentData);
+            }
+
+            return readItems;
         }
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential, Pack = 0, CharSet = CharSet.Ansi)]
     public struct EquipmentItem
     {
         [MarshalAs(UnmanagedType.U1)] // 0x00
@@ -88,7 +108,7 @@ namespace Farplane.FFX.Data
         [MarshalAs(UnmanagedType.U2)] // 0x0C
         public ushort Appearance;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst=4, ArraySubType = UnmanagedType.U2)] // 0x0E - 0x15
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4, ArraySubType = UnmanagedType.U2)] // 0x0E - 0x15
         public ushort[] Abilities;
     }
 }

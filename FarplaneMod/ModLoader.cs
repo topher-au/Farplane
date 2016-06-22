@@ -3,238 +3,109 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 using CSScriptLibrary;
-using Farplane.Common;
+using Farplane.Properties;
 
 namespace Farplane.FarplaneMod
 {
-    internal static class ModLoader
+    public static class ModLoader
     {
-        private static readonly string _modFolder = "mods";
-        private static List<IFarplaneMod> _loadedMods = new List<IFarplaneMod>();
-        private static List<Assembly> _modAssemblies = new List<Assembly>();
+        public const string ModFolder = "mods";
+        public const string ModExtension = "cs";
 
-        public static void LoadAllMods(GameType type)
+        private static List<FarplaneMod> _mods;
+        private static List<Exception> _exceptions;
+        private static string[] _scripts;
+
+        private static ModLoadWindow _modLoadWindow;
+
+        public delegate void CompileFinishedDelegate();
+        public static event CompileFinishedDelegate CompileFinishedEvent;
+
+        public delegate void CompileStartedDelegate();
+        public static event CompileStartedDelegate CompileStartedEvent;
+
+        public delegate void CompileExceptionDelegate();
+        public static event CompileExceptionDelegate CompileExceptionEvent;
+
+        public delegate void CompileProgressDelegate(int progress);
+        public static event CompileProgressDelegate CompileProgressEvent;
+
+        public static void LoadScripts(GameType gameType)
         {
-            if (_loadedMods.Count > 0) UnloadAllMods();
+            if (!Settings.Default.EnableMods) return;
+            _mods = new List<FarplaneMod>();
+            _exceptions = new List<Exception>();
+            _scripts = Directory.GetFiles(ModFolder, "*." + ModExtension);
+            ModLogger.WriteLine("Found {0} mods, starting compile...", _scripts.Length.ToString());
 
-            var modSettings = ModSettings.ReadSettings();
-
-            ModLogger.StartNewLog();
-            var fpVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            var stVersion = string.Format("{0}.{1}.{2}", fpVersion.Major, fpVersion.Minor, fpVersion.Build);
-            ModLogger.WriteLine("Farplane {0} Mod Loader" + Environment.NewLine, stVersion);
-            ModLogger.WriteLine("Searching for Farplane scripts in .\\mods...");
-
-            var scriptFiles = Directory.GetFiles("mods", "*.cs");
-
-            ModLogger.WriteLine("Found {0} scripts", scriptFiles.Length.ToString());
-            ModLogger.NewLine();
-
-            foreach (var script in scriptFiles)
+            // Show progress window and do mod compilation
+            var compileThread = new Thread(() => { CompileScripts(gameType); });
+            var progWindow = new ModLoadWindow(_scripts);
+            CompileStartedEvent += progWindow.CompileStarted;
+            CompileProgressEvent += progWindow.CompileProgress;
+            CompileFinishedEvent += progWindow.CompileFinished;
+            CompileExceptionEvent += progWindow.CompileException;
+            compileThread.Start();
+            progWindow.ShowDialog();
+            
+            if (_exceptions.Count > 0)
             {
-                // Attempt to compile mod script into assembly
-                ModLogger.WriteLine("Compiling mod script {0}...", Path.GetFileName(script));
-                var modAsm = CreateModAssembly(script);
-
-                // Attempt to initialize assembly
-                ModLogger.WriteLine("Loading compiled assembly...");
-                var mod = CreateModInterface(modAsm);
-
-                if (modAsm == null || mod == null)
+                // Log exceptions to file
+                ModLogger.WriteLine("Exceptions during script compilation:");
+                foreach (var ex in _exceptions)
                 {
-                    ModLogger.WriteLine("Failed to load mod.");
-                    ModLogger.NewLine();
-                    continue;
+                    ModLogger.WriteLine(ex.Message);
+                    var innerEx = ex.InnerException;
+                    while (innerEx != null)
+                    {
+                        ModLogger.WriteLine(innerEx.Message);
+                        innerEx = innerEx.InnerException;
+                    }
                 }
-
-                ModLogger.NewLine();
-                ModLogger.WriteLine("Loaded assembly details:");
-                ModLogger.WriteLine("Mod Name: {0}", mod.Name);
-                ModLogger.WriteLine("Mod Author: {0}", mod.Author);
-                ModLogger.WriteLine("Mod Type: {0}", mod.GameType.ToString());
-
-                if (mod.GameType != type)
-                {
-                    ModLogger.WriteLine("Invalid GameType ({1}) for this game ({0}), mod will be ignored.",
-                        type.ToString(), mod.GameType.ToString());
-                    continue;
-                }
-
-                _loadedMods.Add(mod);
-                _modAssemblies.Add(modAsm);
-
-                ModLogger.WriteLine("The mod was successfully loaded.");
-                ModLogger.NewLine();
-
-                var modClassName = modAsm.DefinedTypes.First().Name;
-                var modSetting = modSettings.FirstOrDefault(setting => setting.ClassName == modClassName);
-                if (modSetting != null && modSetting.Activated)
-                {
-                    ModLogger.WriteLine("Previously set as active, reactivating mod.");
-                    ActivateMod(mod, true);
-                }
-
-                ModLogger.NewLine();
             }
-            ModLogger.WriteLine("Finished loading mods.");
-            ModLogger.NewLine();
+            CompileStartedEvent -= progWindow.CompileStarted;
+            CompileProgressEvent -= progWindow.CompileProgress;
+            CompileFinishedEvent -= progWindow.CompileFinished;
+            CompileExceptionEvent -= progWindow.CompileException;
         }
 
-        public static void UnloadAllMods()
+        public static void CompileScripts(GameType gameType)
         {
-            ModLogger.WriteLine("Attempting to unload all mods...");
-            for (int i = 0; i < _loadedMods.Count; i++)
+            CompileStartedEvent?.Invoke();
+            for (int i = 0; i < _scripts.Length; i++)
             {
-                ModLogger.WriteLine("Unloading {0}", _loadedMods[i].Name);
-                // Deactivate mod
+                CompileProgressEvent?.Invoke(i);
                 try
                 {
-                    DeactivateMod(_loadedMods[i], true);
-                    ModLogger.WriteLine("Successfully unloaded mod");
+                    ModLogger.WriteLine("Compiling {0}...", _scripts[i]);
+                    var scriptAssembly = CSScript.Load(_scripts[i]);
+                    var scriptObject = scriptAssembly.CreateObject("*").AlignToInterface<IFarplaneMod>();
+                    if (scriptObject != null && scriptObject.GameType == gameType) _mods.Add(new FarplaneMod() { Assembly = scriptAssembly, Mod = scriptObject });
                 }
                 catch (Exception ex)
                 {
-                    ModLogger.WriteLine("Error unloading mod:\n{0}", ex.Message);
+                    _exceptions.Add(ex);
+                    CompileExceptionEvent?.Invoke();
                 }
             }
-            _modAssemblies.Clear();
-            _loadedMods.Clear();
-            ModLogger.WriteLine("Finished unloading mods.");
+            CompileFinishedEvent?.Invoke();
         }
 
-        public static string GetClassName(IFarplaneMod mod)
+        public static FarplaneMod[] GetLoadedMods()
         {
-            var modIndex = _loadedMods.IndexOf(mod);
-            var modAssembly = _modAssemblies[modIndex];
-            var modClass = modAssembly.DefinedTypes.First().Name;
-            return modClass;
+            return _mods?.ToArray();
         }
 
-        internal static IFarplaneMod[] GetLoadedMods()
+        public class FarplaneMod
         {
-            return _loadedMods.ToArray();
-        }
-
-        internal static Assembly[] GetLoadedAssemblies()
-        {
-            return _modAssemblies.ToArray();
-        }
-
-        internal static bool GetModState(IFarplaneMod mod)
-        {
-            if (!_loadedMods.Contains(mod)) return false;
-
-            var modSettings = ModSettings.ReadSettings();
-            var modClass = GetClassName(mod);
-
-            var setting = modSettings.FirstOrDefault(s => s.ClassName == modClass);
-
-            return setting != null && setting.Activated;
-        }
-
-        internal static void ActivateMod(IFarplaneMod mod, bool temporarily = false)
-        {
-            ModLogger.WriteLine("Calling {0}.Activate()", GetClassName(mod));
-            try
-            {
-                mod.Activate();
-            }
-            catch (Exception ex)
-            {
-                ModLogger.WriteLine("An exception occurred while executing Activate()");
-                ModLogger.Write(ex.Message);
-            }
-
-
-            if (temporarily) return;
-
-            var modSettings = ModSettings.ReadSettings();
-            var modClass = GetClassName(mod);
-
-            var setting = modSettings.FirstOrDefault(s => s.ClassName == modClass);
-            if (setting == null)
-            {
-                modSettings.Add(new ModSetting() {Activated = true, ClassName = modClass});
-            }
-            else
-            {
-                modSettings.First(set => set.ClassName == modClass).Activated = true;
-            }
-
-
-            ModSettings.WriteSettings(modSettings);
-        }
-
-        internal static void DeactivateMod(IFarplaneMod mod, bool temporarily = false)
-        {
-            ModLogger.WriteLine("Calling {0}.Deactivate()", GetClassName(mod));
-
-            try
-            {
-                mod.Deactivate();
-            }
-            catch (Exception ex)
-            {
-                ModLogger.WriteLine("An exception occurred while executing Deactivate()");
-                ModLogger.Write(ex.Message);
-            }
-
-            if (temporarily) return;
-
-            var modSettings = ModSettings.ReadSettings();
-
-            var modClass = GetClassName(mod);
-
-            var setting = modSettings.FirstOrDefault(s => s.ClassName == modClass);
-            if (setting == null)
-            {
-                modSettings.Add(new ModSetting() {Activated = false, ClassName = modClass});
-            }
-            else
-            {
-                modSettings.First(set => set.ClassName == modClass).Activated = false;
-            }
-
-            ModSettings.WriteSettings(modSettings);
-        }
-
-        private static IFarplaneMod CreateModInterface(Assembly modAssembly)
-        {
-            IFarplaneMod csObject = null;
-
-            try
-            {
-                var className = modAssembly.DefinedTypes.First().Name;
-                csObject = modAssembly.CreateObject(className).AlignToInterface<IFarplaneMod>();
-            }
-            catch (Exception ex)
-            {
-                ModLogger.WriteLine("An exception occurred while creating the mod interface:");
-                ModLogger.WriteLine(ex.Message);
-            }
-
-            return csObject;
-        }
-
-        private static Assembly CreateModAssembly(string scriptFile)
-        {
-            try
-            {
-                // Attempt to compile assembly
-                var csAssembly = CSScript.Load(scriptFile);
-                return csAssembly;
-            }
-            catch (Exception ex)
-            {
-                // Error occurred compiling assembly
-                ModLogger.WriteLine("An exception occurred while compiling script file:");
-                ModLogger.WriteLine(ex.Message);
-                return null;
-            }
+            public IFarplaneMod Mod { get; set; }
+            public Assembly Assembly { get; set; }
         }
     }
 }

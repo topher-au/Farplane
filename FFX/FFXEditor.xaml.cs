@@ -13,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Farplane.FFX.EditorPanels;
@@ -20,15 +21,15 @@ using Farplane.FFX.EditorPanels.Aeons;
 using Farplane.FFX.EditorPanels.Battle;
 using Farplane.FFX.EditorPanels.BlitzballPanel;
 using Farplane.FFX.EditorPanels.Debug;
-using Farplane.FFX.EditorPanels.Equipment;
-using Farplane.FFX.EditorPanels.Items;
-using Farplane.FFX.EditorPanels.Party;
 using Farplane.FFX.EditorPanels.Boosters;
-using Farplane.FFX.EditorPanels.General;
-using Farplane.FFX.EditorPanels.Mods;
-using Farplane.FFX.EditorPanels.MonsterArena;
-using Farplane.FFX.EditorPanels.SphereGrid;
+using Farplane.FFX.EditorPanels.GeneralPanel;
 using Farplane.FarplaneMod;
+using Farplane.FFX.EditorPanels.EquipmentPanel;
+using Farplane.FFX.EditorPanels.ItemsPanel;
+using Farplane.FFX.EditorPanels.MonsterArenaPanel;
+using Farplane.FFX.EditorPanels.PartyPanel;
+using Farplane.FFX.EditorPanels.SphereGridPanel;
+using Farplane.Memory;
 using Farplane.Properties;
 using MahApps.Metro.Controls;
 using ThreadState = System.Threading.ThreadState;
@@ -41,6 +42,7 @@ namespace Farplane.FFX
     /// </summary>
     public partial class FFXEditor : MetroWindow
     {
+       
         private GeneralPanel _generalPanel = new GeneralPanel();
         private PartyPanel _partyPanel = new PartyPanel();
         private AeonsPanel _aeonsPanel = new AeonsPanel();
@@ -52,63 +54,22 @@ namespace Farplane.FFX
         private DebugPanel _debugPanel = new DebugPanel();
         private BattlePanel _battlePanel = new BattlePanel();
         private BoostersPanel _boostersPanel = new BoostersPanel();
-        private ModsPanel _modsPanel = new ModsPanel();
+        private ModPanel _modsPanel = new ModPanel();
 
         private NotImplementedPanel _notImplementedPanel = new NotImplementedPanel();
 
-        private int _defaultHeight = 540;
-        private int _defaultWidth = 640;
+        private int _defaultHeight = 620;
+        private int _defaultWidth = 700;
         private bool _rolledUp = false;
         private bool _windowPinned = false;
         private BitmapImage _iconShrink = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/shrink.png"));
         private BitmapImage _iconExpand = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/expand.png"));
-
-        private readonly Thread _gameThread;
-        private bool _processMods = false;
             
         public FFXEditor()
         {
             InitializeComponent();
-
-            _gameThread = new Thread(ProcessChecker) { IsBackground = true };
-            _gameThread.Start();
-
-            if (Settings.Default.EnableMods)
-            {
-                ModLoader.LoadAllMods(GameType.FFX);
-                ModUpdateThread.Start();
-                ModUpdateThread.ProcessMods = true;
-            }
-
+            GameMemory.ProcessExited += Close;
             (EditorTree.Items[0] as TreeViewItem).IsSelected = true;
-        }
-
-        public void CloseEditor()
-        {
-            if (Settings.Default.EnableMods)
-            {
-                ModUpdateThread.ProcessMods = false;
-                ModUpdateThread.Stop();
-                ModLoader.UnloadAllMods();
-            }
-            try
-            {
-                Close(); 
-                
-            } catch { }
-        }
-
-        public void ProcessChecker()
-        {
-            while (_gameThread.ThreadState == ThreadState.Background)
-            {
-                if (!Memory.CheckProcess())
-                {
-                    Dispatcher.Invoke(CloseEditor);
-                    return;
-                }
-                Thread.Sleep(100);
-            }
         }
 
 
@@ -208,31 +169,18 @@ namespace Farplane.FFX
         {
             if (_rolledUp)
             {
-                Left -= _defaultWidth - 210;
-
-                GridContent.Visibility = Visibility.Visible;
-
-                Width = _defaultWidth;
-                Height = _defaultHeight;
-
-                ButtonRollUp.Content = new Image() { Source = _iconShrink, Width = 16, Height = 16 };
+                Storyboard expandWindow = (Storyboard)this.Resources["ExpandWindow"];
+                this.BeginStoryboard(expandWindow, HandoffBehavior.SnapshotAndReplace);
             }
             else
             {
-                Width = 210;
-                Left += _defaultWidth - Width;
-
-                Height = 30;
-                GridContent.Visibility = Visibility.Hidden;
-                ButtonRollUp.Content = new Image() { Source = _iconExpand, Width = 16, Height = 16 };
+                Storyboard shrinkWindow = (Storyboard)this.Resources["ShrinkWindow"];
+                this.BeginStoryboard(shrinkWindow, HandoffBehavior.SnapshotAndReplace);
             }
+
+            
+
             _rolledUp = !_rolledUp;
-
-        }
-
-        private void FFXEditor_OnClosing(object sender, CancelEventArgs e)
-        {
-            CloseEditor();
         }
     }
 }

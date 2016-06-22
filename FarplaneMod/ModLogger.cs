@@ -51,10 +51,13 @@ namespace Farplane.FarplaneMod
             var callingAsm = Assembly.GetCallingAssembly().GetName().Name;
 
             var formatLine = string.Format("[" + callingAsm + "] " + format + Environment.NewLine, args);
-            
 
-            File.AppendAllText(_currentLogFile, formatLine);
-            File.AppendAllText(LatestLogFile, formatLine);
+            try
+            {
+                File.AppendAllText(_currentLogFile, formatLine);
+                File.AppendAllText(LatestLogFile, formatLine);
+            } catch { }
+            
             Console.Write(formatLine);
         }
         public static void NewLine()
@@ -62,9 +65,12 @@ namespace Farplane.FarplaneMod
             if (_currentLogFile == string.Empty) StartNewLog();
 
             var formatLine = Environment.NewLine;
-
-            File.AppendAllText(_currentLogFile, formatLine);
-            File.AppendAllText(LatestLogFile, formatLine);
+            try
+            {
+                File.AppendAllText(_currentLogFile, formatLine);
+                File.AppendAllText(LatestLogFile, formatLine);
+            }
+            catch { }
             Console.Write(formatLine);
         }
 

@@ -9,6 +9,7 @@ using Farplane.FarplaneMod;
 using Farplane.FFX;
 using Farplane.FFX.Data;
 using Farplane.FFX.Values;
+using Farplane.Memory;
 
 public class FFXBreakHPLimit : IFarplaneMod
 {
@@ -17,32 +18,12 @@ public class FFXBreakHPLimit : IFarplaneMod
     private static int _offsetMPLimit = 0x3868BF;
     private static int _offsetHPCheck = 0x38D389;
     private static int _offsetMPCheck = 0x38E5FE;
-
-    byte[] _ModHPLimit = new byte[]
+    public void Configure(object parentWindow)
     {
-        0xB8, 0xFF, 0xFF, 0xFF, 0x7F    // mov eax, 0x7FFFFFFF
-    };
 
-    byte[] _ModHPCheck = new byte[]
-    {
-        0x25, 0xFF, 0xFF, 0xFF, 0x7F,   // and eax,7FFFFFFF
-        0x90,                           // nop
-        0x90,                           // nop
-        0x90,                           // nop
-        0x90,                           // nop
-        0x90,                           // nop
-    };   
-
-    byte[] _ModMPLimit = new byte[]
-    {
-        0xB8, 0xFF, 0xFF, 0xFF, 0x7F    // mov eax, 0x7FFFFFFF
-    };
-
-    byte[] _ModMPCheck = new byte[]
-    {
-        0x68, 0xFF, 0xFF, 0xFF, 0x7F    // push 0x7FFFFFFF
-    };   
-
+    }
+    public string ConfigButton { get { return null; } }
+    public bool AutoActivate { get { return true; } }
     public string Name
     {
         get { return "Break HP Limit"; }
@@ -63,21 +44,30 @@ public class FFXBreakHPLimit : IFarplaneMod
         get { return GameType.FFX; }
     }
 
-    public bool Activated
+    public ModState GetState()
     {
-        get { return _modActive; }
+        if (_modActive) return ModState.Activated;
+        return ModState.Deactivated;
     }
-	
+
     public void Activate()
     {
         if (_modActive) return;
         ModLogger.WriteLine("Activating Break HP/MP Limit");
 
         // No check (yet)
-        Memory.WriteBytes(_offsetHPLimit, _ModHPLimit);
-        Memory.WriteBytes(_offsetMPLimit, _ModMPLimit);
-        Memory.WriteBytes(_offsetHPCheck, _ModHPCheck);
-        Memory.WriteBytes(_offsetMPCheck, _ModMPCheck);
+        GameMemory.Assembly.Inject(_offsetHPCheck, "and eax,7FFFFFFF");
+        GameMemory.Assembly.Inject(_offsetMPLimit, "mov eax,7FFFFFFF");
+        GameMemory.Assembly.Inject(_offsetMPCheck, "push 7fffffff");
+        GameMemory.Assembly.Inject(_offsetHPCheck, new[]
+        {
+            "and eax, 7FFFFFFF",
+            "nop",
+            "nop",
+            "nop",
+            "nop",
+            "nop",
+        });
 
         _modActive = true;
     }

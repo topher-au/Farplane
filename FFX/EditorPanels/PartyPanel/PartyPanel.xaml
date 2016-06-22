@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Farplane.FFX.EditorPanels.PartyPanel.PartyPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Farplane.FFX.EditorPanels"
+             xmlns:partyPanel="clr-namespace:Farplane.FFX.EditorPanels.PartyPanel"
+             mc:Ignorable="d" 
+             d:DesignHeight="510" d:DesignWidth="480">
+    <GroupBox Header="Party">
+        <StackPanel>
+            <TabControl Padding="0" Name="TabPartySelect" SelectionChanged="TabPartySelect_OnSelectionChanged" Margin="0,0,0,-5">
+                <TabItem Header="Tidus" />
+                <TabItem Header="Yuna" />
+                <TabItem Header="Auron" />
+                <TabItem Header="Kimahri" />
+                <TabItem Header="Wakka" />
+                <TabItem Header="Lulu" />
+                <TabItem Header="Rikku" />
+                <TabItem Header="Seymour" />
+            </TabControl>
+            <partyPanel:PartyEditor x:Name="PartyEditor"/>
+        </StackPanel>
+    </GroupBox>
+</UserControl>

@@ -2,55 +2,66 @@
 using System;
 using System.Linq;
 using System.Windows;
-
+using System.Windows.Media;
+using System.Windows.Controls;
 using Farplane;
 using Farplane.Common;
 using Farplane.FarplaneMod;
 using Farplane.FFX;
 using Farplane.FFX.Data;
 using Farplane.FFX.Values;
+using Farplane.Memory;
+using MahApps.Metro.Controls;
 
 public class SeymourMod : IFarplaneMod
 {
     private bool _modActive = false;
 
-    private int _offsetModBytes1 = 0x4A8F47;
-    private int _offsetModBytes2 = 0x4A8F9A;
-    private int _offsetPartyList = Offsets.GetOffset(OffsetType.PartyList);
+    private static int _offsetModBytes1 = 0x4A8F47;
+    private static int _offsetModBytes2 = 0x4A8F9A;
+    private static int _offsetPartyList = Offsets.GetOffset(OffsetType.PartyList);
 
     private static int offsetSeymourData = Offsets.GetOffset(OffsetType.PartyStatsBase) + 7 * StructHelper.GetSize<PartyMember>();
     private static int offsetInParty = StructHelper.GetFieldOffset<PartyMember>("InParty");
     private static int offsetSeymourInParty = offsetSeymourData + offsetInParty;
     private static int updateTicks = 0;
-
-    // An array containing bytecode to be written to the game
-
-    private static byte[] modBytes = new byte[]
-    {
-              // This code does nothing
-        0x90, //  nop
-        0x90, //  nop
-        0x90, //  nop
-        0x90, //  nop
-    };
-
-    // An array containing the original bytecode
     
-    private static byte[] originalBytes1 = new byte[]
+    public void Configure(object parentWindow)
     {
-                    // This code checks if Seymour is in the party and stops
-                    // him from showing up in the menus
-        0x3C, 0x07, //  cmp al,07
-        0x74, 0x24  //  je 015A8F6F
-    };
+        var win = new MetroWindow() {Title="Configuration", Width=300, Height=100, WindowStartupLocation = WindowStartupLocation.CenterScreen, Owner=(Window)parentWindow, BorderThickness = new Thickness(0), GlowBrush=Brushes.Black, ResizeMode = ResizeMode.NoResize};
+        var check = new CheckBox() {Content="Add/remove Seymour automatically", Margin = new Thickness(5), IsChecked=ModSettings.ReadSetting<bool>("AutoAddRemove") };
+        var butt = new Button() {Content="Save", Margin = new Thickness(5) };
+        var stack = new StackPanel() {Children = { check, butt }, Margin= new Thickness(5) };
+        butt.Click += (sender, args) =>
+        {
+            ModSettings.WriteSetting("AutoAddRemove", check.IsChecked);
+            win.Close();
+        };
+        win.Content = stack;
+        win.ShowDialog();
+    }
 
-    private static byte[] originalBytes2 = new byte[]
+    public string ConfigButton { get { return "Configure"; } }
+    public bool AutoActivate { get { return true; } }
+    private static byte[] _modBytes = GameMemory.Assembly.Generate(new[]
     {
-                    // This code checks if Seymour is in the party and stops
-                    // him from showing up in the menus
-        0x3C, 0x07, //  cmp al,07
-        0x74, 0x1e  //  je 015A8F6F
-    };
+        "nop",
+        "nop",
+        "nop",
+        "nop",
+    });
+
+    private static byte[] _originalBytes1 = GameMemory.Assembly.Generate(new[]
+    {
+        "cmp al,07",
+        "je 0x4A8F6F"
+    }, _offsetModBytes1);
+
+    private static byte[] _originalBytes2 = GameMemory.Assembly.Generate(new[]
+    {
+        "cmp al,07",
+        "je 0x4A8FBC"
+    }, _offsetModBytes2);
 
     public string Name
     {
@@ -72,9 +83,23 @@ public class SeymourMod : IFarplaneMod
         get { return GameType.FFX; }
     }
 
-    public bool Activated
+    public ModState GetState()
     {
-        get { return _modActive; }
+        if (_modActive) return ModState.Activated;
+        return ModState.Deactivated;
+    }
+
+    public static bool ValidateBytes()
+    {
+        var codeBytes1 = GameMemory.Read<byte>(_offsetModBytes1, _originalBytes1.Length);
+        var codeBytes2 = GameMemory.Read<byte>(_offsetModBytes2, _originalBytes2.Length);
+
+        if ((codeBytes1.SequenceEqual(_originalBytes1) &&
+            codeBytes2.SequenceEqual(_originalBytes2)) ||
+            (codeBytes1.SequenceEqual(_modBytes) &&
+            codeBytes2.SequenceEqual(_modBytes))) return true;
+        ModLogger.WriteLine("Unexpected assembly code, aborting code write.");
+        return false;
     }
 	
     public void Activate()
@@ -83,24 +108,17 @@ public class SeymourMod : IFarplaneMod
 
         _modActive = true;
 
-        // Add Seymour to the party and set his state to active
-        Party.AddCharacter(Character.Seymour);
-        Memory.WriteByte(offsetSeymourInParty, 17);
-
-        // Read the existing code and check if it is what we are expecting
-        var bytes1 = Memory.ReadBytes(_offsetModBytes1, 4);
-        var bytes2 = Memory.ReadBytes(_offsetModBytes2, 4);
-
-		
-        if (!originalBytes1.SequenceEqual(bytes1) || !originalBytes2.SequenceEqual(bytes2))
+        if (ValidateBytes())
         {
-            ModLogger.WriteLine("Unexpected assembly code, aborting code write.");
-            return;
+            GameMemory.Write<byte>(_offsetModBytes1, _modBytes);
+            GameMemory.Write<byte>(_offsetModBytes2, _modBytes);
         }
-        
-        // Write modified assembly bytes
-        Memory.WriteBytes(_offsetModBytes1, modBytes);
-        Memory.WriteBytes(_offsetModBytes2, modBytes);
+
+        if (ModSettings.ReadSetting<bool>("AutoAddRemove"))
+        {
+            Party.AddCharacter(Character.Seymour);
+            GameMemory.Write<byte>(offsetSeymourInParty, 17);
+        }
     }
 
     public void Deactivate()
@@ -109,25 +127,16 @@ public class SeymourMod : IFarplaneMod
 
         _modActive = false;
 
-        // Remove Seymour from party and set his state to inactive
-        Party.RemoveCharacter(Character.Seymour);
-        Memory.WriteByte(offsetSeymourInParty, 16);
-
-        // Read current assembly code from memory
-        var bytes1 = Memory.ReadBytes(_offsetModBytes1, 4);
-        var bytes2 = Memory.ReadBytes(_offsetModBytes2, 4);
-
-        // Check if code has been modified outside mod
-        if (!bytes1.SequenceEqual(modBytes) || !bytes2.SequenceEqual(modBytes))
+        if (ValidateBytes())
         {
-            ModLogger.WriteLine("Unexpected assembly code, aborting code write");
-            _modActive = false;
-            return;
+            GameMemory.Write<byte>(_offsetModBytes1, _originalBytes1);
+            GameMemory.Write<byte>(_offsetModBytes2, _originalBytes2);
         }
-        
-        // Write original assembly code
-        Memory.WriteBytes(_offsetModBytes1, originalBytes1);
-        Memory.WriteBytes(_offsetModBytes2, originalBytes2);
+        if (ModSettings.ReadSetting<bool>("AutoAddRemove"))
+        {
+            Party.RemoveCharacter(Character.Seymour);
+            GameMemory.Write<byte>(offsetSeymourInParty, 16);
+        }
     }
 
     public void Update()

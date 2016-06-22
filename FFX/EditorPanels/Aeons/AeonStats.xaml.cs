@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
 using Farplane.FFX.Data;
+using Farplane.Memory;
 
 namespace Farplane.FFX.EditorPanels.Aeons
 {
@@ -22,9 +24,6 @@ namespace Farplane.FFX.EditorPanels.Aeons
     /// </summary>
     public partial class AeonStats : UserControl
     {
-        private const int StatsLength = 0x94;
-        private int _statsBase;
-        private int _nameBase;
         private int _characterIndex;
 
         public AeonStats()
@@ -35,92 +34,96 @@ namespace Farplane.FFX.EditorPanels.Aeons
         public void Refresh(int characterIndex)
         {
             _characterIndex = characterIndex;
-            _statsBase = Offsets.GetOffset(OffsetType.PartyStatsBase) + StatsLength * _characterIndex;
-            _nameBase = Offsets.GetOffset(OffsetType.AeonNames) + Offsets.AeonNames[_characterIndex-8];
-            var statBytes = Memory.ReadBytes(_statsBase, StatsLength);
-            var nameBytes = Memory.ReadBytes(_nameBase, 8);
+            var partyMember = Party.ReadPartyMember(_characterIndex);
 
-            TextAeonName.Text = StringConverter.ToString(nameBytes);
+            TextAeonName.Text = AeonName.GetName(characterIndex);
 
-            TextBaseHP.Text = BitConverter.ToUInt32(statBytes, StructHelper.GetFieldOffset<PartyMember>("BaseHp")).ToString();
-            TextBaseMP.Text = BitConverter.ToUInt32(statBytes, StructHelper.GetFieldOffset<PartyMember>("BaseMp")).ToString();
+            TextBaseHP.Text = partyMember.BaseHp.ToString();
+            TextBaseMP.Text = partyMember.BaseMp.ToString();
 
-            TextOverdrive.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("OverdriveLevel")].ToString();
-            TextOverdriveMax.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("OverdriveMax")].ToString();
+            TextOverdrive.Text = partyMember.OverdriveLevel.ToString();
+            TextOverdriveMax.Text = partyMember.OverdriveMax.ToString();
 
-            TextBaseStrength.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseStrength")].ToString();
-            TextBaseDefense.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseDefense")].ToString();
-            TextBaseMagic.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseMagic")].ToString();
-            TextBaseMagicDef.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseMagicDefense")].ToString();
-            TextBaseAgility.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseAgility")].ToString();
-            TextBaseLuck.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseLuck")].ToString();
-            TextBaseEvasion.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseEvasion")].ToString();
-            TextBaseAccuracy.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("BaseAccuracy")].ToString();
+            TextBaseStrength.Text = partyMember.BaseStrength.ToString();
+            TextBaseDefense.Text = partyMember.BaseDefense.ToString();
+            TextBaseMagic.Text = partyMember.BaseMagic.ToString();
+            TextBaseMagicDef.Text = partyMember.BaseMagicDefense.ToString();
+            TextBaseAgility.Text = partyMember.BaseAgility.ToString();
+            TextBaseLuck.Text = partyMember.BaseLuck.ToString();
+            TextBaseEvasion.Text = partyMember.BaseEvasion.ToString();
+            TextBaseAccuracy.Text = partyMember.BaseAccuracy.ToString();
         }
 
         private void ButtonMaxOverdrive_Click(object sender, RoutedEventArgs e)
         {
-            var statBytes = Memory.ReadBytes(_statsBase, StatsLength);
-            TextOverdrive.Text = statBytes[StructHelper.GetFieldOffset<PartyMember>("OverdriveMax")].ToString();
-            Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("OverdriveLevel"), byte.Parse(TextOverdrive.Text));
+            var partyMember = Party.ReadPartyMember(_characterIndex);
+            TextOverdrive.Text = partyMember.OverdriveMax.ToString();
+            Party.SetPartyMemberAttribute(_characterIndex, "OverdriveLevel", partyMember.OverdriveMax);
             Refresh(_characterIndex);
         }
 
         private void TextBox_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Enter || _statsBase <= 0) return;
+            if (e.Key != Key.Enter) return;
 
             try
             {
+                int offset = 0;
                 var textBox = (sender as TextBox);
                 switch (textBox.Name)
                 {
-                    case "TextAeonName":
-                        var nameBytes = StringConverter.ToFFXBytes(TextAeonName.Text);
-                        var writeBuffer = new byte[9];
-                        nameBytes.CopyTo(writeBuffer,0);
-                        Memory.WriteBytes(_nameBase, writeBuffer);
-                        AeonsPanel.UpdateTabs();
-                        break;
-                    case "TextBaseHP":
-                        Memory.WriteBytes(_statsBase + StructHelper.GetFieldOffset<PartyMember>("BaseHp"),
-                            BitConverter.GetBytes(uint.Parse(TextBaseHP.Text)));
-                        break;
-                    case "TextBaseMP":
-                        Memory.WriteBytes(_statsBase + StructHelper.GetFieldOffset<PartyMember>("BaseMp"),
-                            BitConverter.GetBytes(uint.Parse(TextBaseMP.Text)));
-                        break;
+
                     case "TextOverdrive":
-                        Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("OverdriveLevel"), byte.Parse(TextOverdrive.Text));
+                        Party.SetPartyMemberAttribute(_characterIndex, "OverdriveLevel", byte.Parse(TextOverdrive.Text));
                         break;
                     case "TextOverdriveMax":
-                        Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("OverdriveMax"), byte.Parse(TextOverdriveMax.Text));
+                        Party.SetPartyMemberAttribute(_characterIndex, "OverdriveMax", byte.Parse(TextOverdriveMax.Text));
+                        break;
+                    case "TextAeonName":
+                        AeonName.SetName(_characterIndex, TextAeonName.Text);
+                        break;
+                    case "TextBaseHP":
+                        offset = (int)Marshal.OffsetOf<PartyMember>("BaseHp") + Party.GetMemoryOffset(_characterIndex);
+                        GameMemory.Write(offset, uint.Parse(TextBaseHP.Text), false);
+                        break;
+                    case "TextBaseMP":
+                        offset = (int)Marshal.OffsetOf<PartyMember>("BaseMp") + Party.GetMemoryOffset(_characterIndex);
+                        GameMemory.Write(offset, uint.Parse(TextBaseMP.Text), false);
                         break;
                     case "TextBaseStrength":
-                        Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("BaseStrength"), byte.Parse(TextBaseStrength.Text));
+                        offset = (int)Marshal.OffsetOf<PartyMember>("BaseStrength") + Party.GetMemoryOffset(_characterIndex);
+                        GameMemory.Write(offset, byte.Parse(TextBaseStrength.Text), false);
                         break;
                     case "TextBaseDefense":
-                        Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("BaseDefense"), byte.Parse(TextBaseDefense.Text));
+                        offset = (int)Marshal.OffsetOf<PartyMember>("BaseDefense") + Party.GetMemoryOffset(_characterIndex);
+                        GameMemory.Write(offset, byte.Parse(TextBaseDefense.Text), false);
                         break;
                     case "TextBaseMagic":
-                        Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("BaseMagic"), byte.Parse(TextBaseMagic.Text));
+                        offset = (int)Marshal.OffsetOf<PartyMember>("BaseMagic") + Party.GetMemoryOffset(_characterIndex);
+                        GameMemory.Write(offset, byte.Parse(TextBaseMagic.Text), false);
                         break;
                     case "TextBaseMagicDef":
-                        Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("BaseMagicDefense"), byte.Parse(TextBaseMagicDef.Text));
+                        offset = (int)Marshal.OffsetOf<PartyMember>("BaseMagicDefense") + Party.GetMemoryOffset(_characterIndex);
+                        GameMemory.Write(offset, byte.Parse(TextBaseMagicDef.Text), false);
                         break;
                     case "TextBaseAgility":
-                        Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("BaseAgility"), byte.Parse(TextBaseAgility.Text));
+                        offset = (int)Marshal.OffsetOf<PartyMember>("BaseAgility") + Party.GetMemoryOffset(_characterIndex);
+                        GameMemory.Write(offset, byte.Parse(TextBaseAgility.Text), false);
                         break;
                     case "TextBaseLuck":
-                        Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("BaseLuck"), byte.Parse(TextBaseLuck.Text));
+                        offset = (int)Marshal.OffsetOf<PartyMember>("BaseLuck") + Party.GetMemoryOffset(_characterIndex);
+                        GameMemory.Write(offset, byte.Parse(TextBaseLuck.Text), false);
                         break;
                     case "TextBaseEvasion":
-                        Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("BaseEvasion"), byte.Parse(TextBaseEvasion.Text));
+                        offset = (int)Marshal.OffsetOf<PartyMember>("BaseEvasion") + Party.GetMemoryOffset(_characterIndex);
+                        GameMemory.Write(offset, byte.Parse(TextBaseEvasion.Text), false);
                         break;
                     case "TextBaseAccuracy":
-                        Memory.WriteByte(_statsBase + StructHelper.GetFieldOffset<PartyMember>("BaseAccuracy"), byte.Parse(TextBaseAccuracy.Text));
+                        offset = (int)Marshal.OffsetOf<PartyMember>("BaseAccuracy") + Party.GetMemoryOffset(_characterIndex);
+                        GameMemory.Write(offset, byte.Parse(TextBaseAccuracy.Text), false);
                         break;
                 }
+                AeonsPanel.UpdateTabs();
                 textBox.SelectAll();
             }
             catch (Exception ex)

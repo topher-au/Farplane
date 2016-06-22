@@ -27,6 +27,8 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
 
         public void Refresh()
         {
+            LeagueEditor.Refresh();
+            TournamentEditor.Refresh();
             PlayerEditor.Refresh();
             TeamEditor.Refresh();
         }

@@ -17,6 +17,7 @@ using Farplane.Common;
 using Farplane.Common.Controls;
 using Farplane.FFX.Data;
 using Farplane.FFX.Values;
+using Farplane.Memory;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 
@@ -27,7 +28,8 @@ namespace Farplane.FFX.EditorPanels.Aeons
     /// </summary>
     public partial class AeonAbilities : UserControl
     {
-        private readonly int _baseOffset = Offsets.GetOffset(OffsetType.PartyStatsBase);
+        private readonly int _baseOffset = OffsetScanner.GetOffset(GameOffset.FFX_PartyStatBase);
+        private readonly int _blockSize = Marshal.SizeOf<PartyMember>();
 
         private ButtonGrid _gridSkill = new ButtonGrid(2, 22);
         private ButtonGrid _gridSpecial = new ButtonGrid(2, 22);
@@ -112,27 +114,17 @@ namespace Farplane.FFX.EditorPanels.Aeons
                 default:
                     return;
             }
-             
-            var byteIndex = skill.BitOffset / 8;
-            var bitIndex = skill.BitOffset % 8;
-            var offset = StructHelper.GetFieldOffset<PartyMember>("SkillFlags", _baseOffset + Marshal.SizeOf<PartyMember>() * _characterIndex);
-            var skillBytes =
-                Memory.ReadBytes(offset, 0x0C);
-
-            var newByte = BitHelper.ToggleBit(skillBytes[byteIndex], bitIndex);
-            skillBytes[byteIndex] = newByte;
-
-            Memory.WriteBytes(offset, skillBytes);
+            
+            Party.ToggleSkillFlag(_characterIndex, skill.BitOffset);
         }
 
         public void Refresh(int characterIndex)
         {
             _characterIndex = characterIndex;
             if (_characterIndex == -1) return;
-            var offset = StructHelper.GetFieldOffset<PartyMember>("SkillFlags", _baseOffset + Marshal.SizeOf<PartyMember>() * _characterIndex);
-            var skillBytes =
-                Memory.ReadBytes(offset, (int)BlockLength.SkillFlags);
-            var skillArray = BitHelper.GetBitArray(skillBytes);
+
+            var partyMember = Party.ReadPartyMember(_characterIndex);
+            var skillArray = BitHelper.GetBitArray(partyMember.SkillFlags);
 
             for (int i = 0; i < _skills.Length; i++)
             {

@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Farplane.FFX2;
+using Farplane.Memory;
 using Farplane.Properties;
 using MahApps.Metro.Controls;
 
@@ -39,8 +40,7 @@ namespace Farplane.Common.Dialogs
 
             if (Settings.Default.ShowAllProcesses)
             {
-                _moduleName = string.Empty;
-                ShowAllProcesses.IsChecked = true;
+                ButtonShowAll.IsChecked = true;
             }
 
             PopulateProcessList(_moduleName);
@@ -55,21 +55,21 @@ namespace Farplane.Common.Dialogs
 
             foreach (var process in processes)
             {
-                if (!process.ProcessName.Contains(moduleName)) continue;
+                if (string.Compare(process.ProcessName,moduleName, StringComparison.CurrentCultureIgnoreCase) != 0 && !ButtonShowAll.IsChecked.Value) continue;
 
                 try
                 {
                     var processFile = process.MainModule.FileName;
                     var icon = System.Drawing.Icon.ExtractAssociatedIcon(processFile);
 
-                    ImageSource processIcon = null;
-                    if (icon != null)
-                        processIcon = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty,
-                            BitmapSizeOptions.FromEmptyOptions());
+                    ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon(
+            icon.Handle,
+            Int32Rect.Empty,
+            BitmapSizeOptions.FromEmptyOptions());
 
                     var processItem = new ProcessListItem
                     {
-                        ProcessIcon = processIcon,
+                        ProcessIcon = imageSource,
                         ProcessID = process.Id,
                         ProcessName = process.ProcessName,
                         Process = process
@@ -91,21 +91,11 @@ namespace Farplane.Common.Dialogs
             if (!_ready || ProcessList.SelectedItems.Count != 1) return;
 
             var selectedProcess = ((ProcessListItem) ProcessList.SelectedItem).Process;
-            Memory.Attach(selectedProcess);
+            var attachResult = GameMemory.Attach(selectedProcess);
+            if (attachResult == false) return;
+            LegacyMemoryReader.Attach(selectedProcess);
             DialogResult = true;
             Close();
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void ShowAllProcesses_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_ready) return;
-            ShowAllProcesses.IsChecked = !ShowAllProcesses.IsChecked;
-            RefreshList();
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
@@ -115,10 +105,13 @@ namespace Farplane.Common.Dialogs
 
         private void RefreshList()
         {
-            if (ShowAllProcesses.IsChecked)
-                PopulateProcessList(string.Empty);
-            else
-                PopulateProcessList(_moduleName);
+            PopulateProcessList(ButtonShowAll.IsChecked != null && ButtonShowAll.IsChecked.Value ? string.Empty : _moduleName);
+        }
+
+        private void ShowAll_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_ready) return;
+            RefreshList();
         }
     }
 

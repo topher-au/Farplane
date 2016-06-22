@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Farplane.Common;
+using Farplane.FFX.Data;
+using Farplane.Memory;
 
 namespace Farplane.FFX.Values
 {
     public class BattleEntity
     {
-        public static readonly int _offsetPtrParty = Offsets.GetOffset(OffsetType.BattlePlayerPointer);
-        public static readonly int _offsetPtrEnemy = Offsets.GetOffset(OffsetType.BattleEnemyPointer);
-        public static readonly _FieldInfo[] _structInfo = typeof (BattleEntity).GetFields();
+        public static readonly int OffsetPtrParty = OffsetScanner.GetOffset(GameOffset.FFX_BattlePointerParty);
+        public static readonly int OffsetPtrEnemy = OffsetScanner.GetOffset(GameOffset.FFX_BattlePointerEnemy);
+        public static readonly FieldInfo[] StructInfo = typeof (BattleEntity).GetFields();
 
         public static bool ReadEntity(EntityType entityType, int entityIndex, out BattleEntityData outputEntity)
         {
             var offsetEntity = GetEntityOffset(entityType, entityIndex);
 
-            var entityData = Memory.ReadBytes(offsetEntity, (int) BlockLength.BattleEntity, true);
+            var entityData = LegacyMemoryReader.ReadBytes(offsetEntity, (int)Battle.BlockLengthEntity, true);
 
             // Copy entity data
             IntPtr ptrEntityData = Marshal.AllocHGlobal(entityData.Length);
@@ -37,35 +40,34 @@ namespace Farplane.FFX.Values
 
         public static bool CheckBattleState()
         {
-            var ptrEntityList = Memory.ReadInt32(_offsetPtrParty);
-            return ptrEntityList != 0;
+            var ptrParty = GameMemory.Read<IntPtr>(OffsetPtrParty, false);
+            return ptrParty != IntPtr.Zero;
         }
 
         public static int GetEntityOffset(EntityType entityType, int entityIndex)
         {
-            var pointerOffset = entityType == EntityType.Party ? _offsetPtrParty : _offsetPtrEnemy;
-            var ptrEntityList = Memory.ReadInt32(pointerOffset);
+            var pointerOffset = entityType == EntityType.Party ? OffsetPtrParty : OffsetPtrEnemy;
+            var ptrEntityList = GameMemory.Read<IntPtr>(pointerOffset, false);
 
-            if (ptrEntityList == 0)
+            if (ptrEntityList == IntPtr.Zero)
                 return 0;
 
-            return ptrEntityList + (int)BlockLength.BattleEntity * entityIndex;
+            return (int)ptrEntityList + (int)Battle.BlockLengthEntity * entityIndex;
         }
 
-        public static void WriteBytes(EntityType entityType, int entityIndex, EntityDataOffset entityDataType, byte[] dataToWrite)
+        public static void WriteBytes(EntityType entityType, int entityIndex, string entityDataType, byte[] dataToWrite)
         {
             var entityOffset = GetEntityOffset(entityType, entityIndex);
-            var dataOffset = entityOffset + (int) entityDataType;
+            var dataOffset = entityOffset + (int)Marshal.OffsetOf<BattleEntityData>(entityDataType);
 
-            Memory.WriteBytes(dataOffset, dataToWrite, true);
+            GameMemory.Write(dataOffset, dataToWrite, false);
         }
 
-        public static void WriteBytes(EntityType entityType, int entityIndex, EntityDataOffset entityDataType, byte dataToWrite)
+        public static void WriteBytes(EntityType entityType, int entityIndex, string entityDataType, byte dataToWrite)
         {
             var entityOffset = GetEntityOffset(entityType, entityIndex);
-            var dataOffset = entityOffset + (int)entityDataType;
-
-            Memory.WriteBytes(dataOffset, new [] { dataToWrite }, true);
+            var dataOffset = entityOffset + (int)Marshal.OffsetOf<BattleEntityData>(entityDataType);
+            GameMemory.Write(dataOffset, dataToWrite, false);
         }
     }
 
@@ -75,56 +77,7 @@ namespace Farplane.FFX.Values
         Enemy
     }
 
-    public enum EntityDataOffset
-    {
-        unknown_1 = 0x0000,
-        text_name = 0x0050,
-        text_help = 0x0090,
-        text_scan = 0x0190,
-        unknown_2 = 0x0390,
-        hp_max = 0x0594,
-        mp_max = 0x0598,
-        hp_max2 = 0x059c,
-        mp_max2 = 0x05a0,
-        overkill = 0x05a4,
-        strength = 0x05a8,
-        defense = 0x05a9,
-        magic = 0x05aa,
-        magic_defense = 0x05ab,
-        agility = 0x05ac,
-        luck = 0x05ad,
-        evasion = 0x05ae,
-        accuracy = 0x05af,
-        unknown_3 = 0x05b0,
-        overdrive_current = 0x05bc,
-        overdrive_max = 0x05bd,
-        unknown_4 = 0x05bf,
-        timer_doom = 0x5C8,
-        hp_current = 0x05D0,
-        mp_current = 0x05D4,
-        unknown_5 = 0x5D8,
-        unknown_6 = 0x600,
-        status_flags_negative = 0x606,
-        status_turns_sleep = 0x608,
-        status_turns_silence = 0x609,
-        status_turns_darkness = 0x60a,
-        status_shell = 0x60b,
-        status_protect = 0x60c,
-        status_reflect = 0x60d,
-        status_nultide = 0x60e,
-        status_nulblaze = 0x60f,
-        status_nulshock = 0x610,
-        status_nulfrost = 0x611,
-        status_regen = 0x612,
-        status_haste = 0x613,
-        status_slow = 0x614,
-        status_unknown = 0x615,
-        positive_status_flags = 0x616,
-        unknown_7 = 0x618,
-        battle_row = 0x6D4,
-}
-
-    [StructLayout(LayoutKind.Sequential, Pack = 0, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential, Pack = 0, CharSet = CharSet.Ansi, Size = 0xF90)]
     public struct BattleEntityData
     {
         [MarshalAs(UnmanagedType.I4)]

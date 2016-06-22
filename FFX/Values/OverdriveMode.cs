@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Farplane.Common;
 using Farplane.FFX.Data;
+using Farplane.Memory;
 
 namespace Farplane.FFX.Values
 {
     public class OverdriveMode
     {
-        private static readonly int _offsetParty = Offsets.GetOffset(OffsetType.PartyStatsBase);
+        private static readonly int _offsetParty = OffsetScanner.GetOffset(GameOffset.FFX_PartyStatBase);
 
         public static OverdriveMode[] OverdriveModes =
         {
@@ -41,7 +42,7 @@ namespace Farplane.FFX.Values
         {
             var odOffset = StructHelper.GetFieldOffset<PartyMember>("OverdriveModes",
                 _offsetParty + Marshal.SizeOf<PartyMember>()*charIndex);
-            var odBytes = Memory.ReadBytes(odOffset, 3);
+            var odBytes = GameMemory.Read<byte>(odOffset, 3, false);
 
             var odMode = OverdriveModes.First(od => od.ID == overdriveId);
 
@@ -50,14 +51,14 @@ namespace Farplane.FFX.Values
 
             odBytes[byteIndex] = BitHelper.ToggleBit(odBytes[byteIndex], bitIndex);
 
-            Memory.WriteBytes(odOffset, odBytes);
+            GameMemory.Write(odOffset, odBytes, false);
         }
 
         public static void SetOverdriveCounter(int charIndex, int odIndex, int odCount)
         {
             var odOffset = StructHelper.GetFieldOffset<PartyMember>("OverdriveWarrior",
                 _offsetParty + Marshal.SizeOf<PartyMember>()*charIndex + OverdriveModes[odIndex].BitIndex*2);
-            Memory.WriteBytes(odOffset, BitConverter.GetBytes((ushort) odCount));
+            GameMemory.Write(odOffset, BitConverter.GetBytes((ushort) odCount), false);
         }
 
         public int ID { get; set; }

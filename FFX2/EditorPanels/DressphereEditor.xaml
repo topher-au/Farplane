@@ -1,92 +1,160 @@
 ﻿<UserControl x:Class="Farplane.FFX2.EditorPanels.DressphereEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Farplane.FFX2.EditorPanels"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <GroupBox Header="Dresspheres" Margin="0">
-        <ScrollViewer Padding="3">
-            <StackPanel>
-                <DockPanel>
-                    <Label Content="Gunner" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere1" KeyDown="DressBox_KeyDown"/>
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Gun Mage" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere2" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Alchemist" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere3" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Warrior" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere4" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Samurai" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere5" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Dark Knight" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere6" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Berserker" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere7" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Songstress" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere8" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Black Mage" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere9" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="White Mage" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere10" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Thief" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere11" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Trainer" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere12" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Lady Luck" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere13" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Mascot" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere14" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Floral Fallal" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere15" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Machina Maw" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere18" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Full Throttle" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere21" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Psychic" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere28" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Festivalist" />
-                    <TextBox Width="50" HorizontalAlignment="Right" Name="Dressphere29" KeyDown="DressBox_KeyDown" />
-                </DockPanel>
-                
-            </StackPanel>
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="400"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+    <GroupBox Header="Dresspheres">
+        <ScrollViewer Padding="15,5,15,5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Gunner" />
+                        <TextBox Name="Dressphere1"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Gun Mage" />
+                        <TextBox Name="Dressphere2"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Alchemist" />
+                        <TextBox Name="Dressphere3"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Warrior" />
+                        <TextBox Name="Dressphere4"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Samurai" />
+                        <TextBox Name="Dressphere5"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Dark Knight" />
+                        <TextBox Name="Dressphere6"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Berserker" />
+                        <TextBox Name="Dressphere7"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Songstress" />
+                        <TextBox Name="Dressphere8"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Black Mage" />
+                        <TextBox Name="Dressphere9"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="White Mage" />
+                        <TextBox Name="Dressphere10"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <DockPanel Margin="2">
+                        <Label Content="Thief" />
+                        <TextBox Name="Dressphere11"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Trainer" />
+                        <TextBox Name="Dressphere12"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Lady Luck" />
+                        <TextBox Name="Dressphere13"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Mascot" />
+                        <TextBox Name="Dressphere14"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Floral Fallal" />
+                        <TextBox Name="Dressphere15"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Machina Maw" />
+                        <TextBox Name="Dressphere18"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Full Throttle" />
+                        <TextBox Name="Dressphere21"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Psychic" />
+                        <TextBox Name="Dressphere28"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <Label Content="Festivalist" />
+                        <TextBox Name="Dressphere29"
+                                 Width="50"
+                                 HorizontalAlignment="Right"
+                                 KeyDown="DressBox_KeyDown" />
+                    </DockPanel>
+                </StackPanel>
+            </Grid>
+
         </ScrollViewer>
     </GroupBox>
 </UserControl>
