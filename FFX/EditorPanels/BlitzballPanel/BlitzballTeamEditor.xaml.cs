@@ -16,6 +16,7 @@ using Farplane.Common;
 using Farplane.Common.Dialogs;
 using Farplane.FFX.Data;
 using Farplane.FFX.Values;
+using Farplane.Memory;
 using MahApps.Metro.Controls;
 
 namespace Farplane.FFX.EditorPanels.BlitzballPanel
@@ -33,12 +34,14 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
         {
             InitializeComponent();
 
-            for (int i = 0; i < BlitzballValues.Teams.Length; i++)
+            for (int i = 0; i < BlitzballValues.Teams.Length - 1; i++)
             {
                 var teamTab = new TabItem() {Header = BlitzballValues.Teams[i].Name};
                 ControlsHelper.SetHeaderFontSize(teamTab, 16);
                 TabTeam.Items.Add(teamTab);
             }
+
+            TabTeam.SelectedIndex = 0;
 
 
             _canWriteData = true;
@@ -50,11 +53,12 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             _canWriteData = false;
 
             var selectedTeam = TabTeam.SelectedIndex;
-            var blitzData = Blitzball.ReadBlitzballData();
 
             // refresh all roster info
-
-            var teamSize = 0; //LegacyMemoryReader.ReadByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + selectedTeam);
+            var blitzData = Blitzball.ReadBlitzballData();
+            _teamData = blitzData.TeamData;
+            var blitzTeamSizes = Blitzball.GetTeamSizes();
+            var teamSize = blitzTeamSizes[selectedTeam];
 
             if (teamSize < 6)
                 ComboRosterSize.SelectedIndex = 0;
@@ -89,7 +93,7 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
                 {
                     var player = BlitzballValues.Players.FirstOrDefault(p => p.Index == playerIndex);
                     playerButton.Content = player.Name;
-                    contractBox.Text = contractData[player.Index].ToString();
+                    contractBox.Text = blitzData.PlayerContracts[player.Index].ToString();
                 }
             }
 
@@ -114,50 +118,12 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
             var search = playerSearchDialog.ShowDialog();
             if (!search.Value) return;
 
-            var offset = _dataOffset + (int) BlitzballDataOffset.TeamData + (teamIndex*8) + playerIndex;
-
-            if (playerSearchDialog.ResultIndex != -1)
-            {
-                // update player
-                var player = BlitzballValues.Players[playerSearchDialog.ResultIndex];
-
-                // check if player is on another team
-                for (int i = 0; i < 48; i++)
-                {
-                    if (_teamData[i] == player.Index)
-                    {
-                        var sourceTeam = i/8;
-                        var sourcePosition = i%8;
-
-                        var movePlayer =
-                            MessageBox.Show(
-                                $"{player.Name} is already a member of the {BlitzballValues.Teams[sourceTeam].Name}.\n\nMove {player.Name} to the {BlitzballValues.Teams[teamIndex].Name}?",
-                                "Move player?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                        if (movePlayer == MessageBoxResult.No) return;
-
-                        // Remove old player from team
-                        var removed = RemovePlayer(sourceTeam, sourcePosition);
-                        if (!removed)
-                        {
-                            Error.Show(
-                                $"Unable to remove {player.Name} from the {BlitzballValues.Teams[sourceTeam].Name}. Blitzball teams must consist of at least 6 players at all times.");
-                            return;
-                        }
-                    }
-                }
-
-                LegacyMemoryReader.WriteByte(offset, (byte) player.Index, true);
-            }
-            else
-            {
-                // remove player
-                if (!RemovePlayer(teamIndex, playerIndex))
-                {
-                    var player = BlitzballValues.Players[_teamData[(teamIndex*8) + playerIndex]];
-                    Error.Show(
-                        $"Unable to remove {player.Name} from the {BlitzballValues.Teams[teamIndex].Name}. Blitzball teams must consist of at least 6 players at all times.");
-                }
-            }
+            int selectedPlayer = -1;
+            var searchIndex = playerSearchDialog.ResultIndex;
+            if (searchIndex != -1)
+                selectedPlayer = BlitzballValues.Players[searchIndex].Index;
+            
+            MovePlayer(selectedPlayer, teamIndex, playerIndex);
 
             Refresh();
         }
@@ -165,46 +131,102 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
         private void RosterSize_Changed(object sender, SelectionChangedEventArgs e)
         {
             if (!_canWriteData) return;
-            var selectedTeam = TabTeam.SelectedIndex;
 
-            //LegacyMemoryReader.WriteByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + selectedTeam,
-            //    (byte) (ComboRosterSize.SelectedIndex + 6));
+            var teamIndex = TabTeam.SelectedIndex;
+            Blitzball.SetTeamSize(teamIndex, (byte) (ComboRosterSize.SelectedIndex + 6));
+
             Refresh();
         }
 
-        private bool RemovePlayer(int team, int player)
+        private void MovePlayer(int playerIndex, int destTeamIndex, int destPos)
         {
-            // read team data
-            var count = 0; //LegacyMemoryReader.ReadByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + team);
+            var blitzData = Blitzball.ReadBlitzballData();
 
+            
 
-            var offset = _dataOffset + (int) BlitzballDataOffset.TeamData + (team*8);
-            var data = LegacyMemoryReader.ReadBytes(offset, 8, true);
+            // Find index of player if already assigned to team
+            var playerTeamIndex = Array.IndexOf(blitzData.TeamData, (byte) playerIndex);
+            
+            var destTeamData = new byte[8];
+            Array.Copy(blitzData.TeamData, destTeamIndex * 8, destTeamData, 0, 8);
+            var destTeamSize = 8 - Array.FindAll(destTeamData, b => b == (byte)0x3C).Length;
+            if (destTeamSize == 8) return;
 
-            var actualPlayers = data.Where(d => d != 0x3C).Count();
-
-            if (actualPlayers <= 6)
+            if (playerIndex == -1)
             {
-                return false;
+                // Check destination team
+                
+                destTeamData[destPos] = 0x3C;
+                Array.Copy(destTeamData, 0, blitzData.TeamData, destTeamIndex * 8, 8);
+                Blitzball.WriteBlitzballData(blitzData);
+                Blitzball.SetTeamSize(destTeamIndex, (byte)(destTeamSize + 1));
+                return;
             }
 
+            var player = BlitzballValues.Players[playerIndex];
+            var destTeam = BlitzballValues.Teams[destTeamIndex];
 
-            // move all players up
-
-            for (int i = player; i < 7; i++)
+            // If assigned to team, we need to remove player from the team
+            if (playerTeamIndex != -1)
             {
-                data[i] = data[i + 1];
+                var sourceTeamIndex = playerTeamIndex/8;
+                var sourceTeam = BlitzballValues.Teams[sourceTeamIndex];
+
+                // Copy team data to array
+                var sourceTeamData = new byte[8];
+                Array.Copy(blitzData.TeamData, sourceTeamIndex * 8, sourceTeamData, 0, 8);
+
+                // Check source team size
+                var sourceTeamSize = Array.FindAll(sourceTeamData, b => b != (byte)0x3C).Length;
+                if (sourceTeamSize <= 6)
+                {
+                    // Team too small to remove player, return error
+                    MessageBox.Show(
+                        string.Format(
+                            "{0} is already assigned to the {1}, but could not be removed as the {1} must have at least 6 players.\n\n" +
+                            "Remove {0} from the {1} or add another player before trying again.",
+                            player.Name, sourceTeam.Name),
+                        "Unable to assign player", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Player is in a team, prompt user
+                var movePlayer =
+                    MessageBox.Show(
+                        string.Format("{0} is already in the {1}. Press OK to move {0} to the {2}", player.Name, sourceTeam.Name ,
+                            destTeam.Name), "Player already assigned",
+                        MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (movePlayer != MessageBoxResult.OK) return;
+
+                // Remove player from source team
+                
+                // Find player position
+                var playerPos = Array.IndexOf(sourceTeamData, (byte) player.Index);
+                
+                for (int i = playerPos; i < 7; i++)
+                {
+                    sourceTeamData[i] = sourceTeamData[i+1];    // Move other players up one position
+                    sourceTeamData[7] = 0x3C;                   // Empty final slot
+                }
+
+                // Copy updated roster back to blitz data
+                Array.Copy(sourceTeamData, 0, blitzData.TeamData, sourceTeamIndex * 8, 8);
+                Blitzball.WriteBlitzballData(blitzData);
+
+                // Resize team
+                Blitzball.SetTeamSize(sourceTeamIndex, (byte)(sourceTeamSize - 1));
             }
-            data[7] = 0x3C;
 
-            // adjust team size
-            count--;
+            // Check destination team
 
-            // write data
-            LegacyMemoryReader.WriteBytes(offset, data, true);
-            //LegacyMemoryReader.WriteByte(Offsets.GetOffset(OffsetType.BlitzballTeamSizes) + team, count);
+            if (destTeamSize == 8) return;
 
-            return true;
+            // Insert player into team roster
+            Array.Copy(blitzData.TeamData, destTeamIndex*8, destTeamData, 0, 8);
+
+            destTeamData[destPos] = (byte)player.Index;
+            Array.Copy(destTeamData, 0, blitzData.TeamData, destTeamIndex * 8, 8);
+            Blitzball.WriteBlitzballData(blitzData);
         }
 
         private void TextPlayer_KeyDown(object sender, KeyEventArgs e)
@@ -216,17 +238,18 @@ namespace Farplane.FFX.EditorPanels.BlitzballPanel
                 var buttonIndex = int.Parse(textBox.Name.Substring(10));
                 var teamIndex = TabTeam.SelectedIndex;
 
-                var playerIndex = _teamData[teamIndex*8 + buttonIndex-1];
-                LegacyMemoryReader.WriteByte(_dataOffset + (int) BlitzballDataOffset.ContractLength + playerIndex,
-                    byte.Parse(textBox.Text), true);
+                var playerIndex = _teamData[teamIndex*8 + buttonIndex - 1];
 
+                var blitzData = Blitzball.ReadBlitzballData();
+                blitzData.PlayerContracts[playerIndex] = byte.Parse(textBox.Text);
+                Blitzball.WriteBlitzballData(blitzData);
+                
                 textBox.SelectAll();
             }
             catch
             {
                 Error.Show("Please enter a number between 0 and 255.");
             }
-            
         }
     }
 }

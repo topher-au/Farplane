@@ -74,15 +74,15 @@ namespace Farplane.FFX.Values
             new BlitzballValue {Index = 59, Name = "Miyu"},
         };
 
-        public static BlitzballTeam[] Teams =
+        public static BlitzballValue[] Teams =
         {
-            new BlitzballTeam {Index = 0, Name = "Luca Goers"},
-            new BlitzballTeam {Index = 1, Name = "Kilika Beasts"},
-            new BlitzballTeam {Index = 2, Name = "Al Bhed Psyches"},
-            new BlitzballTeam {Index = 3, Name = "Ronso Fangs"},
-            new BlitzballTeam {Index = 4, Name = "Guado Glories"},
-            new BlitzballTeam {Index = 5, Name = "Besaid Aurochs"},
-            new BlitzballTeam {Index = 0x1D, Name = "No Team"},
+            new BlitzballValue {Index = 0, Name = "Luca Goers"},
+            new BlitzballValue {Index = 1, Name = "Kilika Beasts"},
+            new BlitzballValue {Index = 2, Name = "Al Bhed Psyches"},
+            new BlitzballValue {Index = 3, Name = "Ronso Fangs"},
+            new BlitzballValue {Index = 4, Name = "Guado Glories"},
+            new BlitzballValue {Index = 5, Name = "Besaid Aurochs"},
+            new BlitzballValue {Index = 0x1D, Name = "No Team"},
         };
 
         public static BlitzballValue[] Techs =
@@ -360,12 +360,6 @@ namespace Farplane.FFX.Values
     }
 
     public class BlitzballValue
-    {
-        public int Index { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class BlitzballTeam
     {
         public int Index { get; set; }
         public string Name { get; set; }

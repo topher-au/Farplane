@@ -22,9 +22,9 @@
             <TabItem controls:ControlsHelper.HeaderFontSize="18" Header="Teams">
                 <local:BlitzballTeamEditor x:Name="TeamEditor" />
             </TabItem>
-            <TabItem controls:ControlsHelper.HeaderFontSize="18" Header="Current Game">
+            <!-- <TabItem controls:ControlsHelper.HeaderFontSize="18" Header="Current Game">
                 <local:BlitzballMatchPanel x:Name="MatchEditor" />
-            </TabItem>
+            </TabItem> -->
         </TabControl>
     </GroupBox>
 </UserControl>

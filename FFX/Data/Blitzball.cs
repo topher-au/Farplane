@@ -90,6 +90,29 @@ namespace Farplane.FFX.Data
             return player;
         }
 
+        public static byte GetTeamSize(int teamIndex)
+        {
+            var sizes = GetTeamSizes();
+            return sizes[teamIndex];
+        }
+
+        public static void SetTeamSize(int teamIndex, byte teamSize)
+        {
+            var bdPointer1 = OffsetScanner.GetOffset(GameOffset.FFX_BlitzballTeamData);
+            var bdPointer2 = GameMemory.Read<int>(bdPointer1, false);
+            var bdPointer = GameMemory.Read<int>(bdPointer2 + 0x2C, false);
+            GameMemory.Write(bdPointer + 0xA88 + teamIndex, teamSize, false);
+        }
+
+        public static byte[] GetTeamSizes()
+        {
+            var bdPointer1 = OffsetScanner.GetOffset(GameOffset.FFX_BlitzballTeamData);
+            var bdPointer2 = GameMemory.Read<int>(bdPointer1, false);
+            var bdPointer = GameMemory.Read<int>(bdPointer2 + 0x2C, false);
+
+            return GameMemory.Read<byte>(bdPointer + 0xA88, 6, false);
+        }
+
         public static BlitzballPlayer GetPlayerInfo(int playerIndex)
         {
             var blitzData = ReadBlitzballData();
@@ -112,6 +135,14 @@ namespace Farplane.FFX.Data
 
             WriteBlitzballData(blitzData);
         }
+    }
+
+    public class BlitzballStat
+    {
+        public ushort HP { get; set; }
+        public ushort SH { get; set; }
+        public ushort PA { get; set; }
+        public ushort EN { get; set; }
     }
 
     public class BlitzballPlayer

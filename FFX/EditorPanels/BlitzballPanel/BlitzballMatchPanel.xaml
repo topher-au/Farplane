@@ -4,91 +4,69 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.BlitzballPanel"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="480"
-             d:DesignWidth="460"
+             d:DesignHeight="510"
+             d:DesignWidth="532"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="100" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <GroupBox Grid.Row="0" Header="General">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <StackPanel>
-                    <TextBlock Margin="5,2,2,2" FontWeight="SemiBold">Ball Handler Stats</TextBlock>
-                    <DockPanel Margin="2">
-                        <TextBlock VerticalAlignment="Center" Text="EN" />
-                        <TextBox Width="40" HorizontalAlignment="Right" />
-                    </DockPanel>
-                    <DockPanel Margin="2">
-                        <TextBlock VerticalAlignment="Center" Text="PA" />
-                        <TextBox Width="40" HorizontalAlignment="Right" />
-                    </DockPanel>
-                    <DockPanel Margin="2">
-                        <TextBlock VerticalAlignment="Center" Text="SH" />
-                        <TextBox Width="40" HorizontalAlignment="Right" />
-                    </DockPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Row="0"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Header="Ball Carrier">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel VerticalAlignment="Center" Margin="10">
+                    <TextBlock Text="Current Ball Carrier" FontSize="18" FontWeight="SemiBold"/>
                 </StackPanel>
-                <StackPanel Grid.Column="1">
-                    <DockPanel Margin="2">
-                        <TextBlock VerticalAlignment="Center" Text="Match time (s)" />
-                        <TextBox Width="40" HorizontalAlignment="Right" />
-                    </DockPanel>
-                </StackPanel>
-            </Grid>
+                <DockPanel Width="65" Margin="5">
+                    <TextBlock HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Text="SH" />
+                    <TextBox Width="40"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Center"
+                             Text="0" />
+                </DockPanel>
+                <DockPanel Width="65" Margin="5">
+                    <TextBlock HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Text="EN" />
+                    <TextBox Width="40"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Center"
+                             Text="0" />
+                </DockPanel>
+                <DockPanel Width="65" Margin="5">
+                    <TextBlock HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Text="PA" />
+                    <TextBox Width="40"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Center"
+                             Text="0" />
+                </DockPanel>
+                <ToggleButton Width="32"
+                              Height="32"
+                              Margin="20,0,0,0"
+                              ToolTip="Click to toggle automatic refreshing for this section">
+                    <Image Width="16"
+                           Height="16"
+                           Source="/Resources/Images/reload.png" />
+                </ToggleButton>
+            </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Row="1" Header="Your Team">
-            <Grid Name="GridPlayerStats">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-            </Grid>
-        </GroupBox>
-        <GroupBox Grid.Row="2" Header="Opposing Team">
-            <Grid Name="GridOpponentStats">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-            </Grid>
-        </GroupBox>
+        <GroupBox Grid.Row="1"
+                  Grid.Column="0"
+                  Header="Friendly Team" />
+        <GroupBox Grid.Row="1"
+                  Grid.Column="1"
+                  Header="Opposing Team" />
     </Grid>
 </UserControl>
 

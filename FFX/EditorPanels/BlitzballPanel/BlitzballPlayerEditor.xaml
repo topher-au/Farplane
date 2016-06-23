@@ -52,7 +52,7 @@
                                            Grid.ColumnSpan="2">
                                     <StackPanel>
                                         <DockPanel Margin="5">
-                                            <TextBlock Text="Salary" VerticalAlignment="Center"/>
+                                            <TextBlock VerticalAlignment="Center" Text="Salary" />
                                             <TextBox Name="TextSalary"
                                                      Width="60"
                                                      HorizontalAlignment="Right"

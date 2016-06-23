@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Farplane.FFX.EditorPanels.BlitzballPanel"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="500"
+             d:DesignHeight="510"
              d:DesignWidth="532"
              mc:Ignorable="d">
     <Grid Margin="0">
@@ -59,22 +59,26 @@
                 <TextBlock Margin="160,0,0,0"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           FontSize="16" TextAlignment="Center">
-                   Winner<LineBreak />
-                   Round 1
+                           FontSize="16"
+                           TextAlignment="Center">
+                    Winner
+                    <LineBreak />
+                    Round 1
                 </TextBlock>
                 <TextBlock Margin="290,0,0,0"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            FontSize="16">
-                    Winner<LineBreak />
+                    Winner
+                    <LineBreak />
                     Round 2
                 </TextBlock>
                 <TextBlock Margin="420,0,0,0"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            FontSize="16">
-                    Winner<LineBreak />
+                    Winner
+                    <LineBreak />
                     Round 3
                 </TextBlock>
                 <ComboBox x:Name="ComboTeam0"
@@ -170,9 +174,11 @@
                     Consolation Match
                 </TextBlock>
                 <TextBlock Margin="15,0,0,0"
-                	HorizontalAlignment="Left"
-                	VerticalAlignment="Top"
-                	FontSize="16">Match Order</TextBlock>
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           FontSize="16">
+                    Match Order
+                </TextBlock>
 
             </Grid>
         </GroupBox>

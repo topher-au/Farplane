@@ -146,6 +146,12 @@ namespace Farplane.Memory
                 Pattern = "55 8b ec a1 ?? ?? ?? ?? 3b 45 08 75 0a c7 05 ?? ?? ?? ?? FF FF FF FF",
                 PatternOffset = 4
             },
+            new OffsetBytePattern()
+            {
+                Type = GameOffset.FFX_BlitzballTeamData,
+                Pattern = "0F 87 B2 00 00 00 FF 24 85 ?? ?? ?? ?? A1 ?? ?? ?? ?? 8B F2 81 E6 FF FF FF F0",
+                PatternOffset = 14
+            },
         };
 
         private static Dictionary<GameOffset, int> _offsets = new Dictionary<GameOffset, int>();
@@ -225,6 +231,7 @@ namespace Farplane.Memory
         FFX_BlitzballData,
         FFX_BlitzballPointer,
         FFX_BlitzballMode,
+        FFX_BlitzballTeamData,
     }
 }
 
