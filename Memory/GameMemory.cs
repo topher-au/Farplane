@@ -27,7 +27,7 @@ namespace Farplane.Memory
         public static string[] FFX_Hashes =
         {
             "3D13E5ED53821DF8DB204CD3C27D470C5C220B18E16849FC4440996C15F277E1", // FFX
-            "94F287B2549C73351AEC86988C19CCB8803BF2C1FD5E5C3876BC5CC924B384EA", // FFX-2
+            "D7F08CDA89DBCD6F429814E9523CE7A63A094417442A025573AFBBEF3251EF20", // FFX-2
         };
 
         internal static bool Attach(Process process)
@@ -118,8 +118,7 @@ namespace Farplane.Memory
                 // UnX is installed, display warning message
                 MessageBox.Show("Farplane has detected that Untitled Project X (unx.dll) is currently loaded.\n\n" +
                                 "Some features of UnX, even when disabled, will overwrite changes made by Farplane, " +
-                                "leading to unpredictable results. It is recommended, although not necessary, that you " +
-                                "disable UnX while using Farplane.\n\n" +
+                                "leading to unpredictable results.\n\n" +
                                 "This warning message can be disabled from the Settings menu.", "UnX Warning",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }

@@ -39,6 +39,7 @@ namespace Farplane.FarplaneMod
         public static void LoadScripts(GameType gameType)
         {
             if (!Settings.Default.EnableMods) return;
+            if (!Directory.Exists(ModFolder)) return;
             _mods = new List<FarplaneMod>();
             _exceptions = new List<Exception>();
             _scripts = Directory.GetFiles(ModFolder, "*." + ModExtension);
