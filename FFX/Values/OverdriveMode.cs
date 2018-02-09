@@ -27,7 +27,7 @@ namespace Farplane.FFX.Values
             new OverdriveMode() {ID = 8, BitIndex = 8, Name = "Slayer"},
             new OverdriveMode() {ID = 9, BitIndex = 9, Name = "Hero"},
             new OverdriveMode() {ID = 10, BitIndex = 10, Name = "Rook"},
-            new OverdriveMode() {ID = 11, BitIndex = 11, Name = "Victim"},
+            new OverdriveMode() {ID = 11, BitIndex = 11, Name = "Victor"},
             new OverdriveMode() {ID = 12, BitIndex = 12, Name = "Coward"},
             new OverdriveMode() {ID = 13, BitIndex = 13, Name = "Ally"},
             new OverdriveMode() {ID = 14, BitIndex = 14, Name = "Sufferer"},
