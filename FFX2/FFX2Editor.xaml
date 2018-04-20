@@ -70,9 +70,6 @@
             <TreeViewItem Name="DebugOptionsPanel"
                           Header="Debug Options"
                           Tag="DebugOptions" />
-            <TreeViewItem Name="ModsPanel"
-                          Header="Mods"
-                          Tag="Mods" />
         </TreeView>
         <ContentControl Name="EditorPanel" Grid.Column="1" />
 

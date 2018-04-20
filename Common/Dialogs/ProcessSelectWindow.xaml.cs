@@ -94,6 +94,7 @@ namespace Farplane.Common.Dialogs
             var attachResult = GameMemory.Attach(selectedProcess);
             if (attachResult == false) return;
             LegacyMemoryReader.Attach(selectedProcess);
+            _selectedProcess = selectedProcess;
             DialogResult = true;
             Close();
         }
@@ -112,6 +113,13 @@ namespace Farplane.Common.Dialogs
         {
             if (!_ready) return;
             RefreshList();
+        }
+
+        private void ButtonFileMode_OnClick(object sender, RoutedEventArgs e)
+        {
+            _selectedProcess = null;
+            DialogResult = true;
+            Close();
         }
     }
 

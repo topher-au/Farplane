@@ -20,7 +20,6 @@ using System.Windows.Shapes;
 using Farplane.Common;
 using Farplane.Common.Controls;
 using Farplane.Common.Dialogs;
-using Farplane.FarplaneMod;
 using Farplane.FFX;
 using Farplane.FFX2;
 using Farplane.Properties;
@@ -74,22 +73,9 @@ namespace Farplane
             InitializeComponent();
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             Title = string.Format(Title, $"{version.Major}.{version.Minor}.{version.Build}");
-
-
+			
             Flyouts = new FlyoutsControl();
             Flyouts.Items.Add(_configFlyout);
-
-            // Only show the donation message once every 3 days
-            if (!Settings.Default.NeverShowDonation && (Settings.Default.DonationMessage < (DateTime.Now - new TimeSpan(3,0,0,0)) || Debugger.IsAttached))
-            {
-                // Show donation message
-                var _donateFlyout = new DonateFlyout();
-                Flyouts.Items.Add(_donateFlyout);
-                _donateFlyout.IsOpen = true;
-                Settings.Default.DonationMessage = DateTime.Now;
-                Settings.Default.Save();
-            }
-            
         }
 
         private void FFX2_Click(object sender, RoutedEventArgs e)
@@ -101,7 +87,6 @@ namespace Farplane
             if (processSelect.DialogResult == true)
             {
                 Hide();
-                ModLoader.LoadScripts(GameType.FFX2);
                 var FFX2Editor = new FFX2Editor();
                 FFX2Editor.ShowDialog();
                 GameMemory.Detach();
@@ -122,9 +107,17 @@ namespace Farplane
             if (processSelect.DialogResult == true)
             {
                 Hide();
-                ModLoader.LoadScripts(GameType.FFX);
-                var FFXEditor = new FFXEditor();
-                FFXEditor.ShowDialog();
+
+                if (processSelect.ResultProcess == null)
+                {
+                    var FFXEditor = new FFXEditor(true);
+                    FFXEditor.ShowDialog();
+                }
+                else
+                {
+                    var FFXEditor = new FFXEditor();
+                    FFXEditor.ShowDialog();
+                }
                 GameMemory.Detach();
                 if (Settings.Default.CloseWithGame) Environment.Exit(0);
                 Show();

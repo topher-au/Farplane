@@ -70,7 +70,7 @@ namespace Farplane.FFX2.EditorPanels
                 creatureTab.Visibility = Visibility.Visible;
 
                 var nameBytes = LegacyMemoryReader.ReadBytes(_offsetCreatureName + (i*40), 18);
-                var name = StringConverter.ToString(nameBytes);
+                var name = StringConverter.ToASCII(nameBytes);
                 creatureTab.Header = name;
                 _editors[i].Refresh();
             }

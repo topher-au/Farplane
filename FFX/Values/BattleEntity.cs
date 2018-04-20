@@ -81,10 +81,16 @@ namespace Farplane.FFX.Values
     public struct BattleEntityData
     {
         [MarshalAs(UnmanagedType.I4)]
-        public int guid;
+        public int pointer_1;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 76)]
+        public int index_1;
+        public int index_2;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 60)]
         public byte[] unknown_1;
+
+        public int pointer_2;
+        public int pointer_3;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
         public byte[] text_name;

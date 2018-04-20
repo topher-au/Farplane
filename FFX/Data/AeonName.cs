@@ -16,7 +16,7 @@ namespace Farplane.FFX.Data
         {
             if (partyIndex < 8) return;
             var offset = _offsetAeonNames + 0xA0 + AeonNames[partyIndex-8];
-            var aeonName = StringConverter.ToFFXBytes(name);
+            var aeonName = StringConverter.ToFFX(name);
             var nameBytes = new byte[aeonName.Length + 1];
             aeonName.CopyTo(nameBytes,0);
             GameMemory.Write(offset, nameBytes, false);
@@ -27,7 +27,7 @@ namespace Farplane.FFX.Data
             if (partyIndex < 8) return null;
             var offset = _offsetAeonNames + 0xA0 + AeonNames[partyIndex-8];
             var nameBytes = GameMemory.Read<byte>(offset, 8, false);
-            return StringConverter.ToString(nameBytes);
+            return StringConverter.ToASCII(nameBytes);
         }
 
         public static int[] AeonNames => new int[]

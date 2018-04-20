@@ -26,6 +26,19 @@
                                 Content="Learn all abilities" />
                     </StackPanel>
                 </GroupBox>
+                <GroupBox Header="Temporary Boosters">
+                    <StackPanel>
+                        <GroupBox Header="AP Sharing" >
+                            <StackPanel>
+                                <StackPanel>
+                                    <TextBlock Text="While enabled, selected characters will always receive AP after battle, regardless of participation" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+                                    <Button Name="ButtonSharedAP" Content="DISABLED" Click="SharedAPToggle_Click" Margin="5" />
+                                </StackPanel>
+                                <WrapPanel Name="ShareBoxes" Margin="5" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </GroupBox>
             </StackPanel>
         </ScrollViewer>
     </GroupBox>

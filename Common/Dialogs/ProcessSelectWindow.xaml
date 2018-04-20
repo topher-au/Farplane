@@ -36,12 +36,22 @@
                     SHOW ALL
                 </ToggleButton>
             </DockPanel>
-            <Button Name="ButtonSelectProcess"
-                    Margin="2"
-                    HorizontalAlignment="Right"
-                    Click="SelectProcess_Click">
-                SELECT PROCESS
-            </Button>
+            <DockPanel HorizontalAlignment="Right">
+                <Button Name="ButtonFileMode"
+                        Margin="2"
+                        HorizontalAlignment="Right"
+                        Click="ButtonFileMode_OnClick"
+                        ToolTip="Opens Farplane in File Mode, for editing game files">
+                    FILE MODE
+                </Button>
+                <Button Name="ButtonSelectProcess"
+                        Margin="2"
+                        HorizontalAlignment="Right"
+                        Click="SelectProcess_Click">
+                    SELECT PROCESS
+                </Button>
+            </DockPanel>
+
         </DockPanel>
         <ListView Name="ProcessList"
                   Grid.Row="1"

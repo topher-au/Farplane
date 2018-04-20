@@ -53,7 +53,7 @@ namespace Farplane.FFX2.EditorPanels
         {
             _refreshing = true;
             var nameBytes = LegacyMemoryReader.ReadBytes(_offsetCreatureName + (_creatureIndex*40), 18);
-            var name = StringConverter.ToString(nameBytes);
+            var name = StringConverter.ToASCII(nameBytes);
             CreatureName.Text = name;
             CreatureSize.SelectedIndex = GameMemory.Read<byte>(_statsOffset + (int) Offsets.StatOffsets.Size) - 1;
             _statsPanel.Refresh(_creatureIndex + 15);
@@ -65,7 +65,7 @@ namespace Farplane.FFX2.EditorPanels
         {
             if (e.Key != Key.Enter) return;
 
-            var nameBytes = StringConverter.ToFFXBytes(CreatureName.Text);
+            var nameBytes = StringConverter.ToFFX(CreatureName.Text);
             var writeBytes = new byte[18];
             nameBytes.CopyTo(writeBytes, 0);
             LegacyMemoryReader.WriteBytes(_offsetCreatureName + _creatureIndex*40, writeBytes);

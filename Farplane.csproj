@@ -46,10 +46,6 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSScriptLibrary, Version=3.12.2.0, Culture=neutral, PublicKeyToken=70fcc3d18c749033, processorArchitecture=MSIL">
-      <HintPath>..\packages\CS-Script.bin.3.12.2.1\lib\net45\CSScriptLibrary.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Fasm.NET, Version=1.0.4939.27955, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\Fasm.NET.1.70.03\lib\Fasm.NET.dll</HintPath>
       <Private>True</Private>
@@ -89,39 +85,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Common\Controls\DonateFlyout.xaml.cs">
-      <DependentUpon>DonateFlyout.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Common\Dialogs\CreditsWindow.xaml.cs">
       <DependentUpon>CreditsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FarplaneMod\ModLoader.cs" />
-    <Compile Include="FarplaneMod\ModLoadWindow.xaml.cs">
-      <DependentUpon>ModLoadWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FarplaneMod\ModPanel.xaml.cs">
-      <DependentUpon>ModPanel.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Common\StringConverter.cs" />
     <Compile Include="FFX2\EditorPanels\Party\PartyPanel.xaml.cs">
       <DependentUpon>PartyPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\Data\AeonName.cs" />
     <Compile Include="FFX\Data\Blitzball.cs" />
     <Compile Include="FFX\Data\General.cs" />
+    <Compile Include="FFX\Data\KernelTable.cs" />
     <Compile Include="FFX\Data\MonsterArena.cs" />
+    <Compile Include="FFX\Data\Skills.cs" />
     <Compile Include="FFX\EditorPanels\BlitzballPanel\BlitzballLeagueEditor.xaml.cs">
       <DependentUpon>BlitzballLeagueEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\EditorPanels\BlitzballPanel\BlitzballTournamentEditor.xaml.cs">
       <DependentUpon>BlitzballTournamentEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FFX\EditorPanels\SkillEditorPanel\CommandEditor.xaml.cs">
+      <DependentUpon>CommandEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\SkillEditorPanel\SkillDataPanel.xaml.cs">
+      <DependentUpon>SkillDataPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FFX\EditorPanels\SkillEditorPanel\SkillEditorPanel.xaml.cs">
+      <DependentUpon>SkillEditorPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Memory\Assembly.cs" />
     <Compile Include="Memory\GameMemory.cs" />
-    <Compile Include="FarplaneMod\ModLogger.cs" />
-    <Compile Include="FarplaneMod\ModSettings.cs" />
     <Compile Include="FFX\Data\Battle.cs" />
-    <Compile Include="FarplaneMod\IFarplaneMod.cs" />
-    <Compile Include="FarplaneMod\ModThread.cs" />
     <None Include="Mods\FFX-SeymourInParty.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -136,10 +130,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\Controls\DonateFlyout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Common\Dialogs\CreditsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,14 +137,6 @@
     <Page Include="Common\Dialogs\SearchDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FarplaneMod\ModLoadWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FarplaneMod\ModPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FFX2\AbilitySlider.xaml">
       <SubType>Designer</SubType>
@@ -276,7 +258,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FFX\EditorPanels\NotImplementedPanel.xaml">
+    <Page Include="FFX\EditorPanels\NotAvailablePanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -301,6 +283,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FFX\EditorPanels\Boosters\BoostersPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\SkillEditorPanel\CommandEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\SkillEditorPanel\SkillDataPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX\EditorPanels\SkillEditorPanel\SkillEditorPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -336,7 +330,6 @@
     <Compile Include="Common\Dialogs\SearchDialog.xaml.cs">
       <DependentUpon>SearchDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\StringConverter.cs" />
     <Compile Include="FFX2\AbilitySlider.xaml.cs">
       <DependentUpon>AbilitySlider.xaml</DependentUpon>
     </Compile>
@@ -429,8 +422,8 @@
     <Compile Include="FFX\EditorPanels\MonsterArenaPanel\MonsterArenaPanel.xaml.cs">
       <DependentUpon>MonsterArenaPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\NotImplementedPanel.xaml.cs">
-      <DependentUpon>NotImplementedPanel.xaml</DependentUpon>
+    <Compile Include="FFX\EditorPanels\NotAvailablePanel.xaml.cs">
+      <DependentUpon>NotAvailablePanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="FFX\EditorPanels\PartyPanel\PartyAbilities.xaml.cs">
       <DependentUpon>PartyAbilities.xaml</DependentUpon>

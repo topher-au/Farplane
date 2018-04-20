@@ -43,6 +43,7 @@ namespace Farplane.Common.Dialogs
             _lastSearch = int.MaxValue.ToString();
 
             TextSearchBox.Focus();
+			PerformSearch("");
         }
 
         public void PerformSearch(string searchString)

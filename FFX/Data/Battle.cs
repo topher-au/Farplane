@@ -33,6 +33,7 @@ namespace Farplane.FFX.Data
         {
             BattleEntityData entityData;
             BattleEntity.ReadEntity(EntityType.Enemy, entityIndex, out entityData);
+
             return entityData;
         }
 

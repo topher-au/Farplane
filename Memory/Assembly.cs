@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Binarysharp.MemoryManagement;
-using Farplane.FarplaneMod;
 
 namespace Farplane.Memory
 {

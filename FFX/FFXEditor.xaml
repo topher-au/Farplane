@@ -83,9 +83,9 @@
             <TreeViewItem Name="BattleEditor" Header="Battle" />
             <TreeViewItem Name="MonsterArenaEditor" Header="Monster Arena" />
             <TreeViewItem Name="BlitzballEditor" Header="Blitzball" />
+            <TreeViewItem Name="SkillEditor" Header="Skills" Visibility="Collapsed" />
             <TreeViewItem Name="DebugEditor" Header="Debug Options" />
             <TreeViewItem Name="Boosters" Header="Boosters" />
-            <TreeViewItem Name="Mods" Header="Mods" />
         </TreeView>
         <ContentControl Name="EditorContent"
                         Grid.Column="1"

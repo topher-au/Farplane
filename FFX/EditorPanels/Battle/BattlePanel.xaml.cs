@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Farplane.Common;
+using Farplane.FFX.Data;
 using Farplane.FFX.Values;
 using MahApps.Metro.Controls;
 
@@ -84,17 +85,23 @@ namespace Farplane.FFX.EditorPanels.Battle
             {
                 BattleEntityData readEntity;
                 var success = BattleEntity.ReadEntity(EntityType.Enemy, i, out readEntity);
+                
                 _enemyEntities[i] = readEntity;
 
-                if (readEntity.guid == 0 || !success)
+                if (readEntity.pointer_1 == 0 || !success)
                 {
                     (TabEntity.Items[i] as TabItem).Visibility = Visibility.Collapsed;
                     continue;
                 }
 
+                // Dump data
+                var entityName = StringConverter.ToASCII(readEntity.text_name);
+                var entityFileName = $"BattleEntity_{entityName}_{BattleEntity.GetEntityOffset(EntityType.Enemy, i).ToString("X2")}_{DateTime.Now.ToString("hhmmss")}.bin";
+                General.DumpStruct(readEntity, entityFileName);
+
                 var entityTab = TabEntity.Items[i] as TabItem;
                 entityTab.Visibility = Visibility.Visible;
-                entityTab.Header = StringConverter.ToString(readEntity.text_name);
+                entityTab.Header = StringConverter.ToASCII(readEntity.text_name);
 
                 _enemyCount++;
             }
@@ -109,7 +116,7 @@ namespace Farplane.FFX.EditorPanels.Battle
                 var success = BattleEntity.ReadEntity(EntityType.Party, i, out readEntity);
                 _partyEntities[i] = readEntity;
 
-                if (readEntity.guid == 0 || !success)
+                if (readEntity.pointer_1 == 0 || !success)
                 {
                     (TabEntity.Items[i] as TabItem).Visibility = Visibility.Collapsed;
                     continue;

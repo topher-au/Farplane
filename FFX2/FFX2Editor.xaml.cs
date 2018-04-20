@@ -14,7 +14,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Farplane.FarplaneMod;
 using Farplane.FFX2.EditorPanels;
 using Farplane.FFX2.EditorPanels.Party;
 using Farplane.Memory;
@@ -37,7 +36,6 @@ namespace Farplane.FFX2
         private AccessoriesEditor _accessoriesPanel = new AccessoriesEditor();
         private GarmentGridEditor _garmentGridsPanel = new GarmentGridEditor();
         private DebugOptions _debugOptionsPanel = new DebugOptions();
-        private ModPanel _modPanel = new ModPanel();
 
         private int _defaultHeight = 540;
         private int _defaultWidth = 640;
@@ -92,10 +90,6 @@ namespace Farplane.FFX2
                 case "DebugOptionsPanel":
                     _debugOptionsPanel.Refresh();
                     EditorPanel.Content = _debugOptionsPanel;
-                    break;
-                case "ModsPanel":
-                    _modPanel.Refresh();
-                    EditorPanel.Content = _modPanel;
                     break;
                 default:
                     break;
