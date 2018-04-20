@@ -40,8 +40,7 @@ namespace Farplane.FFX.EditorPanels.EquipmentPanel
             new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_6_0.png")),
             new BitmapImage(new Uri("pack://application:,,,/FFX/Resources/MenuIcons/equip_6_1.png"))
         };
-
-        private byte[] _allEquipBytes;
+		
         private EquipmentItem _currentItem;
         private bool _refreshing;
         private int _selectedItem = -1;
@@ -57,7 +56,6 @@ namespace Farplane.FFX.EditorPanels.EquipmentPanel
             for (var formulaIndex = 0; formulaIndex < DamageFormula.DamageFormulas.Length; formulaIndex++)
                 ComboDamageFormula.Items.Add(DamageFormula.DamageFormulas[formulaIndex].Name);
         }
-        
 
         public void Refresh()
         {
@@ -65,7 +63,7 @@ namespace Farplane.FFX.EditorPanels.EquipmentPanel
 
             ListEquipment.Items.Clear();
 
-            var items = Equipment.ReadItems();
+			var items = Equipment.ReadItems();
 
             for (var equipmentSlot = 0; equipmentSlot < Equipment.MaxItems; equipmentSlot++)
             {
@@ -273,17 +271,16 @@ namespace Farplane.FFX.EditorPanels.EquipmentPanel
 
         private void ButtonEquipmentName_OnClick(object sender, RoutedEventArgs e)
         {
-            var currentChara =
-                (int) _allEquipBytes[_selectedItem*(int) Equipment.BlockLength + (int) Marshal.OffsetOf<EquipmentItem>("Character")];
-
+	        var currentChara = _currentItem.Character;
+                
             if (currentChara > 6) currentChara = 0;
 
             var searchList = new List<string>();
             for (var n = 0; n < EquipName.EquipNames[currentChara].Length; n++)
                 searchList.Add($"{n.ToString("X2")} {EquipName.EquipNames[currentChara][n]}");
 
-            var currentName =
-                (int) _allEquipBytes[_selectedItem*(int)Equipment.BlockLength + (int)Marshal.OffsetOf<EquipmentItem>("Name")];
+	        var currentName = _currentItem.Name;
+                
             var nameString = string.Empty;
 
             if (currentChara < 7)
@@ -325,8 +322,7 @@ namespace Farplane.FFX.EditorPanels.EquipmentPanel
 
         private void ButtonEquipmentAppearance_OnClick(object sender, RoutedEventArgs e)
         {
-            var currentChara =
-                (int) _allEquipBytes[_selectedItem*(int)Equipment.BlockLength + (int)Marshal.OffsetOf<EquipmentItem>("Character")];
+	        var currentChara = _currentItem.Character;
 
             if (currentChara > 6) currentChara = 0;
 
@@ -335,8 +331,7 @@ namespace Farplane.FFX.EditorPanels.EquipmentPanel
                 searchList.Add(
                     $"{EquipAppearance.EquipAppearances[n].ID.ToString("X2")} {EquipAppearance.EquipAppearances[n].Name}");
 
-            var currentAppearance = BitConverter.ToUInt16(_allEquipBytes,
-                _selectedItem*(int)Equipment.BlockLength + (int)Marshal.OffsetOf<EquipmentItem>("Appearance"));
+	        var currentAppearance = _currentItem.Appearance;
 
             var searchDialog = new SearchDialog(searchList, currentAppearance.ToString("X4"), false);
             var searchComplete = searchDialog.ShowDialog();
