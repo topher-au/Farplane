@@ -28,6 +28,7 @@ namespace Farplane.FFX2
             SliderAP.Maximum = currentValue;
             SliderAP.Value = currentValue;
             SliderAP.Maximum = maxValue;
+	        LabelAP.Content = $"{(int)SliderAP.Value} / {(int)SliderAP.Maximum}";
         }
 
         private void SliderAP_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

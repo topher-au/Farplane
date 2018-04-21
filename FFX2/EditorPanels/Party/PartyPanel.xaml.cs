@@ -28,6 +28,7 @@ namespace Farplane.FFX2.EditorPanels.Party
         public PartyPanel()
         {
             _refresh = true;
+
             InitializeComponent();
 
             _refresh = false;
@@ -38,7 +39,10 @@ namespace Farplane.FFX2.EditorPanels.Party
             _refresh = true;
 
             _statsPanel.Refresh(_selected);
-            _dressphereAbilities.RefreshAbilities(_selected);
+
+	        _dressphereAbilities.SelectedIndex = _selected;
+            _dressphereAbilities.RefreshAbilities();
+			_dressphereAbilities.ReloadDresspheres();
 
             _refresh = false;
         }
@@ -46,7 +50,8 @@ namespace Farplane.FFX2.EditorPanels.Party
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_refresh) return;
-            _selected = TabParty.SelectedIndex;
+
+	        _selected = TabParty.SelectedIndex;
             Refresh();
         }
 
