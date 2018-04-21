@@ -5,7 +5,7 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:local="clr-namespace:Farplane.Common"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 Height="250"
+                 Height="180"
                  d:DesignWidth="480"
                  CloseButtonVisibility="Collapsed"
                  Position="Top"
@@ -24,24 +24,9 @@
         <StackPanel Grid.Column="0"
                     Margin="-30,0,0,0"
                     VerticalAlignment="Bottom">
-            <GroupBox Header="Mods">
-                <StackPanel>
-                    <DockPanel Margin="0,0,0,5">
-                        <CheckBox Name="CheckEnableMods"
-                                  Checked="CheckEnableMods_OnChecked"
-                                  Content="Allow Farplane to load mod scripts"
-                                  Unchecked="CheckEnableMods_OnChecked" />
-                    </DockPanel>
-                </StackPanel>
-            </GroupBox>
             <GroupBox Header="Settings">
                 <StackPanel>
-                    <DockPanel Margin="0,0,0,5">
-                        <CheckBox Name="CheckNeverShowDonation"
-                                  Checked="SettingUpdated"
-                                  Content="Never ask me about donating again"
-                                  Unchecked="SettingUpdated" />
-                    </DockPanel>
+                    <DockPanel Margin="0,0,0,5"/>
                     <DockPanel Margin="0,0,0,5">
                         <CheckBox Name="CheckNeverShowUnXWarning"
                                   Checked="SettingUpdated"
