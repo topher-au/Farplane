@@ -111,7 +111,7 @@
     <Compile Include="FFX2\EditorPanels\Party\PartyPanel.xaml.cs">
       <DependentUpon>PartyPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX2\EquippedDressphereRandomizer.cs" />
+    <Compile Include="FFX2\Randomize\EquippedDressphereRandomizer.cs" />
     <Compile Include="FFX2\Values\GarmentGridNodes.cs" />
     <Compile Include="FFX\Data\AeonName.cs" />
     <Compile Include="FFX\Data\Blitzball.cs" />
@@ -137,12 +137,6 @@
     <Compile Include="Memory\Assembly.cs" />
     <Compile Include="Memory\GameMemory.cs" />
     <Compile Include="FFX\Data\Battle.cs" />
-    <None Include="Mods\FFX-SeymourInParty.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Mods\FFX-AutoCamera.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Page Include="Common\Controls\ButtonGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -500,18 +494,6 @@
     <Compile Include="Common\Dialogs\ProcessSelectWindow.xaml.cs">
       <DependentUpon>ProcessSelectWindow.xaml</DependentUpon>
     </Compile>
-    <None Include="Mods\FFX-BreakHPLimit.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Mods\FFX-BreakDamageLimit.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Mods\FFX-HardBattle.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Mods\FFX2-BreakHPLimit.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Compile Include="Memory\OffsetScanner.cs" />
     <Compile Include="Memory\SigScan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -581,9 +563,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Farplane.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Mods\FFX2-LimitBreak.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Credits.txt" />
