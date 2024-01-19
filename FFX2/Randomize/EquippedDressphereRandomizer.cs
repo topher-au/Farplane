@@ -91,11 +91,13 @@ namespace Farplane.FFX2
         {
             try
             {
-                while (true)
+                bool first = true;
+                do
                 {
                     ct.ThrowIfCancellationRequested();
-                    if (EXPChanged())
+                    if (EXPChanged() || first)
                     {
+                        first = false;
                         var garmentGrids = LegacyMemoryReader.ReadBytes(_garmentGridOffset, 0x800);
 
                         foreach (var node in GarmentGridNodes.GarmentGridNodesList)
@@ -116,7 +118,7 @@ namespace Farplane.FFX2
                     }
 
                     await Task.Delay(250);
-                }
+                } while (true);
             }
             catch(Exception ex)
             {
