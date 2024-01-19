@@ -20,6 +20,7 @@ using Farplane.FFX.EditorPanels;
 using Farplane.FFX.EditorPanels.Aeons;
 using Farplane.FFX.EditorPanels.Battle;
 using Farplane.FFX.EditorPanels.BlitzballPanel;
+//using Farplane.FFX.EditorPanels.Debug;
 using Farplane.FFX.EditorPanels.Boosters;
 using Farplane.FFX.EditorPanels.GeneralPanel;
 using Farplane.FFX.EditorPanels.EquipmentPanel;
@@ -51,6 +52,7 @@ namespace Farplane.FFX
         private BlitzballPanel _blitzballPanel;
         private MonsterArenaPanel _monsterArenaPanel;
         private SkillEditorPanel _skillEditorPanel;
+        //private DebugPanel _debugPanel;
         private BattlePanel _battlePanel;
         private BoostersPanel _boostersPanel;
 
@@ -84,13 +86,14 @@ namespace Farplane.FFX
                 _equipmentPanel = new EquipmentPanel();
                 _blitzballPanel = new BlitzballPanel();
                 _monsterArenaPanel = new MonsterArenaPanel();
+                //_debugPanel = new DebugPanel();
                 _battlePanel = new BattlePanel();
                 _boostersPanel = new BoostersPanel();
             }
 
             // Set up general window parameters
             _skillEditorPanel = new SkillEditorPanel();
-            
+
             (EditorTree.Items[0] as TreeViewItem).IsSelected = true;
         }
 
@@ -162,11 +165,11 @@ namespace Farplane.FFX
             {
                 EditorContent.Content = _notAvailablePanel;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Exception loading panel:\n{ex.Message}");
             }
-            
+
         }
 
         public void RefreshAllPanels()
@@ -203,12 +206,12 @@ namespace Farplane.FFX
         {
             if (_rolledUp)
             {
-                Storyboard expandWindow = (Storyboard) this.Resources["ExpandWindow"];
+                Storyboard expandWindow = (Storyboard)this.Resources["ExpandWindow"];
                 this.BeginStoryboard(expandWindow, HandoffBehavior.SnapshotAndReplace);
             }
             else
             {
-                Storyboard shrinkWindow = (Storyboard) this.Resources["ShrinkWindow"];
+                Storyboard shrinkWindow = (Storyboard)this.Resources["ShrinkWindow"];
                 this.BeginStoryboard(shrinkWindow, HandoffBehavior.SnapshotAndReplace);
             }
 
