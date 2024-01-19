@@ -26,11 +26,11 @@ namespace Farplane.FFX2
         RemoveMPLimit = 0x20E763, // B8 3F 42 0F 00 EB 16
         // FFX-2.exe+20E763 - B8 3F420F00           - mov eax,000F423F { 999999 }
         // FFX-2.exe+20E768 - EB 16                 - jmp FFX-2.exe+20E780
+        GarmentGridNodes = 0x9FF700,
+        EquippedGarmentGridNode = 0x9FFF00, //this + GGID = Equipped NodeID on GG (+GG Count = Rikku, +GGCount*2 = Paine)
+    }
 
-
-}
-
-public static class Offsets
+    public static class Offsets
     {
         public static int GetOffset()
         {
@@ -63,6 +63,9 @@ public static class Offsets
             Accuracy = 0x32,
             Evasion = 0x33,
             Luck = 0x34,
+            CurrentDresssphere = 0x36,
+            CurrentGarmentGrid = 0x38,
+            //CurrentDressspherePicture? = 0x56,
             Size = 0x7A,
         }
 

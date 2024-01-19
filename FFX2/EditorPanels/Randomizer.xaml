@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Farplane.FFX2.EditorPanels.Randomizer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Farplane.FFX2.EditorPanels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+    <GroupBox Header="Randomizer">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <CheckBox Name="CheckEquippedDressphere"
+                          Margin="2"
+                          Checked="CheckBox_Changed"
+                          Content="Equipped Dresspheres Randomized"
+                          Tag="EquippedDressphere"
+                          Unchecked="CheckBox_Changed" />
+            </StackPanel>
+        </Grid>
+    </GroupBox>
+</UserControl>

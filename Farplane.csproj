@@ -45,18 +45,35 @@
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Fasm.NET, Version=1.0.4939.27955, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\Fasm.NET.1.70.03\lib\Fasm.NET.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>packages\Fasm.NET.1.70.03\lib\Fasm.NET.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MemorySharp, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MemorySharp.1.1.0\lib\MemorySharp.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>packages\MemorySharp.1.1.0\lib\MemorySharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -64,8 +81,7 @@
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,9 +105,14 @@
       <DependentUpon>CreditsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\StringConverter.cs" />
+    <Compile Include="FFX2\EditorPanels\Randomizer.xaml.cs">
+      <DependentUpon>Randomizer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FFX2\EditorPanels\Party\PartyPanel.xaml.cs">
       <DependentUpon>PartyPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FFX2\EquippedDressphereRandomizer.cs" />
+    <Compile Include="FFX2\Values\GarmentGridNodes.cs" />
     <Compile Include="FFX\Data\AeonName.cs" />
     <Compile Include="FFX\Data\Blitzball.cs" />
     <Compile Include="FFX\Data\General.cs" />
@@ -157,6 +178,10 @@
     <Page Include="FFX2\EditorPanels\CreatureTrapping.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FFX2\EditorPanels\Randomizer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="FFX2\EditorPanels\DebugOptions.xaml">
       <SubType>Designer</SubType>
@@ -235,10 +260,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FFX\EditorPanels\BlitzballPanel\BlitzballTeamEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FFX\EditorPanels\Debug\DebugPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -407,9 +428,6 @@
     <Compile Include="FFX\EditorPanels\BlitzballPanel\BlitzballTeamEditor.xaml.cs">
       <DependentUpon>BlitzballTeamEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FFX\EditorPanels\Debug\DebugPanel.xaml.cs">
-      <DependentUpon>DebugPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FFX\EditorPanels\EquipmentPanel\EquipmentPanel.xaml.cs">
       <DependentUpon>EquipmentPanel.xaml</DependentUpon>
     </Compile>
@@ -562,9 +580,6 @@
     <Resource Include="Resources\Images\expand.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Fasm.NET.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Farplane.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -575,6 +590,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\showall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FFX\EditorPanels\Debug\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Fasm.NET.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

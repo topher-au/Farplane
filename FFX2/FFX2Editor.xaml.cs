@@ -36,6 +36,7 @@ namespace Farplane.FFX2
         private AccessoriesEditor _accessoriesPanel = new AccessoriesEditor();
         private GarmentGridEditor _garmentGridsPanel = new GarmentGridEditor();
         private DebugOptions _debugOptionsPanel = new DebugOptions();
+        private Randomizer _randomizerPanel = new Randomizer();
 
         private int _defaultHeight = 540;
         private int _defaultWidth = 640;
@@ -91,6 +92,10 @@ namespace Farplane.FFX2
                     _debugOptionsPanel.Refresh();
                     EditorPanel.Content = _debugOptionsPanel;
                     break;
+                case "RandomizerPanel":
+                    _randomizerPanel.Refresh();
+                    EditorPanel.Content = _randomizerPanel;
+                    break;
                 default:
                     break;
             }
@@ -106,6 +111,7 @@ namespace Farplane.FFX2
             _accessoriesPanel.Refresh();
             _dresspheresPanel.Refresh();
             _debugOptionsPanel.Refresh();
+            _randomizerPanel.Refresh();
         }
 
         private void RefreshAll_Click(object sender, RoutedEventArgs e)

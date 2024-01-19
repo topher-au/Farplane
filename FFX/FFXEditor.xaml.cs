@@ -20,7 +20,6 @@ using Farplane.FFX.EditorPanels;
 using Farplane.FFX.EditorPanels.Aeons;
 using Farplane.FFX.EditorPanels.Battle;
 using Farplane.FFX.EditorPanels.BlitzballPanel;
-using Farplane.FFX.EditorPanels.Debug;
 using Farplane.FFX.EditorPanels.Boosters;
 using Farplane.FFX.EditorPanels.GeneralPanel;
 using Farplane.FFX.EditorPanels.EquipmentPanel;
@@ -52,7 +51,6 @@ namespace Farplane.FFX
         private BlitzballPanel _blitzballPanel;
         private MonsterArenaPanel _monsterArenaPanel;
         private SkillEditorPanel _skillEditorPanel;
-        private DebugPanel _debugPanel;
         private BattlePanel _battlePanel;
         private BoostersPanel _boostersPanel;
 
@@ -86,7 +84,6 @@ namespace Farplane.FFX
                 _equipmentPanel = new EquipmentPanel();
                 _blitzballPanel = new BlitzballPanel();
                 _monsterArenaPanel = new MonsterArenaPanel();
-                _debugPanel = new DebugPanel();
                 _battlePanel = new BattlePanel();
                 _boostersPanel = new BoostersPanel();
             }
@@ -148,10 +145,10 @@ namespace Farplane.FFX
                         _skillEditorPanel.Refresh();
                         EditorContent.Content = _skillEditorPanel;
                         break;
-                    case "DebugEditor":
-                        _debugPanel.Refresh();
-                        EditorContent.Content = _debugPanel;
-                        break;
+                    //case "DebugEditor":
+                    //    _debugPanel.Refresh();
+                    //    EditorContent.Content = _debugPanel;
+                    //    break;
                     case "Boosters":
                         _boostersPanel.Refresh();
                         EditorContent.Content = _boostersPanel;
@@ -184,7 +181,7 @@ namespace Farplane.FFX
             _blitzballPanel?.Refresh();
             _monsterArenaPanel?.Refresh();
             _battlePanel?.Refresh();
-            _debugPanel?.Refresh();
+            //_debugPanel?.Refresh();
             _boostersPanel?.Refresh();
             _skillEditorPanel?.Refresh();
         }

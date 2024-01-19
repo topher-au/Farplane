@@ -70,6 +70,9 @@
             <TreeViewItem Name="DebugOptionsPanel"
                           Header="Debug Options"
                           Tag="DebugOptions" />
+            <TreeViewItem Name="RandomizerPanel"
+                          Header="Randomizer"
+                          Tag="RandomizerPanel" />
         </TreeView>
         <ContentControl Name="EditorPanel" Grid.Column="1" />
 
